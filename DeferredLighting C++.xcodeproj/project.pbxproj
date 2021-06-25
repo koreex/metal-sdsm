@@ -7,49 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A5C461A1F4EC81200E3CA9E /* Catalog.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A5C46191F4EC7E800E3CA9E /* Catalog.xcassets */; };
 		3A5C48322000230100FA4AE1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C818BA61E4A717200F28CDE /* main.m */; };
-		3A5C48332000230200FA4AE1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C818BA61E4A717200F28CDE /* main.m */; };
 		3AE97551205895F500479189 /* AAPLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C818BA91E4A717200F28CDE /* AAPLAppDelegate.m */; };
-		3AE97552205895F600479189 /* AAPLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C818BA91E4A717200F28CDE /* AAPLAppDelegate.m */; };
 		3AFEED041FFECEC30074DF0B /* AAPLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C818BAC1E4A717200F28CDE /* AAPLViewController.mm */; };
 		3AFEED061FFECED90074DF0B /* AAPLMesh.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C818B971E4A717200F28CDE /* AAPLMesh.mm */; };
 		3AFEED071FFECED90074DF0B /* AAPLMathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C818B9B1E4A717200F28CDE /* AAPLMathUtilities.cpp */; };
 		3AFEED0D1FFECEDF0074DF0B /* Meshes in Resources */ = {isa = PBXBuildFile; fileRef = 3C818B9C1E4A717200F28CDE /* Meshes */; };
 		3AFEED0E1FFECEE10074DF0B /* Catalog.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A5C46191F4EC7E800E3CA9E /* Catalog.xcassets */; };
-		3AFEED2D1FFED0B40074DF0B /* AAPLMesh.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C818B971E4A717200F28CDE /* AAPLMesh.mm */; };
-		3AFEED2E1FFED0B40074DF0B /* AAPLMathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C818B9B1E4A717200F28CDE /* AAPLMathUtilities.cpp */; };
-		3AFEED341FFED0B40074DF0B /* Catalog.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A5C46191F4EC7E800E3CA9E /* Catalog.xcassets */; };
-		3AFEED351FFED0BF0074DF0B /* Meshes in Resources */ = {isa = PBXBuildFile; fileRef = 3C818B9C1E4A717200F28CDE /* Meshes */; };
-		3C818BA71E4A717200F28CDE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C818BA61E4A717200F28CDE /* main.m */; };
-		3C818BAA1E4A717200F28CDE /* AAPLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C818BA91E4A717200F28CDE /* AAPLAppDelegate.m */; };
-		3C818BAD1E4A717200F28CDE /* AAPLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C818BAC1E4A717200F28CDE /* AAPLViewController.mm */; };
-		3C818BCF1E4A717200F28CDE /* AAPLMesh.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C818B971E4A717200F28CDE /* AAPLMesh.mm */; };
-		3C818BD71E4A717200F28CDE /* AAPLMathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C818B9B1E4A717200F28CDE /* AAPLMathUtilities.cpp */; };
-		3C818BD91E4A717200F28CDE /* Meshes in Resources */ = {isa = PBXBuildFile; fileRef = 3C818B9C1E4A717200F28CDE /* Meshes */; };
 		40228CAB2491A10200A2039D /* CPPMetalKitTextureLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 40228CAA2491A10100A2039D /* CPPMetalKitTextureLoader.mm */; };
 		40228CCD2492E12100A2039D /* AAPLRenderer_TraditionalDeferred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE0241720584D0F00D9006B /* AAPLRenderer_TraditionalDeferred.cpp */; };
 		40386E0324EB437500869EC8 /* AAPLRenderer_SinglePassDeferred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40DBE7DC24B2EB4600F141B0 /* AAPLRenderer_SinglePassDeferred.cpp */; };
-		40386E0424EB471600869EC8 /* AAPLRenderer_TraditionalDeferred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE0241720584D0F00D9006B /* AAPLRenderer_TraditionalDeferred.cpp */; };
-		40386E0524EB471600869EC8 /* AAPLRenderer_TraditionalDeferred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE0241720584D0F00D9006B /* AAPLRenderer_TraditionalDeferred.cpp */; };
 		4043BE6424E4AC850074DA84 /* CPPMetalRenderCommandEncoder_DispatchTable.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4043BE6324E4AC850074DA84 /* CPPMetalRenderCommandEncoder_DispatchTable.mm */; };
 		404CD77F24BECBC200720BFD /* CPPMetalDeviceInternals.mm in Sources */ = {isa = PBXBuildFile; fileRef = 404CD77E24BECBC200720BFD /* CPPMetalDeviceInternals.mm */; };
-		404CD78024BECBC200720BFD /* CPPMetalDeviceInternals.mm in Sources */ = {isa = PBXBuildFile; fileRef = 404CD77E24BECBC200720BFD /* CPPMetalDeviceInternals.mm */; };
-		404CD78124BECBC200720BFD /* CPPMetalDeviceInternals.mm in Sources */ = {isa = PBXBuildFile; fileRef = 404CD77E24BECBC200720BFD /* CPPMetalDeviceInternals.mm */; };
 		40768BAC2488B7E9002F23FA /* CPPMetalVertexDescriptor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 40768BAB2488B7E9002F23FA /* CPPMetalVertexDescriptor.mm */; };
 		40768BAE248AF229002F23FA /* ModelIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40768BAD248AF229002F23FA /* ModelIO.framework */; };
 		40768BB0248AF231002F23FA /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40768BAF248AF231002F23FA /* MetalKit.framework */; };
-		40768C20248B59BE002F23FA /* AAPLRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C818B951E4A717200F28CDE /* AAPLRenderer.cpp */; };
-		40768C21248B59BF002F23FA /* AAPLRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C818B951E4A717200F28CDE /* AAPLRenderer.cpp */; };
 		40768C22248B59BF002F23FA /* AAPLRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3C818B951E4A717200F28CDE /* AAPLRenderer.cpp */; };
 		407A990524B3FFC100330C27 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 407A990424B3FFC100330C27 /* Main.storyboard */; };
-		407BC34724B6741500B06AE1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 407BC34524B6741500B06AE1 /* Main.storyboard */; };
-		407BC34824B6741500B06AE1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 407BC34624B6741500B06AE1 /* LaunchScreen.storyboard */; };
-		407BC36124B8091200B06AE1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 407BC36024B8091200B06AE1 /* Main.storyboard */; };
-		407BC36524B8119400B06AE1 /* ModelIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 407BC36424B8119400B06AE1 /* ModelIO.framework */; };
-		407BC36724B812E800B06AE1 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 407BC36624B812E800B06AE1 /* MetalKit.framework */; };
-		407BC36924B812F300B06AE1 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 407BC36824B812F300B06AE1 /* Metal.framework */; };
-		407BC36D24B8135E00B06AE1 /* libCPPMetal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CE0E042481A96800085840 /* libCPPMetal.a */; };
 		4081D4372481B0C200A8E02F /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4081D4362481B0C200A8E02F /* Metal.framework */; };
 		4081D4762482E2C800A8E02F /* CPPMetalPixelFormat.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4081D4702482E2C800A8E02F /* CPPMetalPixelFormat.mm */; };
 		4081D4772482E2C800A8E02F /* CPPMetalKitView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4081D4712482E2C800A8E02F /* CPPMetalKitView.mm */; };
@@ -67,12 +41,7 @@
 		40B2CC2E2486D99E0025FFA7 /* libCPPMetal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CE0E042481A96800085840 /* libCPPMetal.a */; };
 		40B2CC302486E9E00025FFA7 /* CPPMetalRenderCommandEncoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 40B2CC2F2486E9E00025FFA7 /* CPPMetalRenderCommandEncoder.mm */; };
 		40B2CC63248760AA0025FFA7 /* CPPMetalDepthStencil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 40B2CC62248760AA0025FFA7 /* CPPMetalDepthStencil.mm */; };
-		40C37F6C24B4332E004A06A4 /* AAPLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C818BAC1E4A717200F28CDE /* AAPLViewController.mm */; };
-		40DBE7DD24B2EB4600F141B0 /* AAPLRenderer_SinglePassDeferred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40DBE7DC24B2EB4600F141B0 /* AAPLRenderer_SinglePassDeferred.cpp */; };
-		40DBE7DE24B2EB4600F141B0 /* AAPLRenderer_SinglePassDeferred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40DBE7DC24B2EB4600F141B0 /* AAPLRenderer_SinglePassDeferred.cpp */; };
 		40DBE7E124B2EC3300F141B0 /* AAPLBufferExaminationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40DBE7E024B2EC3300F141B0 /* AAPLBufferExaminationManager.cpp */; };
-		40DBE7E224B2EC3300F141B0 /* AAPLBufferExaminationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40DBE7E024B2EC3300F141B0 /* AAPLBufferExaminationManager.cpp */; };
-		40DBE7E324B2EC3300F141B0 /* AAPLBufferExaminationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40DBE7E024B2EC3300F141B0 /* AAPLBufferExaminationManager.cpp */; };
 		40E600EF24F08A8200938BD0 /* AAPLShadow.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A5C483720114DBB00FA4AE1 /* AAPLShadow.metal */; };
 		40E600F024F08A8200938BD0 /* AAPLBufferExamination.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A0875E1207C1B7D003601CF /* AAPLBufferExamination.metal */; };
 		40E600F124F08A8200938BD0 /* AAPLDirectionalLight.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF8E93208061C800CC23CE /* AAPLDirectionalLight.metal */; };
@@ -87,19 +56,9 @@
 		40E600FA24F08A8200938BD0 /* AAPLGBuffer.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A55F9181F4B9E8F0075C1C2 /* AAPLGBuffer.metal */; };
 		40E600FB24F08A8200938BD0 /* AAPLPointLights.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF8E92208061C800CC23CE /* AAPLPointLights.metal */; };
 		40E600FC24F08A8200938BD0 /* AAPLSkybox.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A55F9161F4B9E8F0075C1C2 /* AAPLSkybox.metal */; };
-		C852A8961F61FFDB00B6845E /* ModelIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C852A8941F61FF5800B6845E /* ModelIO.framework */; };
-		FE216ECF249575C500D1D620 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE216ECE249575C500D1D620 /* MetalKit.framework */; };
-		FE216ED2249576B000D1D620 /* libCPPMetal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CE0E042481A96800085840 /* libCPPMetal.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		407BC36B24B8131D00B06AE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3C818B8F1E4A717100F28CDE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 40CE0E032481A96800085840;
-			remoteInfo = CPPMetal;
-		};
 		40B2CC2C2486D8FD0025FFA7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3C818B8F1E4A717100F28CDE /* Project object */;
@@ -120,27 +79,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 40E600E024F08A3200938BD0;
 			remoteInfo = MSL23Shaders;
-		};
-		40E6010124F08A9B00938BD0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3C818B8F1E4A717100F28CDE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 40E600E824F08A3F00938BD0;
-			remoteInfo = MSL20Shaders;
-		};
-		40E6010324F08A9D00938BD0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3C818B8F1E4A717100F28CDE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 40E600E824F08A3F00938BD0;
-			remoteInfo = MSL20Shaders;
-		};
-		FE216ED02495769100D1D620 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3C818B8F1E4A717100F28CDE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 40CE0E032481A96800085840;
-			remoteInfo = CPPMetal;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -172,10 +110,7 @@
 		3AEF8E92208061C800CC23CE /* AAPLPointLights.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = AAPLPointLights.metal; sourceTree = "<group>"; };
 		3AEF8E93208061C800CC23CE /* AAPLDirectionalLight.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = AAPLDirectionalLight.metal; sourceTree = "<group>"; };
 		3AFEECCA1FFECD070074DF0B /* DeferredLighting C++.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DeferredLighting C++.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3AFEECFA1FFECE190074DF0B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3AFEED011FFECE440074DF0B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3AFEED131FFED0680074DF0B /* DeferredLighting C++.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DeferredLighting C++.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3AFEED261FFED06A0074DF0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C818B941E4A717200F28CDE /* AAPLRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLRenderer.h; sourceTree = "<group>"; };
 		3C818B951E4A717200F28CDE /* AAPLRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AAPLRenderer.cpp; sourceTree = "<group>"; };
 		3C818B961E4A717200F28CDE /* AAPLMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLMesh.h; sourceTree = "<group>"; };
@@ -184,7 +119,6 @@
 		3C818B9A1E4A717200F28CDE /* AAPLMathUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLMathUtilities.h; sourceTree = "<group>"; };
 		3C818B9B1E4A717200F28CDE /* AAPLMathUtilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AAPLMathUtilities.cpp; sourceTree = "<group>"; };
 		3C818B9C1E4A717200F28CDE /* Meshes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Meshes; sourceTree = "<group>"; };
-		3C818BA21E4A717200F28CDE /* DeferredLighting C++.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DeferredLighting C++.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C818BA61E4A717200F28CDE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3C818BA81E4A717200F28CDE /* AAPLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLAppDelegate.h; sourceTree = "<group>"; };
 		3C818BA91E4A717200F28CDE /* AAPLAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLAppDelegate.m; sourceTree = "<group>"; };
@@ -202,9 +136,6 @@
 		40768BAD248AF229002F23FA /* ModelIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ModelIO.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.Internal.sdk/System/Library/Frameworks/ModelIO.framework; sourceTree = DEVELOPER_DIR; };
 		40768BAF248AF231002F23FA /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.Internal.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
 		407A990424B3FFC100330C27 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		407BC34524B6741500B06AE1 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		407BC34624B6741500B06AE1 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		407BC36024B8091200B06AE1 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		407BC36424B8119400B06AE1 /* ModelIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ModelIO.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS14.0.Internal.sdk/System/Library/Frameworks/ModelIO.framework; sourceTree = DEVELOPER_DIR; };
 		407BC36624B812E800B06AE1 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS14.0.Internal.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
 		407BC36824B812F300B06AE1 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS14.0.Internal.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
@@ -270,27 +201,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3AFEED101FFED0680074DF0B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				407BC36D24B8135E00B06AE1 /* libCPPMetal.a in Frameworks */,
-				407BC36924B812F300B06AE1 /* Metal.framework in Frameworks */,
-				407BC36724B812E800B06AE1 /* MetalKit.framework in Frameworks */,
-				407BC36524B8119400B06AE1 /* ModelIO.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3C818B9F1E4A717200F28CDE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FE216ECF249575C500D1D620 /* MetalKit.framework in Frameworks */,
-				C852A8961F61FFDB00B6845E /* ModelIO.framework in Frameworks */,
-				FE216ED2249576B000D1D620 /* libCPPMetal.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		40CE0E012481A96800085840 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -336,16 +246,6 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
-		3AFEECF51FFECE190074DF0B /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				407BC34624B6741500B06AE1 /* LaunchScreen.storyboard */,
-				407BC34524B6741500B06AE1 /* Main.storyboard */,
-				3AFEECFA1FFECE190074DF0B /* Info.plist */,
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
 		3AFEECFE1FFECE440074DF0B /* macOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -355,15 +255,6 @@
 			name = macOS;
 			path = Application/macOS;
 			sourceTree = SOURCE_ROOT;
-		};
-		3AFEED141FFED0680074DF0B /* tvOS */ = {
-			isa = PBXGroup;
-			children = (
-				407BC36024B8091200B06AE1 /* Main.storyboard */,
-				3AFEED261FFED06A0074DF0B /* Info.plist */,
-			);
-			path = tvOS;
-			sourceTree = "<group>";
 		};
 		3C818B8E1E4A717100F28CDE = {
 			isa = PBXGroup;
@@ -404,9 +295,7 @@
 		3C818BA31E4A717200F28CDE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3C818BA21E4A717200F28CDE /* DeferredLighting C++.app */,
 				3AFEECCA1FFECD070074DF0B /* DeferredLighting C++.app */,
-				3AFEED131FFED0680074DF0B /* DeferredLighting C++.app */,
 				40CE0E042481A96800085840 /* libCPPMetal.a */,
 			);
 			name = Products;
@@ -421,8 +310,6 @@
 				3C818BAC1E4A717200F28CDE /* AAPLViewController.mm */,
 				3C818BA61E4A717200F28CDE /* main.m */,
 				3AFEECFE1FFECE440074DF0B /* macOS */,
-				3AFEECF51FFECE190074DF0B /* iOS */,
-				3AFEED141FFED0680074DF0B /* tvOS */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -553,46 +440,6 @@
 			productReference = 3AFEECCA1FFECD070074DF0B /* DeferredLighting C++.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3AFEED121FFED0680074DF0B /* DeferredLighting C++-tvOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3AFEED291FFED06A0074DF0B /* Build configuration list for PBXNativeTarget "DeferredLighting C++-tvOS" */;
-			buildPhases = (
-				3AFEED0F1FFED0680074DF0B /* Sources */,
-				3AFEED101FFED0680074DF0B /* Frameworks */,
-				3AFEED111FFED0680074DF0B /* Resources */,
-				40E6011A24F31F3E00938BD0 /* Copy Metal Library */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				40E6010424F08A9D00938BD0 /* PBXTargetDependency */,
-				407BC36C24B8131D00B06AE1 /* PBXTargetDependency */,
-			);
-			name = "DeferredLighting C++-tvOS";
-			productName = tvOS;
-			productReference = 3AFEED131FFED0680074DF0B /* DeferredLighting C++.app */;
-			productType = "com.apple.product-type.application";
-		};
-		3C818BA11E4A717200F28CDE /* DeferredLighting C++-iOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3C818BDF1E4A717200F28CDE /* Build configuration list for PBXNativeTarget "DeferredLighting C++-iOS" */;
-			buildPhases = (
-				3C818B9E1E4A717200F28CDE /* Sources */,
-				3C818B9F1E4A717200F28CDE /* Frameworks */,
-				3C818BA01E4A717200F28CDE /* Resources */,
-				40E6011924F31F2700938BD0 /* Copy Metal Library */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				40E6010224F08A9B00938BD0 /* PBXTargetDependency */,
-				FE216ED12495769100D1D620 /* PBXTargetDependency */,
-			);
-			name = "DeferredLighting C++-iOS";
-			productName = iOS;
-			productReference = 3C818BA21E4A717200F28CDE /* DeferredLighting C++.app */;
-			productType = "com.apple.product-type.application";
-		};
 		40CE0E032481A96800085840 /* CPPMetal */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 40CE0E0A2481A96800085840 /* Build configuration list for PBXNativeTarget "CPPMetal" */;
@@ -652,14 +499,6 @@
 						CreatedOnToolsVersion = 9.3;
 						ProvisioningStyle = Manual;
 					};
-					3AFEED121FFED0680074DF0B = {
-						CreatedOnToolsVersion = 9.3;
-						ProvisioningStyle = Manual;
-					};
-					3C818BA11E4A717200F28CDE = {
-						CreatedOnToolsVersion = 8.3;
-						ProvisioningStyle = Manual;
-					};
 					40CE0E032481A96800085840 = {
 						CreatedOnToolsVersion = 11.4;
 						DevelopmentTeam = XPSUQMMH5W;
@@ -691,8 +530,6 @@
 			projectRoot = "";
 			targets = (
 				3AFEECC91FFECD070074DF0B /* DeferredLighting C++-macOS */,
-				3C818BA11E4A717200F28CDE /* DeferredLighting C++-iOS */,
-				3AFEED121FFED0680074DF0B /* DeferredLighting C++-tvOS */,
 				40E600E824F08A3F00938BD0 /* MSL20Shaders */,
 				40E600E024F08A3200938BD0 /* MSL23Shaders */,
 				40CE0E032481A96800085840 /* CPPMetal */,
@@ -708,27 +545,6 @@
 				407A990524B3FFC100330C27 /* Main.storyboard in Resources */,
 				3AFEED0E1FFECEE10074DF0B /* Catalog.xcassets in Resources */,
 				3AFEED0D1FFECEDF0074DF0B /* Meshes in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3AFEED111FFED0680074DF0B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3AFEED351FFED0BF0074DF0B /* Meshes in Resources */,
-				3AFEED341FFED0B40074DF0B /* Catalog.xcassets in Resources */,
-				407BC36124B8091200B06AE1 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3C818BA01E4A717200F28CDE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				407BC34724B6741500B06AE1 /* Main.storyboard in Resources */,
-				407BC34824B6741500B06AE1 /* LaunchScreen.storyboard in Resources */,
-				3A5C461A1F4EC81200E3CA9E /* Catalog.xcassets in Resources */,
-				3C818BD91E4A717200F28CDE /* Meshes in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -753,42 +569,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# Copy 2 Metal Libraries to app bundle resources directory\n# Metal Shading language 2.3 enabled programmable blending \n#   on macOS for Apple Silicon.  Thus MSL23Shaders.metallib\n#   has shaders using programmable blending on macOS.\n#   However, Metal introduced Shading language 2.3 with\n#   macOS 11 so this app needs MSL20Shaders.metallib is \n#   to support prior versions of macOS.\ncp \"$TARGET_BUILD_DIR/MSL20Shaders.metallib\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/.\"\ncp \"$TARGET_BUILD_DIR/MSL23Shaders.metallib\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/.\"\n\n";
 		};
-		40E6011924F31F2700938BD0 /* Copy Metal Library */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Metal Library";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cp \"$TARGET_BUILD_DIR/MSL20Shaders.metallib\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/.\"\n";
-		};
-		40E6011A24F31F3E00938BD0 /* Copy Metal Library */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Metal Library";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cp \"$TARGET_BUILD_DIR/MSL20Shaders.metallib\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/.\"\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -806,40 +586,6 @@
 				40228CCD2492E12100A2039D /* AAPLRenderer_TraditionalDeferred.cpp in Sources */,
 				40768C22248B59BF002F23FA /* AAPLRenderer.cpp in Sources */,
 				3AE97551205895F500479189 /* AAPLAppDelegate.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3AFEED0F1FFED0680074DF0B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				404CD78124BECBC200720BFD /* CPPMetalDeviceInternals.mm in Sources */,
-				3AFEED2D1FFED0B40074DF0B /* AAPLMesh.mm in Sources */,
-				3AE97552205895F600479189 /* AAPLAppDelegate.m in Sources */,
-				40DBE7DE24B2EB4600F141B0 /* AAPLRenderer_SinglePassDeferred.cpp in Sources */,
-				40C37F6C24B4332E004A06A4 /* AAPLViewController.mm in Sources */,
-				3AFEED2E1FFED0B40074DF0B /* AAPLMathUtilities.cpp in Sources */,
-				40DBE7E324B2EC3300F141B0 /* AAPLBufferExaminationManager.cpp in Sources */,
-				3A5C48332000230200FA4AE1 /* main.m in Sources */,
-				40386E0524EB471600869EC8 /* AAPLRenderer_TraditionalDeferred.cpp in Sources */,
-				40768C20248B59BE002F23FA /* AAPLRenderer.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3C818B9E1E4A717200F28CDE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				404CD78024BECBC200720BFD /* CPPMetalDeviceInternals.mm in Sources */,
-				3C818BAA1E4A717200F28CDE /* AAPLAppDelegate.m in Sources */,
-				40DBE7E224B2EC3300F141B0 /* AAPLBufferExaminationManager.cpp in Sources */,
-				3C818BAD1E4A717200F28CDE /* AAPLViewController.mm in Sources */,
-				40DBE7DD24B2EB4600F141B0 /* AAPLRenderer_SinglePassDeferred.cpp in Sources */,
-				3C818BD71E4A717200F28CDE /* AAPLMathUtilities.cpp in Sources */,
-				40768C21248B59BF002F23FA /* AAPLRenderer.cpp in Sources */,
-				3C818BCF1E4A717200F28CDE /* AAPLMesh.mm in Sources */,
-				3C818BA71E4A717200F28CDE /* main.m in Sources */,
-				40386E0424EB471600869EC8 /* AAPLRenderer_TraditionalDeferred.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -899,11 +645,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		407BC36C24B8131D00B06AE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 40CE0E032481A96800085840 /* CPPMetal */;
-			targetProxy = 407BC36B24B8131D00B06AE1 /* PBXContainerItemProxy */;
-		};
 		40B2CC2D2486D8FD0025FFA7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 40CE0E032481A96800085840 /* CPPMetal */;
@@ -918,21 +659,6 @@
 			isa = PBXTargetDependency;
 			target = 40E600E024F08A3200938BD0 /* MSL23Shaders */;
 			targetProxy = 40E600FF24F08A9000938BD0 /* PBXContainerItemProxy */;
-		};
-		40E6010224F08A9B00938BD0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 40E600E824F08A3F00938BD0 /* MSL20Shaders */;
-			targetProxy = 40E6010124F08A9B00938BD0 /* PBXContainerItemProxy */;
-		};
-		40E6010424F08A9D00938BD0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 40E600E824F08A3F00938BD0 /* MSL20Shaders */;
-			targetProxy = 40E6010324F08A9D00938BD0 /* PBXContainerItemProxy */;
-		};
-		FE216ED12495769100D1D620 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 40CE0E032481A96800085840 /* CPPMetal */;
-			targetProxy = FE216ED02495769100D1D620 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1004,69 +730,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				TVOS_DEPLOYMENT_TARGET = 13.0;
-			};
-			name = Release;
-		};
-		3AFEED2A1FFED06A0074DF0B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6735EAA4F9511C5AF57FF30A /* SampleCode.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"TARGET_TVOS=1",
-					"$(inherited)",
-				);
-				HEADER_SEARCH_PATHS = CPPMetal/Headers;
-				INFOPLIST_FILE = Application/tvOS/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				MTL_PREPROCESSOR_DEFINITIONS = "TARGET_TVOS=1";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.DeferredLighting-CPP${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "DeferredLighting C++";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = appletvos;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 13.0;
-			};
-			name = Debug;
-		};
-		3AFEED2B1FFED06A0074DF0B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6735EAA4F9511C5AF57FF30A /* SampleCode.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_PREPROCESSOR_DEFINITIONS = "TARGET_TVOS=1";
-				HEADER_SEARCH_PATHS = CPPMetal/Headers;
-				INFOPLIST_FILE = Application/tvOS/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MTL_FAST_MATH = YES;
-				MTL_PREPROCESSOR_DEFINITIONS = "TARGET_TVOS=1";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.DeferredLighting-CPP${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "DeferredLighting C++";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = appletvos;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 13.0;
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -1178,61 +841,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				TVOS_DEPLOYMENT_TARGET = 13.0;
-			};
-			name = Release;
-		};
-		3C818BE01E4A717200F28CDE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6735EAA4F9511C5AF57FF30A /* SampleCode.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"TARGET_IOS=1",
-					"$(inherited)",
-				);
-				HEADER_SEARCH_PATHS = CPPMetal/Headers;
-				INFOPLIST_FILE = Application/iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				MTL_PREPROCESSOR_DEFINITIONS = "TARGET_IOS=1";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.DeferredLighting-CPP${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "DeferredLighting C++";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TVOS_DEPLOYMENT_TARGET = 13.0;
-			};
-			name = Debug;
-		};
-		3C818BE11E4A717200F28CDE /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6735EAA4F9511C5AF57FF30A /* SampleCode.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
-				GCC_PREPROCESSOR_DEFINITIONS = "TARGET_IOS=1";
-				HEADER_SEARCH_PATHS = CPPMetal/Headers;
-				INFOPLIST_FILE = Application/iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MTL_FAST_MATH = YES;
-				MTL_PREPROCESSOR_DEFINITIONS = "TARGET_IOS=1";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.DeferredLighting-CPP${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "DeferredLighting C++";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TVOS_DEPLOYMENT_TARGET = 13.0;
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -1364,29 +972,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3AFEED291FFED06A0074DF0B /* Build configuration list for PBXNativeTarget "DeferredLighting C++-tvOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3AFEED2A1FFED06A0074DF0B /* Debug */,
-				3AFEED2B1FFED06A0074DF0B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		3C818B921E4A717100F28CDE /* Build configuration list for PBXProject "DeferredLighting C++" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3C818BDD1E4A717200F28CDE /* Debug */,
 				3C818BDE1E4A717200F28CDE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3C818BDF1E4A717200F28CDE /* Build configuration list for PBXNativeTarget "DeferredLighting C++-iOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3C818BE01E4A717200F28CDE /* Debug */,
-				3C818BE11E4A717200F28CDE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
