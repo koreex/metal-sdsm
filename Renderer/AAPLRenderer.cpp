@@ -695,7 +695,8 @@ void Renderer::updateWorldState()
     frameData->shininess_factor = 1;
     frameData->fairy_specular_intensity = 32;
 
-    float cameraRotationRadians = m_frameNumber * 0.0025f + M_PI;
+//    float cameraRotationRadians = m_frameNumber * 0.0025f + M_PI;
+    float cameraRotationRadians = 0.0025f + M_PI;
 
     float3 cameraRotationAxis = {0, 1, 0};
     float4x4 cameraRotationMatrix = matrix4x4_rotation(cameraRotationRadians, cameraRotationAxis);
