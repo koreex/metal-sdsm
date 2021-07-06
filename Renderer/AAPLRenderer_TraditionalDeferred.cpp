@@ -196,13 +196,13 @@ void Renderer_TraditionalDeferred::drawInView(MTK::View & view)
 
             drawDirectionalLight( renderEncoder );
 
-            Renderer::drawPointLightMask( renderEncoder );
+//            Renderer::drawPointLightMask( renderEncoder );
 
-            drawPointLights( renderEncoder );
+//            drawPointLights( renderEncoder );
 
-            Renderer::drawSky( renderEncoder );
+//            Renderer::drawSky( renderEncoder );
 
-            Renderer::drawFairies( renderEncoder );
+//            Renderer::drawFairies( renderEncoder );
 
             renderEncoder.endEncoding();
         }
