@@ -187,6 +187,8 @@ void Renderer_TraditionalDeferred::drawInView(MTK::View & view)
             // Render the lighting and composition pass
 
             m_finalRenderPassDescriptor.colorAttachments[0].texture( *drawableTexture );
+            m_finalRenderPassDescriptor.colorAttachments[0].loadAction(MTL::LoadActionClear);
+            m_finalRenderPassDescriptor.colorAttachments[0].clearColor(MTL::ClearColorMake(1.0, 0.0, 0.0, 1.0));
             m_finalRenderPassDescriptor.depthAttachment.texture( *m_view.depthStencilTexture() );
             m_finalRenderPassDescriptor.stencilAttachment.texture( *m_view.depthStencilTexture() );
 
@@ -200,7 +202,7 @@ void Renderer_TraditionalDeferred::drawInView(MTK::View & view)
 
 //            drawPointLights( renderEncoder );
 
-            Renderer::drawSky( renderEncoder );
+//            Renderer::drawSky( renderEncoder );
 
 //            Renderer::drawFairies( renderEncoder );
 
