@@ -37,6 +37,7 @@ Implementation of the cross-platform view controller
     NSView *_placeHolderView;
 #endif
 #endif
+    double _lastMouseX;
 }
 
 - (void)viewDidLoad
@@ -98,6 +99,8 @@ Implementation of the cross-platform view controller
     _renderer->bufferExaminationManager( _bufferExaminationManager );
 
 #endif
+
+    _lastMouseX = 0;
 
 }
 
@@ -276,6 +279,7 @@ Implementation of the cross-platform view controller
                 break;
 #endif // SUPPORT_BUFFER_EXAMINATION
         }
+
     }
 
 #if SUPPORT_BUFFER_EXAMINATION
@@ -287,6 +291,22 @@ Implementation of the cross-platform view controller
     }
 
 #endif // SUPPORT_BUFFER_EXAMINATION
+}
+
+- (void)mouseDragged:(NSEvent *)event
+{
+    NSPoint p = [event locationInWindow];
+
+    if (_lastMouseX != 0) {
+        _renderer->changeCameraRotationBy((p.x - _lastMouseX) * 1e-2f);
+    }
+
+    _lastMouseX = p.x;
+}
+
+- (void)mouseUp:(NSEvent *)event
+{
+    _lastMouseX = 0;
 }
 
 - (BOOL)acceptsFirstResponder

@@ -44,6 +44,7 @@ Renderer::Renderer(MTK::View & view)
 {
 
     this->m_inFlightSemaphore = dispatch_semaphore_create(MaxFramesInFlight);
+    this->m_cameraRotationRadians = 0.0025f + M_PI;
 }
 
 
@@ -696,10 +697,9 @@ void Renderer::updateWorldState()
     frameData->fairy_specular_intensity = 32;
 
 //    float cameraRotationRadians = m_frameNumber * 0.0025f + M_PI;
-    float cameraRotationRadians = 0.0025f + M_PI;
 
     float3 cameraRotationAxis = {0, 1, 0};
-    float4x4 cameraRotationMatrix = matrix4x4_rotation(cameraRotationRadians, cameraRotationAxis);
+    float4x4 cameraRotationMatrix = matrix4x4_rotation(this->m_cameraRotationRadians, cameraRotationAxis);
 
     float4x4 view_matrix = matrix_look_at_left_hand(0,  18, -50,
                                                     0,   5,   0,
@@ -1120,7 +1120,10 @@ void Renderer::drawSky(MTL::RenderCommandEncoder & renderEncoder)
     renderEncoder.popDebugGroup();
 }
 
-
+void Renderer::changeCameraRotationBy(float angle)
+{
+    this->m_cameraRotationRadians += angle;
+}
 
 MTL::Library Renderer::makeShaderLibrary()
 {

@@ -77,6 +77,8 @@ public:
 
     void bufferExaminationManager( BufferExaminationManager * bufferExaminationManager );
 
+    void changeCameraRotationBy(float angle);
+
 #endif
 
 protected:
@@ -222,6 +224,8 @@ private:
     simd::float4 *m_originalLightPositions;
     // Mesh for an icosahedron used for rendering point lights
     Mesh m_icosahedronMesh;
+
+    float m_cameraRotationRadians;
 
     void populateLights();
 
