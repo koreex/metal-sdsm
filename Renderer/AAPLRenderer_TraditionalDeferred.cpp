@@ -200,7 +200,7 @@ void Renderer_TraditionalDeferred::drawInView(MTK::View & view)
 
 //            drawPointLights( renderEncoder );
 
-//            Renderer::drawSky( renderEncoder );
+            Renderer::drawSky( renderEncoder );
 
 //            Renderer::drawFairies( renderEncoder );
 
