@@ -37,7 +37,7 @@ Implementation of the cross-platform view controller
     NSView *_placeHolderView;
 #endif
 #endif
-    double _lastMouseX;
+    NSPoint _lastMouse;
 }
 
 - (void)viewDidLoad
@@ -100,7 +100,7 @@ Implementation of the cross-platform view controller
 
 #endif
 
-    _lastMouseX = 0;
+    _lastMouse = {.x = -1, .y = -1};
 
 }
 
@@ -297,16 +297,23 @@ Implementation of the cross-platform view controller
 {
     NSPoint p = [event locationInWindow];
 
-    if (_lastMouseX != 0) {
-        _renderer->changeCameraRotationBy((p.x - _lastMouseX) * 1e-2f);
+    if (_lastMouse.x > 0 && _lastMouse.y > 0) {
+        _renderer->camera()->rotateYawBy(-(p.x - _lastMouse.x) * 1e-2f);
+        _renderer->camera()->rotatePitchBy((p.y - _lastMouse.y) * 1e-2f);
     }
 
-    _lastMouseX = p.x;
+    _lastMouse = p;
 }
 
 - (void)mouseUp:(NSEvent *)event
 {
-    _lastMouseX = 0;
+    _lastMouse = {.x = -1, .y = -1};
+}
+
+- (void)scrollWheel:(NSEvent *)event
+{
+    NSInteger scroll = [event scrollingDeltaY];
+    _renderer->camera()->changeDistanceBy(-scroll * 3e-2f);
 }
 
 - (BOOL)acceptsFirstResponder

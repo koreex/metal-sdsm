@@ -44,7 +44,7 @@ Renderer::Renderer(MTK::View & view)
 {
 
     this->m_inFlightSemaphore = dispatch_semaphore_create(MaxFramesInFlight);
-    this->m_cameraRotationRadians = 0.0025f + M_PI;
+    this->m_camera = new Camera();
 }
 
 
@@ -698,14 +698,13 @@ void Renderer::updateWorldState()
 
 //    float cameraRotationRadians = m_frameNumber * 0.0025f + M_PI;
 
-    float3 cameraRotationAxis = {0, 1, 0};
-    float4x4 cameraRotationMatrix = matrix4x4_rotation(this->m_cameraRotationRadians, cameraRotationAxis);
+//    float4x4 view_matrix = matrix_look_at_left_hand(0,  18, -50,
+//                                                    0,   5,   0,
+//                                                    0 ,  1,   0);
 
-    float4x4 view_matrix = matrix_look_at_left_hand(0,  18, -50,
-                                                    0,   5,   0,
-                                                    0 ,  1,   0);
+    float4x4 view_matrix = m_camera->viewMatrix();
 
-    view_matrix = view_matrix * cameraRotationMatrix;
+    view_matrix = view_matrix * matrix4x4_scale(1, 1, 1);
 
     frameData->view_matrix = view_matrix;
 
@@ -720,7 +719,7 @@ void Renderer::updateWorldState()
 
     float3 skyRotationAxis = {0, 1, 0};
     float4x4 skyModelMatrix = matrix4x4_rotation(skyRotation, skyRotationAxis);
-    frameData->sky_modelview_matrix = cameraRotationMatrix * skyModelMatrix;
+    frameData->sky_modelview_matrix = skyModelMatrix;
 
     // Update directional light color
     float4 sun_color = {0.5, 0.5, 0.5, 1.0};
@@ -1120,11 +1119,6 @@ void Renderer::drawSky(MTL::RenderCommandEncoder & renderEncoder)
     renderEncoder.popDebugGroup();
 }
 
-void Renderer::changeCameraRotationBy(float angle)
-{
-    this->m_cameraRotationRadians += angle;
-}
-
 MTL::Library Renderer::makeShaderLibrary()
 {
     CFErrorRef error = nullptr;
@@ -1159,4 +1153,9 @@ MTL::Library Renderer::makeShaderLibrary()
 
     CFRelease(libraryURL);
     return shaderLibrary;
+}
+
+Camera* Renderer::camera()
+{
+    return m_camera;
 }

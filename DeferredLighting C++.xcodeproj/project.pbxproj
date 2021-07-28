@@ -56,6 +56,7 @@
 		40E600FA24F08A8200938BD0 /* AAPLGBuffer.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A55F9181F4B9E8F0075C1C2 /* AAPLGBuffer.metal */; };
 		40E600FB24F08A8200938BD0 /* AAPLPointLights.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF8E92208061C800CC23CE /* AAPLPointLights.metal */; };
 		40E600FC24F08A8200938BD0 /* AAPLSkybox.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A55F9161F4B9E8F0075C1C2 /* AAPLSkybox.metal */; };
+		E356BC8326B0B87A007B6C9C /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E356BC8226B0B87A007B6C9C /* Camera.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +187,8 @@
 		6735EAA4F9511C5AF57FF30A /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		98719FA8CFF8A2D51706AB48 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		C852A8941F61FF5800B6845E /* ModelIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ModelIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/System/Library/Frameworks/ModelIO.framework; sourceTree = DEVELOPER_DIR; };
+		E356BC8126B0B428007B6C9C /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		E356BC8226B0B87A007B6C9C /* Camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		FE216ECC249575C100D1D620 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.4.Internal.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
 		FE216ECE249575C500D1D620 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.4.Internal.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -274,6 +277,7 @@
 		3C818B931E4A717200F28CDE /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
+				E356BC8026B0B3F9007B6C9C /* Custom */,
 				40E4155E2490957400E724AE /* AAPLUtilities.h */,
 				3C818B941E4A717200F28CDE /* AAPLRenderer.h */,
 				3C818B951E4A717200F28CDE /* AAPLRenderer.cpp */,
@@ -414,6 +418,15 @@
 				98719FA8CFF8A2D51706AB48 /* LICENSE.txt */,
 			);
 			path = LICENSE;
+			sourceTree = "<group>";
+		};
+		E356BC8026B0B3F9007B6C9C /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				E356BC8126B0B428007B6C9C /* Camera.h */,
+				E356BC8226B0B87A007B6C9C /* Camera.cpp */,
+			);
+			path = Custom;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -580,6 +593,7 @@
 				404CD77F24BECBC200720BFD /* CPPMetalDeviceInternals.mm in Sources */,
 				3A5C48322000230100FA4AE1 /* main.m in Sources */,
 				40DBE7E124B2EC3300F141B0 /* AAPLBufferExaminationManager.cpp in Sources */,
+				E356BC8326B0B87A007B6C9C /* Camera.cpp in Sources */,
 				3AFEED061FFECED90074DF0B /* AAPLMesh.mm in Sources */,
 				3AFEED071FFECED90074DF0B /* AAPLMathUtilities.cpp in Sources */,
 				3AFEED041FFECEC30074DF0B /* AAPLViewController.mm in Sources */,

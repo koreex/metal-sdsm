@@ -9,6 +9,7 @@ Header for renderer class which performs Metal setup and per frame rendering
 #include "AAPLConfig.h"
 #include "AAPLBufferExaminationManager.h"
 #include "AAPLMesh.h"
+#include "Camera.h"
 
 #include <CoreGraphics/CoreGraphics.h>
 #include <CoreFoundation/CoreFoundation.h>
@@ -77,7 +78,7 @@ public:
 
     void bufferExaminationManager( BufferExaminationManager * bufferExaminationManager );
 
-    void changeCameraRotationBy(float angle);
+    Camera* camera();
 
 #endif
 
@@ -226,6 +227,8 @@ private:
     Mesh m_icosahedronMesh;
 
     float m_cameraRotationRadians;
+
+    Camera *m_camera;
 
     void populateLights();
 
