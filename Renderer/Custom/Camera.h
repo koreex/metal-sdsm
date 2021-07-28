@@ -22,7 +22,7 @@ public:
     float4x4 viewMatrix();
     void rotateYawBy(float delta);
     void rotatePitchBy(float delta);
-    void moveCenterBy(vector_float3 delta);
+    void moveCenterBy(float deltaX, float deltaY, float deltaZ);
     void changeDistanceBy(float delta);
 
 private:

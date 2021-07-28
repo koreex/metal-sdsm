@@ -310,6 +310,24 @@ Implementation of the cross-platform view controller
     _lastMouse = {.x = -1, .y = -1};
 }
 
+- (void)rightMouseDragged:(NSEvent *)event
+{
+    NSPoint p = [event locationInWindow];
+
+    if (_lastMouse.x > 0 && _lastMouse.y > 0) {
+        _renderer->camera()->moveCenterBy((p.x - _lastMouse.x) * 1e-1f,
+                                          -(p.y - _lastMouse.y) * 1e-1f,
+                                          0 );
+    }
+
+    _lastMouse = p;
+}
+
+- (void)rightMouseUp:(NSEvent *)event
+{
+    _lastMouse = {.x = -1, .y = -1};
+}
+
 - (void)scrollWheel:(NSEvent *)event
 {
     NSInteger scroll = [event scrollingDeltaY];

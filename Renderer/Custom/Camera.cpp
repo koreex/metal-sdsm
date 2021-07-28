@@ -48,15 +48,15 @@ void Camera::rotatePitchBy(float delta)
     updateEye();
 }
 
-void Camera::moveCenterBy(vector_float3 delta)
+void Camera::moveCenterBy(float deltaX, float deltaY, float deltaZ)
 {
-    m_center = m_center + delta;
+
+    m_center = m_center + vector3(deltaX, deltaY, deltaZ);
     updateEye();
 }
 
 void Camera::changeDistanceBy(float delta)
 {
     m_distance += delta;
-    printf(">>> delta: %f\n", delta);
     updateEye();
 }
