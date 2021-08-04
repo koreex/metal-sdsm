@@ -30,6 +30,8 @@ private:
     vector_float3 m_eye;
     vector_float3 m_up;
     vector_float3 m_center;
+    vector_float3 m_forward;
+    vector_float3 m_tangent;
     float m_distance;
     float m_pitch;
     float m_yaw;

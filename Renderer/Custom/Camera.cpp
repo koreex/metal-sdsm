@@ -34,6 +34,10 @@ void Camera::updateEye()
                     m_distance * cos(m_yaw) * sin(m_pitch) + m_center.x,
                     m_distance * cos(m_pitch) + m_center.y,
                     m_distance * sin(m_yaw) * sin(m_pitch) + m_center.z);
+
+    m_forward = normalize(m_center - m_eye);
+    m_tangent = normalize(cross(m_forward, vector3(0.0f, 1.0f, 0.0f)));
+    m_up = cross(m_tangent, m_forward);
 }
 
 void Camera::rotateYawBy(float delta)
@@ -45,13 +49,21 @@ void Camera::rotateYawBy(float delta)
 void Camera::rotatePitchBy(float delta)
 {
     m_pitch += delta;
+
+    if (m_pitch > M_PI) {
+        m_pitch = M_PI;
+    }
+
+    if (m_pitch < 0) {
+        m_pitch = 1e-5;
+    }
     updateEye();
 }
 
 void Camera::moveCenterBy(float deltaX, float deltaY, float deltaZ)
 {
 
-    m_center = m_center + vector3(deltaX, deltaY, deltaZ);
+    m_center = m_center + deltaX * m_tangent + deltaY * m_up;
     updateEye();
 }
 
