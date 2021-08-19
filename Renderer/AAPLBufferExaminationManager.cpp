@@ -385,7 +385,7 @@ void BufferExaminationManager::drawShadowMapWithCommandBuffer(MTL::CommandBuffer
 
 void BufferExaminationManager::drawLightMaskWithCommandBuffer(MTL::CommandBuffer & commandBuffer)
 {
-    renderLightVolumesExaminationWithCommandBuffer(commandBuffer, false);
+//    renderLightVolumesExaminationWithCommandBuffer(commandBuffer, false);
 
     MTL::RenderCommandEncoder renderEncoder =
         commandBuffer.renderCommandEncoderWithDescriptor( *m_lightMaskView.currentRenderPassDescriptor() );
@@ -399,7 +399,7 @@ void BufferExaminationManager::drawLightMaskWithCommandBuffer(MTL::CommandBuffer
 
 void BufferExaminationManager::drawLightVolumesWithCommandBuffer(MTL::CommandBuffer & commandBuffer)
 {
-    renderLightVolumesExaminationWithCommandBuffer(commandBuffer, true);
+//    renderLightVolumesExaminationWithCommandBuffer(commandBuffer, true);
 
     MTL::RenderCommandEncoder renderEncoder =
         commandBuffer.renderCommandEncoderWithDescriptor( *m_lightCoverageView.currentRenderPassDescriptor() );
