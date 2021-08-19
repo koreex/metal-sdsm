@@ -251,78 +251,78 @@ void Renderer::loadMetal()
         }
     }
 
-    #pragma mark Fairy billboard render pipeline setup
-    {
-        MTL::Function fairyVertexFunction = shaderLibrary.makeFunction( "fairy_vertex" );
-        MTL::Function fairyFragmentFunction = shaderLibrary.makeFunction( "fairy_fragment" );
+//    #pragma mark Fairy billboard render pipeline setup
+//    {
+//        MTL::Function fairyVertexFunction = shaderLibrary.makeFunction( "fairy_vertex" );
+//        MTL::Function fairyFragmentFunction = shaderLibrary.makeFunction( "fairy_fragment" );
+//
+//        MTL::RenderPipelineDescriptor renderPipelineDescriptor;
+//
+//        renderPipelineDescriptor.label( "Fairy Drawing" );
+//        renderPipelineDescriptor.vertexDescriptor( nullptr );
+//        renderPipelineDescriptor.vertexFunction( &fairyVertexFunction );
+//        renderPipelineDescriptor.fragmentFunction( &fairyFragmentFunction );
+//        renderPipelineDescriptor.colorAttachments[RenderTargetLighting].pixelFormat( m_view.colorPixelFormat() );
+//
+//        // Because iOS renderer can perform GBuffer pass in final pass, any pipeline rendering in
+//        // the final pass must take the GBuffers into account
+//        if(m_singlePassDeferred)
+//        {
+//            renderPipelineDescriptor.colorAttachments[RenderTargetAlbedo].pixelFormat( m_albedo_specular_GBufferFormat );
+//            renderPipelineDescriptor.colorAttachments[RenderTargetNormal].pixelFormat( m_normal_shadow_GBufferFormat );
+//            renderPipelineDescriptor.colorAttachments[RenderTargetDepth].pixelFormat( m_depth_GBufferFormat );
+//        }
+//
+//        renderPipelineDescriptor.depthAttachmentPixelFormat( m_view.depthStencilPixelFormat() );
+//        renderPipelineDescriptor.stencilAttachmentPixelFormat( m_view.depthStencilPixelFormat() );
+//        renderPipelineDescriptor.colorAttachments[0].blendingEnabled( true );
+//        renderPipelineDescriptor.colorAttachments[0].rgbBlendOperation( MTL::BlendOperationAdd );
+//        renderPipelineDescriptor.colorAttachments[0].alphaBlendOperation( MTL::BlendOperationAdd );
+//        renderPipelineDescriptor.colorAttachments[0].sourceRGBBlendFactor( MTL::BlendFactorSourceAlpha );
+//        renderPipelineDescriptor.colorAttachments[0].sourceAlphaBlendFactor ( MTL::BlendFactorSourceAlpha );
+//        renderPipelineDescriptor.colorAttachments[0].destinationRGBBlendFactor( MTL::BlendFactorOne );
+//        renderPipelineDescriptor.colorAttachments[0].destinationAlphaBlendFactor( MTL::BlendFactorOne );
+//
+//        m_fairyPipelineState = m_device.makeRenderPipelineState(renderPipelineDescriptor);
+//
+//        AAPLAssert(error == nullptr, error, "Failed to create fairy render pipeline state: %@");
+//    }
 
-        MTL::RenderPipelineDescriptor renderPipelineDescriptor;
-
-        renderPipelineDescriptor.label( "Fairy Drawing" );
-        renderPipelineDescriptor.vertexDescriptor( nullptr );
-        renderPipelineDescriptor.vertexFunction( &fairyVertexFunction );
-        renderPipelineDescriptor.fragmentFunction( &fairyFragmentFunction );
-        renderPipelineDescriptor.colorAttachments[RenderTargetLighting].pixelFormat( m_view.colorPixelFormat() );
-
-        // Because iOS renderer can perform GBuffer pass in final pass, any pipeline rendering in
-        // the final pass must take the GBuffers into account
-        if(m_singlePassDeferred)
-        {
-            renderPipelineDescriptor.colorAttachments[RenderTargetAlbedo].pixelFormat( m_albedo_specular_GBufferFormat );
-            renderPipelineDescriptor.colorAttachments[RenderTargetNormal].pixelFormat( m_normal_shadow_GBufferFormat );
-            renderPipelineDescriptor.colorAttachments[RenderTargetDepth].pixelFormat( m_depth_GBufferFormat );
-        }
-
-        renderPipelineDescriptor.depthAttachmentPixelFormat( m_view.depthStencilPixelFormat() );
-        renderPipelineDescriptor.stencilAttachmentPixelFormat( m_view.depthStencilPixelFormat() );
-        renderPipelineDescriptor.colorAttachments[0].blendingEnabled( true );
-        renderPipelineDescriptor.colorAttachments[0].rgbBlendOperation( MTL::BlendOperationAdd );
-        renderPipelineDescriptor.colorAttachments[0].alphaBlendOperation( MTL::BlendOperationAdd );
-        renderPipelineDescriptor.colorAttachments[0].sourceRGBBlendFactor( MTL::BlendFactorSourceAlpha );
-        renderPipelineDescriptor.colorAttachments[0].sourceAlphaBlendFactor ( MTL::BlendFactorSourceAlpha );
-        renderPipelineDescriptor.colorAttachments[0].destinationRGBBlendFactor( MTL::BlendFactorOne );
-        renderPipelineDescriptor.colorAttachments[0].destinationAlphaBlendFactor( MTL::BlendFactorOne );
-
-        m_fairyPipelineState = m_device.makeRenderPipelineState(renderPipelineDescriptor);
-
-        AAPLAssert(error == nullptr, error, "Failed to create fairy render pipeline state: %@");
-    }
-
-    #pragma mark Sky render pipeline setup
-    {
-        m_skyVertexDescriptor.attributes[VertexAttributePosition].format( MTL::VertexFormatFloat3 );
-        m_skyVertexDescriptor.attributes[VertexAttributePosition].offset( 0 );
-        m_skyVertexDescriptor.attributes[VertexAttributePosition].bufferIndex( BufferIndexMeshPositions );
-        m_skyVertexDescriptor.layouts[BufferIndexMeshPositions].stride( 12 );
-        m_skyVertexDescriptor.attributes[VertexAttributeNormal].format( MTL::VertexFormatFloat3 );
-        m_skyVertexDescriptor.attributes[VertexAttributeNormal].offset( 0 );
-        m_skyVertexDescriptor.attributes[VertexAttributeNormal].bufferIndex( BufferIndexMeshGenerics );
-        m_skyVertexDescriptor.layouts[BufferIndexMeshGenerics].stride( 12 );
-
-        MTL::Function skyboxVertexFunction = shaderLibrary.makeFunction( "skybox_vertex" );
-        MTL::Function skyboxFragmentFunction = shaderLibrary.makeFunction( "skybox_fragment" );
-
-        MTL::RenderPipelineDescriptor renderPipelineDescriptor;
-        renderPipelineDescriptor.label( "Sky" );
-        renderPipelineDescriptor.vertexDescriptor( &m_skyVertexDescriptor );
-        renderPipelineDescriptor.vertexFunction( &skyboxVertexFunction );
-        renderPipelineDescriptor.fragmentFunction( &skyboxFragmentFunction );
-        renderPipelineDescriptor.colorAttachments[RenderTargetLighting].pixelFormat( m_view.colorPixelFormat() );
-
-        if(m_singlePassDeferred)
-        {
-            renderPipelineDescriptor.colorAttachments[RenderTargetAlbedo].pixelFormat( m_albedo_specular_GBufferFormat );
-            renderPipelineDescriptor.colorAttachments[RenderTargetNormal].pixelFormat( m_normal_shadow_GBufferFormat );
-            renderPipelineDescriptor.colorAttachments[RenderTargetDepth].pixelFormat( m_depth_GBufferFormat );
-        }
-
-        renderPipelineDescriptor.depthAttachmentPixelFormat( m_view.depthStencilPixelFormat() );
-        renderPipelineDescriptor.stencilAttachmentPixelFormat( m_view.depthStencilPixelFormat() );
-
-        m_skyboxPipelineState = m_device.makeRenderPipelineState( renderPipelineDescriptor, &error );
-
-        AAPLAssert(error == nullptr, error, "Failed to create skybox render pipeline state: %@");
-    }
+//    #pragma mark Sky render pipeline setup
+//    {
+//        m_skyVertexDescriptor.attributes[VertexAttributePosition].format( MTL::VertexFormatFloat3 );
+//        m_skyVertexDescriptor.attributes[VertexAttributePosition].offset( 0 );
+//        m_skyVertexDescriptor.attributes[VertexAttributePosition].bufferIndex( BufferIndexMeshPositions );
+//        m_skyVertexDescriptor.layouts[BufferIndexMeshPositions].stride( 12 );
+//        m_skyVertexDescriptor.attributes[VertexAttributeNormal].format( MTL::VertexFormatFloat3 );
+//        m_skyVertexDescriptor.attributes[VertexAttributeNormal].offset( 0 );
+//        m_skyVertexDescriptor.attributes[VertexAttributeNormal].bufferIndex( BufferIndexMeshGenerics );
+//        m_skyVertexDescriptor.layouts[BufferIndexMeshGenerics].stride( 12 );
+//
+//        MTL::Function skyboxVertexFunction = shaderLibrary.makeFunction( "skybox_vertex" );
+//        MTL::Function skyboxFragmentFunction = shaderLibrary.makeFunction( "skybox_fragment" );
+//
+//        MTL::RenderPipelineDescriptor renderPipelineDescriptor;
+//        renderPipelineDescriptor.label( "Sky" );
+//        renderPipelineDescriptor.vertexDescriptor( &m_skyVertexDescriptor );
+//        renderPipelineDescriptor.vertexFunction( &skyboxVertexFunction );
+//        renderPipelineDescriptor.fragmentFunction( &skyboxFragmentFunction );
+//        renderPipelineDescriptor.colorAttachments[RenderTargetLighting].pixelFormat( m_view.colorPixelFormat() );
+//
+//        if(m_singlePassDeferred)
+//        {
+//            renderPipelineDescriptor.colorAttachments[RenderTargetAlbedo].pixelFormat( m_albedo_specular_GBufferFormat );
+//            renderPipelineDescriptor.colorAttachments[RenderTargetNormal].pixelFormat( m_normal_shadow_GBufferFormat );
+//            renderPipelineDescriptor.colorAttachments[RenderTargetDepth].pixelFormat( m_depth_GBufferFormat );
+//        }
+//
+//        renderPipelineDescriptor.depthAttachmentPixelFormat( m_view.depthStencilPixelFormat() );
+//        renderPipelineDescriptor.stencilAttachmentPixelFormat( m_view.depthStencilPixelFormat() );
+//
+//        m_skyboxPipelineState = m_device.makeRenderPipelineState( renderPipelineDescriptor, &error );
+//
+//        AAPLAssert(error == nullptr, error, "Failed to create skybox render pipeline state: %@");
+//    }
 
     #pragma mark Post lighting depth state setup
     {
@@ -392,6 +392,8 @@ void Renderer::loadMetal()
         }
     }
 
+/**
+
 #if LIGHT_STENCIL_CULLING
     // Setup objects for point light mask rendering
     {
@@ -444,6 +446,10 @@ void Renderer::loadMetal()
     }
 #endif // END LIGHT_STENCIL_CULLING
 
+ */
+
+/*
+
     #pragma mark Point light depth state setup
     {
 #if LIGHT_STENCIL_CULLING
@@ -467,6 +473,8 @@ void Renderer::loadMetal()
         m_pointLightDepthStencilState = m_device.makeDepthStencilState( depthStencilDesc );
     }
 
+ */
+
     m_commandQueue = m_device.makeCommandQueue();
 }
 
@@ -480,6 +488,7 @@ void Renderer::loadScene()
 
     AAPLAssert(m_meshes, error, "Could not create meshes from model file");
 
+    /**
     // Generate data
     {
         m_lightsData = m_device.makeBuffer(sizeof(PointLight)*NumLights);
@@ -488,6 +497,8 @@ void Renderer::loadScene()
 
         populateLights();
     }
+
+    */
 
     // Create quad for fullscreen composition drawing
     {
@@ -761,9 +772,9 @@ void Renderer::updateWorldState()
         frameData->shadow_mvp_xform_matrix = shadowTransform * frameData->shadow_mvp_matrix;
     }
 
-    frameData->fairy_size = .4;
+//    frameData->fairy_size = .4;
 
-    updateLights( frameData->temple_modelview_matrix );
+//    updateLights( frameData->temple_modelview_matrix );
 }
 
 /// Called whenever view changes orientation or layout is changed
@@ -1007,6 +1018,8 @@ void Renderer::drawDirectionalLightCommon(MTL::RenderCommandEncoder & renderEnco
     renderEncoder.drawPrimitives( MTL::PrimitiveTypeTriangle, 0, 6 );
 }
 
+/**
+
 /// Render to stencil buffer only to increment stencil on that fragments in front
 /// of the backside of each light volume
 void Renderer::drawPointLightMask(MTL::RenderCommandEncoder & renderEncoder)
@@ -1040,6 +1053,10 @@ void Renderer::drawPointLightMask(MTL::RenderCommandEncoder & renderEncoder)
 #endif
 }
 
+*/
+
+
+/**
 /// Performs operations common to both single-pass and traditional deferred renders for drawing point lights.
 /// Called by derived renderer classes  after they have set up any renderer specific specific state
 /// (such as setting GBuffer textures with the traditional deferred renderer not needed for the single-pass renderer)
@@ -1071,22 +1088,24 @@ void Renderer::drawPointLightsCommon(MTL::RenderCommandEncoder & renderEncoder)
                                          NumLights );
 }
 
+*/
+
 /// Draw the "fairies" at the center of the point lights with a 2D disk using a texture to perform
 /// smooth alpha blending on the edges
-void Renderer::drawFairies(MTL::RenderCommandEncoder & renderEncoder)
-{
-    renderEncoder.pushDebugGroup( "Draw Fairies" );
-    renderEncoder.setRenderPipelineState( m_fairyPipelineState );
-    renderEncoder.setDepthStencilState( *m_dontWriteDepthStencilState );
-    renderEncoder.setCullMode( MTL::CullModeBack );
-    renderEncoder.setVertexBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
-    renderEncoder.setVertexBuffer( m_fairy, 0, BufferIndexMeshPositions );
-    renderEncoder.setVertexBuffer( m_lightsData, 0, BufferIndexLightsData );
-    renderEncoder.setVertexBuffer( m_lightPositions[m_frameDataBufferIndex], 0, BufferIndexLightsPosition );
-    renderEncoder.setFragmentTexture( m_fairyMap, TextureIndexAlpha );
-    renderEncoder.drawPrimitives( MTL::PrimitiveTypeTriangleStrip, 0, NumFairyVertices, NumLights );
-    renderEncoder.popDebugGroup();
-}
+//void Renderer::drawFairies(MTL::RenderCommandEncoder & renderEncoder)
+//{
+//    renderEncoder.pushDebugGroup( "Draw Fairies" );
+//    renderEncoder.setRenderPipelineState( m_fairyPipelineState );
+//    renderEncoder.setDepthStencilState( *m_dontWriteDepthStencilState );
+//    renderEncoder.setCullMode( MTL::CullModeBack );
+//    renderEncoder.setVertexBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
+//    renderEncoder.setVertexBuffer( m_fairy, 0, BufferIndexMeshPositions );
+//    renderEncoder.setVertexBuffer( m_lightsData, 0, BufferIndexLightsData );
+//    renderEncoder.setVertexBuffer( m_lightPositions[m_frameDataBufferIndex], 0, BufferIndexLightsPosition );
+//    renderEncoder.setFragmentTexture( m_fairyMap, TextureIndexAlpha );
+//    renderEncoder.drawPrimitives( MTL::PrimitiveTypeTriangleStrip, 0, NumFairyVertices, NumLights );
+//    renderEncoder.popDebugGroup();
+//}
 
 /// Draw the sky dome behind all other geometry (testing against depth buffer generated in
 ///  GBuffer pass)

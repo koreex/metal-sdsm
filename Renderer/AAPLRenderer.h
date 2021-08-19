@@ -104,7 +104,7 @@ protected:
 
     void drawPointLightsCommon( MTL::RenderCommandEncoder & renderEncoder );
 
-    void drawFairies( MTL::RenderCommandEncoder & renderEncoder );
+//    void drawFairies( MTL::RenderCommandEncoder & renderEncoder );
 
     void drawSky( MTL::RenderCommandEncoder & renderEncoder );
 

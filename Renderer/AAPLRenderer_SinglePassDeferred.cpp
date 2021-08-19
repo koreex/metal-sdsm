@@ -120,13 +120,13 @@ void Renderer_SinglePassDeferred::drawInView(MTK::View& view)
 
         drawDirectionalLight( renderEncoder );
 
-        Renderer::drawPointLightMask( renderEncoder );
+//        Renderer::drawPointLightMask( renderEncoder );
 
-        drawPointLights( renderEncoder );
+//        drawPointLights( renderEncoder );
 
-        Renderer::drawSky( renderEncoder );
+//        Renderer::drawSky( renderEncoder );
 
-        Renderer::drawFairies( renderEncoder );
+//        Renderer::drawFairies( renderEncoder );
 
         renderEncoder.endEncoding();
     }
@@ -151,7 +151,7 @@ void Renderer_SinglePassDeferred::drawPointLights(MTL::RenderCommandEncoder& ren
 
     // Call common base class method after setting state in the renderEncoder specific to the
     // single-pass deferred renderer
-    Renderer::drawPointLightsCommon( renderEncoder );
+//    Renderer::drawPointLightsCommon( renderEncoder );
 
     renderEncoder.popDebugGroup();
 }

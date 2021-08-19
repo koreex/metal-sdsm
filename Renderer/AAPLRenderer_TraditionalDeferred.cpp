@@ -143,7 +143,7 @@ void Renderer_TraditionalDeferred::drawPointLights(MTL::RenderCommandEncoder & r
 
     // Call common base class method after setting state in the renderEncoder specific to the
     // traditional deferred renderer
-    Renderer::drawPointLightsCommon( renderEncoder );
+//    Renderer::drawPointLightsCommon( renderEncoder );
 
     renderEncoder.popDebugGroup();
 }
@@ -245,5 +245,3 @@ void Renderer_TraditionalDeferred::validateBufferExaminationMode()
 }
 
 #endif // END SUPPORT_BUFFER_EXAMINATION 
-
-
