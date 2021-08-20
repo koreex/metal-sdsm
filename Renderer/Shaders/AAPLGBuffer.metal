@@ -73,7 +73,7 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
                                       texture2d<half>          baseColorMap [[ texture(TextureIndexBaseColor) ]],
                                       texture2d<half>          normalMap    [[ texture(TextureIndexNormal) ]],
                                       texture2d<half>          specularMap  [[ texture(TextureIndexSpecular) ]],
-                                      depth2d<float>           shadowMap    [[ texture(TextureIndexShadow) ]])
+                                      depth2d_array<float>           shadowMap    [[ texture(TextureIndexShadow) ]])
 {
     constexpr sampler linearSampler(mip_filter::linear,
                                     mag_filter::linear,
@@ -103,7 +103,7 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
 
     // Compare the depth value in the shadow map to the depth value of the fragment in the sun's.
     // frame of reference.  If the sample is occluded, it will be zero.
-    half shadow_sample = shadowMap.sample_compare(shadowSampler, in.shadow_uv, in.shadow_depth);
+    half shadow_sample = shadowMap.sample_compare(shadowSampler, in.shadow_uv, 0, in.shadow_depth);
 
     // Store shadow with albedo in unused fourth channel
     gBuffer.albedo_specular = half4(base_color_sample.xyz, specular_contrib);
