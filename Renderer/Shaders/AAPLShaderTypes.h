@@ -91,7 +91,7 @@ struct FrameData
     float fairy_specular_intensity;
 
     simd::float4x4 sky_modelview_matrix;
-    simd::float4x4 shadow_mvp_matrix;
+    simd::float4x4 shadow_mvp_matrix[3];
     simd::float4x4 shadow_mvp_xform_matrix;
 
     simd::float4 sun_eye_direction;

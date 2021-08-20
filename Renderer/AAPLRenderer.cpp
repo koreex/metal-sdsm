@@ -457,7 +457,7 @@ void Renderer::updateWorldState()
 
         float4x4 shadowModelViewMatrix = shadowViewMatrix * templeModelMatrix;
 
-        frameData->shadow_mvp_matrix = m_shadowProjectionMatrix * shadowModelViewMatrix;
+        frameData->shadow_mvp_matrix[0] = m_shadowProjectionMatrix * shadowModelViewMatrix;
     }
 
     {
@@ -468,7 +468,7 @@ void Renderer::updateWorldState()
         float4x4 shadowTranslate = matrix4x4_translation(0.5, 0.5, 0);
         float4x4 shadowTransform = shadowTranslate * shadowScale;
 
-        frameData->shadow_mvp_xform_matrix = shadowTransform * frameData->shadow_mvp_matrix;
+        frameData->shadow_mvp_xform_matrix = shadowTransform * frameData->shadow_mvp_matrix[0];
     }
 }
 
@@ -664,20 +664,24 @@ void Renderer::endFrame(MTL::CommandBuffer & commandBuffer)
 /// Draw to the depth texture from the directional lights point of view to generate the shadow map
 void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
 {
-    MTL::RenderCommandEncoder encoder = commandBuffer.renderCommandEncoderWithDescriptor(m_shadowRenderPassDescriptor);
+    for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
+        m_shadowRenderPassDescriptor.depthAttachment.slice(i);
 
-    encoder.label( "Shadow Map Pass");
+        MTL::RenderCommandEncoder encoder = commandBuffer.renderCommandEncoderWithDescriptor(m_shadowRenderPassDescriptor);
 
-    encoder.setRenderPipelineState( m_shadowGenPipelineState );
-    encoder.setDepthStencilState( m_shadowDepthStencilState );
-    encoder.setCullMode( MTL::CullModeBack );
-    encoder.setDepthBias( 0.015, 7, 0.02 );
+        encoder.label( "Shadow Map Pass");
 
-    encoder.setVertexBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
+        encoder.setRenderPipelineState( m_shadowGenPipelineState );
+        encoder.setDepthStencilState( m_shadowDepthStencilState );
+        encoder.setCullMode( MTL::CullModeBack );
+        encoder.setDepthBias( 0.015, 7, 0.02 );
 
-    drawMeshes( encoder );
+        encoder.setVertexBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
 
-    encoder.endEncoding();
+        drawMeshes( encoder );
+
+        encoder.endEncoding();
+    }
 }
 
 /// Draw to the three textures which compose the GBuffer
