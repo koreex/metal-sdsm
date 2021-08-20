@@ -183,7 +183,6 @@ private:
 
     // Depth render target for shadow map
     MTL::Texture m_shadowMap;
-    MTL::Texture m_cascadedShadowMap;
 
     // Texture to create smooth round particles
     MTL::Texture m_fairyMap;

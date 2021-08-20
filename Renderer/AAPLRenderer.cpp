@@ -295,22 +295,6 @@ void Renderer::loadMetal()
 
             m_shadowMap = m_device.makeTexture( shadowTextureDesc );
             m_shadowMap.label( "Shadow Map" );
-
-            // setup cascaded shadow map
-
-            MTL::TextureDescriptor cascadedShadowTextureDesc;
-
-            cascadedShadowTextureDesc.textureType(MTL::TextureType2DArray);
-            cascadedShadowTextureDesc.arrayLength(CASCADED_SHADOW_COUNT);
-            cascadedShadowTextureDesc.pixelFormat( shadowMapPixelFormat );
-            cascadedShadowTextureDesc.width( 2048 );
-            cascadedShadowTextureDesc.height( 2048 );
-            cascadedShadowTextureDesc.mipmapLevelCount( 1 );
-            cascadedShadowTextureDesc.resourceOptions( MTL::ResourceStorageModePrivate );
-            cascadedShadowTextureDesc.usage( MTL::TextureUsageRenderTarget | MTL::TextureUsageShaderRead );
-
-            m_cascadedShadowMap = m_device.makeTexture( cascadedShadowTextureDesc );
-            m_cascadedShadowMap.label( "Cascaded Shadow Map" );
         }
 
         #pragma mark Shadow render pass descriptor setup
