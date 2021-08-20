@@ -148,6 +148,10 @@ double RenderPassDepthAttachmentDescriptor::clearDepth() const
     return ((MTLRenderPassDepthAttachmentDescriptor*)m_objCObj).clearDepth;
 }
 
+void RenderPassDepthAttachmentDescriptor::slice(int value)
+{
+    ((MTLRenderPassDepthAttachmentDescriptor*)m_objCObj).slice = value;
+}
 
 //=========================================================================
 #pragma mark - RenderPassStencilAttachmentDescriptor method implementations

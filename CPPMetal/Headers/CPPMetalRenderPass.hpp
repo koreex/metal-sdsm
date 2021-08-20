@@ -102,6 +102,7 @@ public:
 
     double clearDepth() const;
     void   clearDepth(double value);
+    void slice(int value);
 
 private:
 
