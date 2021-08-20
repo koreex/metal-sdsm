@@ -31,41 +31,6 @@ void Renderer_TraditionalDeferred::loadMetal()
 {
     Renderer::loadMetal();
 
-    CFErrorRef error = nullptr;
-
-
-//    #pragma mark Point light render pipeline setup
-//    {
-//        MTL::RenderPipelineDescriptor renderPipelineDescriptor;
-//
-//        renderPipelineDescriptor.label( "Light" );
-//        renderPipelineDescriptor.colorAttachments[RenderTargetLighting].pixelFormat( m_view.colorPixelFormat() );
-//
-//        // Enable additive blending
-//        renderPipelineDescriptor.colorAttachments[RenderTargetLighting].blendingEnabled( true );
-//        renderPipelineDescriptor.colorAttachments[RenderTargetLighting].rgbBlendOperation( MTL::BlendOperationAdd );
-//        renderPipelineDescriptor.colorAttachments[RenderTargetLighting].alphaBlendOperation( MTL::BlendOperationAdd );
-//        renderPipelineDescriptor.colorAttachments[RenderTargetLighting].destinationRGBBlendFactor( MTL::BlendFactorOne );
-//        renderPipelineDescriptor.colorAttachments[RenderTargetLighting].destinationAlphaBlendFactor( MTL::BlendFactorOne );
-//        renderPipelineDescriptor.colorAttachments[RenderTargetLighting].sourceRGBBlendFactor( MTL::BlendFactorOne );
-//        renderPipelineDescriptor.colorAttachments[RenderTargetLighting].sourceAlphaBlendFactor( MTL::BlendFactorOne );
-//
-//        renderPipelineDescriptor.depthAttachmentPixelFormat( m_view.depthStencilPixelFormat() );
-//        renderPipelineDescriptor.stencilAttachmentPixelFormat( m_view.depthStencilPixelFormat() );
-//
-//        MTL::Library shaderLibrary = makeShaderLibrary();
-//
-//        MTL::Function lightVertexFunction = shaderLibrary.makeFunction( "deferred_point_lighting_vertex" );
-//        MTL::Function lightFragmentFunction = shaderLibrary.makeFunction( "deferred_point_lighting_fragment_traditional" );
-//
-//        renderPipelineDescriptor.vertexFunction( &lightVertexFunction );
-//        renderPipelineDescriptor.fragmentFunction( &lightFragmentFunction );
-//
-//        m_lightPipelineState = m_device.makeRenderPipelineState( renderPipelineDescriptor, &error );
-//
-//        AAPLAssert(error == nullptr, error, "Failed to create lighting render pipeline state");
-//    }
-
     #pragma mark GBuffer render pass descriptor setup
     // Create a render pass descriptor to create an encoder for rendering to the GBuffers.
     // The encoder stores rendered data of each attachment when encoding ends.
@@ -129,25 +94,6 @@ void Renderer_TraditionalDeferred::drawDirectionalLight(MTL::RenderCommandEncode
     renderEncoder.popDebugGroup();
 }
 
-///// Setup traditional deferred rendering specific pipeline and set GBuffer textures.  Then call
-///// common renderer code to apply the point lights
-//void Renderer_TraditionalDeferred::drawPointLights(MTL::RenderCommandEncoder & renderEncoder)
-//{
-//    renderEncoder.pushDebugGroup( "Draw Point Lights" );
-//
-//    renderEncoder.setRenderPipelineState( m_lightPipelineState );
-//
-//    renderEncoder.setFragmentTexture( m_albedo_specular_GBuffer, RenderTargetAlbedo );
-//    renderEncoder.setFragmentTexture( m_normal_shadow_GBuffer, RenderTargetNormal );
-//    renderEncoder.setFragmentTexture( m_depth_GBuffer, RenderTargetDepth );
-//
-//    // Call common base class method after setting state in the renderEncoder specific to the
-//    // traditional deferred renderer
-////    Renderer::drawPointLightsCommon( renderEncoder );
-//
-//    renderEncoder.popDebugGroup();
-//}
-
 /// Frame drawing routine
 void Renderer_TraditionalDeferred::drawInView(MTK::View & view)
 {
@@ -197,14 +143,6 @@ void Renderer_TraditionalDeferred::drawInView(MTK::View & view)
             renderEncoder.label( "Lighting & Composition Pass" );
 
             drawDirectionalLight( renderEncoder );
-
-//            Renderer::drawPointLightMask( renderEncoder );
-
-//            drawPointLights( renderEncoder );
-
-//            Renderer::drawSky( renderEncoder );
-
-//            Renderer::drawFairies( renderEncoder );
 
             renderEncoder.endEncoding();
         }

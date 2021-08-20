@@ -64,7 +64,7 @@ void Renderer::loadMetal()
 
         m_uniformBuffers[i].label("UniformBuffer");
 
-        m_lightPositions[i] = m_device.makeBuffer(sizeof(float4)*NumLights, storageMode);
+//        m_lightPositions[i] = m_device.makeBuffer(sizeof(float4)*NumLights, storageMode);
 
         m_uniformBuffers[i].label("LightPositions");
     }
@@ -467,10 +467,6 @@ void Renderer::updateWorldState()
 
         frameData->shadow_mvp_xform_matrix = shadowTransform * frameData->shadow_mvp_matrix;
     }
-
-//    frameData->fairy_size = .4;
-
-//    updateLights( frameData->temple_modelview_matrix );
 }
 
 /// Called whenever view changes orientation or layout is changed
