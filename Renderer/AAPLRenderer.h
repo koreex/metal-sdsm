@@ -25,8 +25,6 @@ static const uint32_t NumLights = 256;
 static const float NearPlane = 1;
 static const float FarPlane = 150;
 
-static const int CASCADED_SHADOW_COUNT = 3;
-
 class Renderer
 {
 public:
@@ -215,7 +213,7 @@ private:
     simd::float4x4 m_projection_matrix;
 
     // Projection matrix used to render the shadow map
-    simd::float4x4 m_shadowProjectionMatrix;
+    simd::float4x4 m_shadowProjectionMatrix[CASCADED_SHADOW_COUNT];
 
     // Current frame number rendering
     uint64_t m_frameNumber;

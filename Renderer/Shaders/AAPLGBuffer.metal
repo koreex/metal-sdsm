@@ -32,6 +32,7 @@ struct ColorInOut
     float2 tex_coord;
     float2 shadow_uv;
     half   shadow_depth;
+    uint   shadow_index;
     float3 eye_position;
     half3  tangent;
     half3  bitangent;
@@ -56,9 +57,18 @@ vertex ColorInOut gbuffer_vertex(DescriptorDefinedVertex in    [[ stage_in ]],
     // Rotate tangents, bitangents, and normals by the normal matrix
     half3x3 normalMatrix = half3x3(frameData.temple_normal_matrix);
 
-    float3 shadow_coord = (frameData.shadow_mvp_xform_matrix * model_position ).xyz;
-    out.shadow_uv = shadow_coord.xy;
-    out.shadow_depth = half(shadow_coord.z);
+    out.shadow_index = -1;
+
+    for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
+        float3 shadow_coord = (frameData.shadow_mvp_xform_matrix[i] * model_position ).xyz;
+
+        if (shadow_coord.x < 1.1 && shadow_coord.x > -0.1 && shadow_coord.y < 1.1 && shadow_coord.y > -0.1) {
+            out.shadow_uv = shadow_coord.xy;
+            out.shadow_depth = half(shadow_coord.z);
+            out.shadow_index = i;
+            break;
+        }
+    }
 
     // Calculate tangent, bitangent and normal in eye's space
     out.tangent = normalize(normalMatrix * in.tangent);
@@ -103,7 +113,11 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
 
     // Compare the depth value in the shadow map to the depth value of the fragment in the sun's.
     // frame of reference.  If the sample is occluded, it will be zero.
-    half shadow_sample = shadowMap.sample_compare(shadowSampler, in.shadow_uv, 0, in.shadow_depth);
+    half shadow_sample = 1.0;
+
+    if (in.shadow_index == 1) {
+        shadow_sample = shadowMap.sample_compare(shadowSampler, in.shadow_uv, in.shadow_index, in.shadow_depth);
+    }
 
     // Store shadow with albedo in unused fourth channel
     gBuffer.albedo_specular = half4(base_color_sample.xyz, specular_contrib);

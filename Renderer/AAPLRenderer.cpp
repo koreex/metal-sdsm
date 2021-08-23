@@ -308,7 +308,10 @@ void Renderer::loadMetal()
 
         // Calculate projection matrix to render shadows
         {
-            m_shadowProjectionMatrix = matrix_ortho_left_hand(-53, 53, -33, 53, -53, 53);
+//            m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, 53, -33, 53, -53, 53);
+            m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, -23, -33, 53, -53, 53);
+            m_shadowProjectionMatrix[1] = matrix_ortho_left_hand(-53, 53, -33, 53, -53, 53);
+            m_shadowProjectionMatrix[2] = matrix_ortho_left_hand(23, 53, 13, 53, -53, 53);
         }
     }
 
@@ -457,7 +460,9 @@ void Renderer::updateWorldState()
 
         float4x4 shadowModelViewMatrix = shadowViewMatrix * templeModelMatrix;
 
-        frameData->shadow_mvp_matrix[0] = m_shadowProjectionMatrix * shadowModelViewMatrix;
+        for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
+            frameData->shadow_mvp_matrix[i] = m_shadowProjectionMatrix[i] * shadowModelViewMatrix;
+        }
     }
 
     {
@@ -468,7 +473,9 @@ void Renderer::updateWorldState()
         float4x4 shadowTranslate = matrix4x4_translation(0.5, 0.5, 0);
         float4x4 shadowTransform = shadowTranslate * shadowScale;
 
-        frameData->shadow_mvp_xform_matrix = shadowTransform * frameData->shadow_mvp_matrix[0];
+        for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
+            frameData->shadow_mvp_xform_matrix[i] = shadowTransform * frameData->shadow_mvp_matrix[i];
+        }
     }
 }
 
@@ -667,6 +674,9 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
     for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
         m_shadowRenderPassDescriptor.depthAttachment.slice(i);
 
+        FrameData *frameData = (FrameData *) (m_uniformBuffers[m_frameDataBufferIndex].contents());
+        frameData->shadow_index = i;
+
         MTL::RenderCommandEncoder encoder = commandBuffer.renderCommandEncoderWithDescriptor(m_shadowRenderPassDescriptor);
 
         encoder.label( "Shadow Map Pass");
@@ -674,6 +684,7 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
         encoder.setRenderPipelineState( m_shadowGenPipelineState );
         encoder.setDepthStencilState( m_shadowDepthStencilState );
         encoder.setCullMode( MTL::CullModeBack );
+//        encoder.setDepthBias( 0.015, 7, 0.02 );
         encoder.setDepthBias( 0.015, 7, 0.02 );
 
         encoder.setVertexBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
