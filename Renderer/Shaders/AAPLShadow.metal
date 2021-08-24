@@ -15,12 +15,13 @@ struct ShadowOutput
 
 vertex ShadowOutput shadow_vertex(const device ShadowVertex *positions [[ buffer(BufferIndexMeshPositions) ]],
                                   constant     FrameData    &frameData [[ buffer(BufferIndexFrameData) ]],
-                                  uint                             vid [[ vertex_id ]])
+                                  uint                             vid [[ vertex_id ]],
+                                  const device int          *shadowIndex [[ buffer(10) ]])
 {
     ShadowOutput out;
 
     // Add vertex pos to fairy position and project to clip-space
-    out.position = frameData.shadow_mvp_matrix[1] * float4(positions[vid].position, 1.0);
+    out.position = frameData.shadow_mvp_matrix[*shadowIndex] * float4(positions[vid].position, 1.0);
 
     return out;
 }

@@ -310,8 +310,8 @@ void Renderer::loadMetal()
         {
 //            m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, 53, -33, 53, -53, 53);
             m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, -23, -33, 53, -53, 53);
-            m_shadowProjectionMatrix[1] = matrix_ortho_left_hand(-53, 53, -33, 53, -53, 53);
-            m_shadowProjectionMatrix[2] = matrix_ortho_left_hand(23, 53, 13, 53, -53, 53);
+            m_shadowProjectionMatrix[1] = matrix_ortho_left_hand(-23, 13, -33, 53, -53, 53);
+            m_shadowProjectionMatrix[2] = matrix_ortho_left_hand(-13, 53, -33, 53, -53, 53);
         }
     }
 
@@ -679,6 +679,11 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
 
         MTL::RenderCommandEncoder encoder = commandBuffer.renderCommandEncoderWithDescriptor(m_shadowRenderPassDescriptor);
 
+        static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
+        MTL::Buffer cascadeIndexBuffer = m_device.makeBuffer(sizeof(int), storageMode);
+        int *index = (int*) cascadeIndexBuffer.contents();
+        *index = i;
+
         encoder.label( "Shadow Map Pass");
 
         encoder.setRenderPipelineState( m_shadowGenPipelineState );
@@ -688,6 +693,7 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
         encoder.setDepthBias( 0.015, 7, 0.02 );
 
         encoder.setVertexBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
+        encoder.setVertexBuffer(cascadeIndexBuffer, 0, 10);
 
         drawMeshes( encoder );
 

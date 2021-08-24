@@ -62,14 +62,13 @@ vertex ColorInOut gbuffer_vertex(DescriptorDefinedVertex in    [[ stage_in ]],
     for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
         float3 shadow_coord = (frameData.shadow_mvp_xform_matrix[i] * model_position ).xyz;
 
-        if (shadow_coord.x < 1.1 && shadow_coord.x > -0.1 && shadow_coord.y < 1.1 && shadow_coord.y > -0.1) {
+        if (shadow_coord.x < 1.0 && shadow_coord.x > 0.0 && shadow_coord.y < 1.0 && shadow_coord.y > 0.0) {
             out.shadow_uv = shadow_coord.xy;
             out.shadow_depth = half(shadow_coord.z);
             out.shadow_index = i;
             break;
         }
     }
-
     // Calculate tangent, bitangent and normal in eye's space
     out.tangent = normalize(normalMatrix * in.tangent);
     out.bitangent = -normalize(normalMatrix * in.bitangent);
@@ -115,9 +114,7 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
     // frame of reference.  If the sample is occluded, it will be zero.
     half shadow_sample = 1.0;
 
-    if (in.shadow_index == 1) {
-        shadow_sample = shadowMap.sample_compare(shadowSampler, in.shadow_uv, in.shadow_index, in.shadow_depth);
-    }
+    shadow_sample = shadowMap.sample_compare(shadowSampler, in.shadow_uv, in.shadow_index, in.shadow_depth);
 
     // Store shadow with albedo in unused fourth channel
     gBuffer.albedo_specular = half4(base_color_sample.xyz, specular_contrib);
