@@ -32,11 +32,12 @@ struct ColorInOut
     float2 tex_coord;
     float2 shadow_uv;
     half   shadow_depth;
-    uint   shadow_index;
+    int   shadow_index;
     float3 eye_position;
     half3  tangent;
     half3  bitangent;
     half3  normal;
+    float4 model_position;
 };
 
 vertex ColorInOut gbuffer_vertex(DescriptorDefinedVertex in    [[ stage_in ]],
@@ -57,10 +58,12 @@ vertex ColorInOut gbuffer_vertex(DescriptorDefinedVertex in    [[ stage_in ]],
     // Rotate tangents, bitangents, and normals by the normal matrix
     half3x3 normalMatrix = half3x3(frameData.temple_normal_matrix);
 
+    out.model_position = model_position;
+
     out.shadow_index = -1;
 
-    for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
-        float3 shadow_coord = (frameData.shadow_mvp_xform_matrix[i] * model_position ).xyz;
+    for (int i = 0; i < 1; i++) {
+        float3 shadow_coord = (frameData.shadow_mvp_xform_matrix[i] * model_position).xyz;
 
         if (shadow_coord.x < 1.0 && shadow_coord.x > 0.0 && shadow_coord.y < 1.0 && shadow_coord.y > 0.0) {
             out.shadow_uv = shadow_coord.xy;
@@ -104,6 +107,23 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
 
     eye_normal = normalize(eye_normal);
 
+    // fragment shadowing
+
+    float2 shadow_uv;
+    float shadow_depth;
+    int shadow_index;
+
+    for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
+        float3 shadow_coord = (frameData.shadow_mvp_xform_matrix[i] * in.model_position).xyz;
+
+        if (shadow_coord.x < 1.0 && shadow_coord.x > 0.0 && shadow_coord.y < 1.0 && shadow_coord.y > 0.0) {
+            shadow_uv = shadow_coord.xy;
+            shadow_depth = half(shadow_coord.z);
+            shadow_index = i;
+            break;
+        }
+    }
+
     constexpr sampler shadowSampler(coord::normalized,
                                     filter::linear,
                                     mip_filter::none,
@@ -114,7 +134,13 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
     // frame of reference.  If the sample is occluded, it will be zero.
     half shadow_sample = 1.0;
 
-    shadow_sample = shadowMap.sample_compare(shadowSampler, in.shadow_uv, in.shadow_index, in.shadow_depth);
+    if (in.shadow_index == -1) {
+        shadow_sample = 0.0;
+    } else {
+        shadow_sample = 1.0;
+    }
+
+    shadow_sample = shadowMap.sample_compare(shadowSampler, shadow_uv, shadow_index, shadow_depth);
 
     // Store shadow with albedo in unused fourth channel
     gBuffer.albedo_specular = half4(base_color_sample.xyz, specular_contrib);
