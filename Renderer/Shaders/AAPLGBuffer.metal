@@ -30,9 +30,6 @@ struct ColorInOut
 {
     float4 position [[position]];
     float2 tex_coord;
-    float2 shadow_uv;
-    half   shadow_depth;
-    int   shadow_index;
     float3 eye_position;
     half3  tangent;
     half3  bitangent;
@@ -60,18 +57,6 @@ vertex ColorInOut gbuffer_vertex(DescriptorDefinedVertex in    [[ stage_in ]],
 
     out.model_position = model_position;
 
-    out.shadow_index = -1;
-
-    for (int i = 0; i < 1; i++) {
-        float3 shadow_coord = (frameData.shadow_mvp_xform_matrix[i] * model_position).xyz;
-
-        if (shadow_coord.x < 1.0 && shadow_coord.x > 0.0 && shadow_coord.y < 1.0 && shadow_coord.y > 0.0) {
-            out.shadow_uv = shadow_coord.xy;
-            out.shadow_depth = half(shadow_coord.z);
-            out.shadow_index = i;
-            break;
-        }
-    }
     // Calculate tangent, bitangent and normal in eye's space
     out.tangent = normalize(normalMatrix * in.tangent);
     out.bitangent = -normalize(normalMatrix * in.bitangent);
@@ -109,9 +94,9 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
 
     // fragment shadowing
 
-    float2 shadow_uv;
-    float shadow_depth;
-    int shadow_index;
+    float2 shadow_uv = vector_float2(0, 0);
+    float shadow_depth = 0;
+    int shadow_index = -1;
 
     for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
         float3 shadow_coord = (frameData.shadow_mvp_xform_matrix[i] * in.model_position).xyz;
@@ -134,13 +119,9 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
     // frame of reference.  If the sample is occluded, it will be zero.
     half shadow_sample = 1.0;
 
-    if (in.shadow_index == -1) {
-        shadow_sample = 0.0;
-    } else {
-        shadow_sample = 1.0;
+    if (shadow_index > -1) {
+        shadow_sample = shadowMap.sample_compare(shadowSampler, shadow_uv, shadow_index, shadow_depth);
     }
-
-    shadow_sample = shadowMap.sample_compare(shadowSampler, shadow_uv, shadow_index, shadow_depth);
 
     // Store shadow with albedo in unused fourth channel
     gBuffer.albedo_specular = half4(base_color_sample.xyz, specular_contrib);
