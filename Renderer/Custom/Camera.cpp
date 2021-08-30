@@ -38,6 +38,8 @@ void Camera::updateEye()
     m_forward = normalize(m_center - m_eye);
     m_tangent = normalize(cross(m_forward, vector3(0.0f, 1.0f, 0.0f)));
     m_up = cross(m_tangent, m_forward);
+
+    m_fov = 65.0f * (M_PI / 180.0f);
 }
 
 void Camera::rotateYawBy(float delta)
@@ -71,4 +73,29 @@ void Camera::changeDistanceBy(float delta)
 {
     m_distance += delta;
     updateEye();
+}
+
+void Camera::setFov(float fov)
+{
+    m_fov = fov;
+}
+
+void Camera::setAspect(float aspect)
+{
+    m_aspect = aspect;
+}
+
+void Camera::setNear(float near)
+{
+    m_near = near;
+}
+
+void Camera::setFar(float far)
+{
+    m_far = far;
+}
+
+float4x4 Camera::projMatrix()
+{
+    return matrix_perspective_left_hand(m_fov, m_aspect, m_near, m_far);
 }

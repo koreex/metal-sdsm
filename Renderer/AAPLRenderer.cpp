@@ -35,6 +35,8 @@ Renderer::Renderer(MTK::View & view)
 
     this->m_inFlightSemaphore = dispatch_semaphore_create(MaxFramesInFlight);
     this->m_camera = new Camera();
+    this->m_camera->setNear(NearPlane);
+    this->m_camera->setFar(FarPlane);
 }
 
 
@@ -312,6 +314,12 @@ void Renderer::loadMetal()
             m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, -23, -33, 53, -53, 53);
             m_shadowProjectionMatrix[1] = matrix_ortho_left_hand(-23, 13, -33, 53, -53, 53);
             m_shadowProjectionMatrix[2] = matrix_ortho_left_hand(-13, 53, -33, 53, -53, 53);
+
+            float cascadeEnd[CASCADED_SHADOW_COUNT + 1];
+            cascadeEnd[0] = NearPlane;
+            cascadeEnd[1] = 20;
+            cascadeEnd[2] = 70;
+            cascadeEnd[3] = FarPlane;
         }
     }
 
@@ -399,8 +407,8 @@ void Renderer::updateWorldState()
     FrameData *frameData = (FrameData *) (m_uniformBuffers[m_frameDataBufferIndex].contents());
 
     // Set projection matrix and calculate inverted projection matrix
-    frameData->projection_matrix = m_projection_matrix;
-    frameData->projection_matrix_inverse = matrix_invert(m_projection_matrix);
+    frameData->projection_matrix = this->m_camera->projMatrix();
+    frameData->projection_matrix_inverse = matrix_invert(this->m_camera->projMatrix());
 
     // Set screen dimensions
     frameData->framebuffer_width = (uint)m_albedo_specular_GBuffer.width();
@@ -485,7 +493,8 @@ void Renderer::drawableSizeWillChange(MTL::Size size, MTL::StorageMode GBufferSt
     // When reshape is called, update the aspect ratio and projection matrix since the view
     //   orientation or size has changed
     float aspect = (float)size.width / (float)size.height;
-    m_projection_matrix = matrix_perspective_left_hand(65.0f * (M_PI / 180.0f), aspect, NearPlane, FarPlane);
+    this->m_camera->setAspect(aspect);
+//    m_projection_matrix = matrix_perspective_left_hand(65.0f * (M_PI / 180.0f), aspect, NearPlane, FarPlane);
 
     MTL::TextureDescriptor GBufferTextureDesc;
 

@@ -20,10 +20,15 @@ public:
     explicit Camera();
 
     float4x4 viewMatrix();
+    float4x4 projMatrix();
     void rotateYawBy(float delta);
     void rotatePitchBy(float delta);
     void moveCenterBy(float deltaX, float deltaY, float deltaZ);
     void changeDistanceBy(float delta);
+    void setFov(float fov);
+    void setAspect(float aspect);
+    void setNear(float near);
+    void setFar(float far);
 
 private:
 
@@ -35,6 +40,11 @@ private:
     float m_distance;
     float m_pitch;
     float m_yaw;
+
+    float m_fov;
+    float m_aspect;
+    float m_near;
+    float m_far;
 
     void updateEye();
 };
