@@ -311,15 +311,11 @@ void Renderer::loadMetal()
         // Calculate projection matrix to render shadows
         {
 //            m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, 53, -33, 53, -53, 53);
-            m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, -23, -33, 53, -53, 53);
-            m_shadowProjectionMatrix[1] = matrix_ortho_left_hand(-23, 13, -33, 53, -53, 53);
-            m_shadowProjectionMatrix[2] = matrix_ortho_left_hand(-13, 53, -33, 53, -53, 53);
+//            m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, -23, -33, 53, -53, 53);
+//            m_shadowProjectionMatrix[1] = matrix_ortho_left_hand(-23, 13, -33, 53, -53, 53);
+//            m_shadowProjectionMatrix[2] = matrix_ortho_left_hand(-13, 53, -33, 53, -53, 53);
 
-            float cascadeEnd[CASCADED_SHADOW_COUNT + 1];
-            cascadeEnd[0] = NearPlane;
-            cascadeEnd[1] = 20;
-            cascadeEnd[2] = 70;
-            cascadeEnd[3] = FarPlane;
+
         }
     }
 
@@ -466,6 +462,8 @@ void Renderer::updateWorldState()
                                                                     (float3){0,0,0},
                                                                     directionalLightUpVector.xyz);
 
+        m_shadowViewMatrix = shadowViewMatrix;
+
         float4x4 shadowModelViewMatrix = shadowViewMatrix * templeModelMatrix;
 
         for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
@@ -483,6 +481,58 @@ void Renderer::updateWorldState()
 
         for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
             frameData->shadow_mvp_xform_matrix[i] = shadowTransform * frameData->shadow_mvp_matrix[i];
+        }
+
+        float cascadeEnd[CASCADED_SHADOW_COUNT + 1];
+        cascadeEnd[0] = NearPlane;
+        cascadeEnd[1] = 20;
+        cascadeEnd[2] = 90;
+        cascadeEnd[3] = FarPlane;
+
+        float ar = this->m_camera->aspect();
+        float tanHalfHFov = tanf(this->m_camera->fov() / 2);
+        float tanHalfVFov = tanf(this->m_camera->fov() * ar / 2);
+
+        for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
+            float xn = cascadeEnd[i] * tanHalfHFov;
+            float xf = cascadeEnd[i + 1] * tanHalfHFov;
+            float yn = cascadeEnd[i] * tanHalfVFov;
+            float yf = cascadeEnd[i + 1] * tanHalfVFov;
+
+            float4 frustumCorners[8] = {
+                vector4(xn, yn, cascadeEnd[i], 1.0f),
+                vector4(-xn, yn, cascadeEnd[i], 1.0f),
+                vector4(xn, -yn, cascadeEnd[i], 1.0f),
+                vector4(-xn, -yn, cascadeEnd[i], 1.0f),
+
+                vector4(xf, yf, cascadeEnd[i + 1], 1.0f),
+                vector4(-xf, yf, cascadeEnd[i + 1], 1.0f),
+                vector4(xf, -yf, cascadeEnd[i + 1], 1.0f),
+                vector4(-xf, -yf, cascadeEnd[i + 1], 1.0f),
+            };
+
+            float4 frustumCornersL[8];
+
+            float minX = std::numeric_limits<float>::max();
+            float maxX = std::numeric_limits<float>::min();
+            float minY = std::numeric_limits<float>::max();
+            float maxY = std::numeric_limits<float>::min();
+            float minZ = std::numeric_limits<float>::max();
+            float maxZ = std::numeric_limits<float>::min();
+
+            for (uint j = 0; j < 8; j++) {
+                float4 vW = matrix_invert(this->m_camera->viewMatrix()) * frustumCorners[j];
+                frustumCornersL[j] = m_shadowViewMatrix * vW;
+
+                minX = min(minX, frustumCornersL[j].x);
+                maxX = max(maxX, frustumCornersL[j].x);
+                minY = min(minY, frustumCornersL[j].y);
+                maxY = max(maxY, frustumCornersL[j].y);
+                minZ = min(minZ, frustumCornersL[j].z);
+                maxZ = max(maxZ, frustumCornersL[j].z);
+            }
+
+            m_shadowProjectionMatrix[i] = matrix_ortho_left_hand(minX, maxX, minY, maxY, minZ, maxZ);
         }
     }
 }

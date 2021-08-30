@@ -99,3 +99,13 @@ float4x4 Camera::projMatrix()
 {
     return matrix_perspective_left_hand(m_fov, m_aspect, m_near, m_far);
 }
+
+float Camera::aspect()
+{
+    return m_aspect;
+}
+
+float Camera::fov()
+{
+    return m_fov;
+}

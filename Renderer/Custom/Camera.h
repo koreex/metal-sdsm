@@ -29,6 +29,8 @@ public:
     void setAspect(float aspect);
     void setNear(float near);
     void setFar(float far);
+    float aspect();
+    float fov();
 
 private:
 

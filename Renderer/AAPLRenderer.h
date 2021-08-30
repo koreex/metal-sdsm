@@ -230,6 +230,8 @@ private:
 
     Camera *m_camera;
 
+    float4x4 m_shadowViewMatrix;
+
     void populateLights();
 
 #if SUPPORT_BUFFER_EXAMINATION
