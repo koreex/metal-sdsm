@@ -487,12 +487,12 @@ void Renderer::updateWorldState()
         float cascadeEnd[CASCADED_SHADOW_COUNT + 1];
         cascadeEnd[0] = NearPlane;
         cascadeEnd[1] = 20;
-        cascadeEnd[2] = 90;
+        cascadeEnd[2] = 40;
         cascadeEnd[3] = FarPlane;
 
         float ar = this->m_camera->aspect();
         float tanHalfHFov = tanf(this->m_camera->fov() / 2);
-        float tanHalfVFov = tanf(this->m_camera->fov() * ar / 2);
+        float tanHalfVFov = tanf(this->m_camera->fov() / ar / 2);
 
         for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
             float xn = cascadeEnd[i] * tanHalfHFov;
