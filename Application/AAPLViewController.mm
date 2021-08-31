@@ -228,6 +228,7 @@ Implementation of the cross-platform view controller
         unichar key = [characters characterAtIndex:k];
 
         // When space pressed, toggle buffer examination mode
+
         switch(key)
         {
             // Pause/Un-pause with spacebar
