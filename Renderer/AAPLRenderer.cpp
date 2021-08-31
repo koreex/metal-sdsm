@@ -37,6 +37,7 @@ Renderer::Renderer(MTK::View & view)
     this->m_camera = new Camera();
     this->m_camera->setNear(NearPlane);
     this->m_camera->setFar(FarPlane);
+    this->m_lightAngle = 0.0f;
 }
 
 
@@ -432,10 +433,10 @@ void Renderer::updateWorldState()
     frameData->temple_modelview_matrix = frameData->view_matrix * templeModelMatrix;
     frameData->temple_normal_matrix = matrix3x3_upper_left(frameData->temple_model_matrix);
 
-    float skyRotation = m_frameNumber * 0.005f - (M_PI_4*3);
+//    float skyRotation = m_frameNumber * 0.005f - (M_PI_4*3);
 
     float3 skyRotationAxis = {0, 1, 0};
-    float4x4 skyModelMatrix = matrix4x4_rotation(skyRotation, skyRotationAxis);
+    float4x4 skyModelMatrix = matrix4x4_rotation(m_lightAngle, skyRotationAxis);
     frameData->sky_modelview_matrix = skyModelMatrix;
 
     // Update directional light color
@@ -832,4 +833,9 @@ MTL::Library Renderer::makeShaderLibrary()
 Camera* Renderer::camera()
 {
     return m_camera;
+}
+
+void Renderer::changeLightAngleBy(float delta)
+{
+    m_lightAngle += delta;
 }

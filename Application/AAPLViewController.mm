@@ -278,6 +278,13 @@ Implementation of the cross-platform view controller
                 _bufferExaminationManager->mode( ExaminationModeDisabled );
                 break;
 #endif // SUPPORT_BUFFER_EXAMINATION
+            case 'a':
+                _renderer->changeLightAngleBy(0.03);
+                break;
+            case 'd':
+                _renderer->changeLightAngleBy(-0.03);
+                break;
+
         }
 
     }

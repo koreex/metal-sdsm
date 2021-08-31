@@ -80,6 +80,8 @@ public:
 
     Camera* camera();
 
+    void changeLightAngleBy(float delta);
+
 #endif
 
 protected:
@@ -231,6 +233,9 @@ private:
     Camera *m_camera;
 
     float4x4 m_shadowViewMatrix;
+
+    float m_lightAngle;
+
 
     void populateLights();
 
