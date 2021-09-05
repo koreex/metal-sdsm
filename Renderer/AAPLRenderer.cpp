@@ -314,7 +314,7 @@ void Renderer::loadMetal()
 //            m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, 53, -33, 53, -53, 53);
 //            m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, -23, -33, 53, -53, 53);
 //            m_shadowProjectionMatrix[1] = matrix_ortho_left_hand(-23, 13, -33, 53, -53, 53);
-//            m_shadowProjectionMatrix[2] = matrix_ortho_left_hand(-13, 53, -33, 53, -53, 53);
+//            m_shadowProjectionMatrix[2] = matrix_ortho_left_hand(13, 53, -33, 53, -53, 53);
 
 
         }
@@ -463,36 +463,19 @@ void Renderer::updateWorldState()
                                                                     (float3){0,0,0},
                                                                     directionalLightUpVector.xyz);
 
-        m_shadowViewMatrix = shadowViewMatrix;
-
         float4x4 shadowModelViewMatrix = shadowViewMatrix * templeModelMatrix;
-
-        for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
-            frameData->shadow_mvp_matrix[i] = m_shadowProjectionMatrix[i] * shadowModelViewMatrix;
-        }
-    }
-
-    {
-        // When calculating texture coordinates to sample from shadow map, flip the y/t coordinate and
-        // convert from the [-1, 1] range of clip coordinates to [0, 1] range of
-        // used for texture sampling
-        float4x4 shadowScale = matrix4x4_scale(0.5f, -0.5f, 1.0);
-        float4x4 shadowTranslate = matrix4x4_translation(0.5, 0.5, 0);
-        float4x4 shadowTransform = shadowTranslate * shadowScale;
-
-        for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
-            frameData->shadow_mvp_xform_matrix[i] = shadowTransform * frameData->shadow_mvp_matrix[i];
-        }
 
         float cascadeEnd[CASCADED_SHADOW_COUNT + 1];
         cascadeEnd[0] = NearPlane;
-        cascadeEnd[1] = 20;
-        cascadeEnd[2] = 40;
+        cascadeEnd[1] = 40;
+        cascadeEnd[2] = 60;
         cascadeEnd[3] = FarPlane;
 
         float ar = this->m_camera->aspect();
         float tanHalfHFov = tanf(this->m_camera->fov() / 2);
         float tanHalfVFov = tanf(this->m_camera->fov() / ar / 2);
+
+        printf(">>> new frame\n");
 
         for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
             float xn = cascadeEnd[i] * tanHalfHFov;
@@ -514,16 +497,16 @@ void Renderer::updateWorldState()
 
             float4 frustumCornersL[8];
 
-            float minX = std::numeric_limits<float>::max();
-            float maxX = std::numeric_limits<float>::min();
-            float minY = std::numeric_limits<float>::max();
-            float maxY = std::numeric_limits<float>::min();
-            float minZ = std::numeric_limits<float>::max();
-            float maxZ = std::numeric_limits<float>::min();
+            float minX = 1000;
+            float maxX = -1000;
+            float minY = 1000;
+            float maxY = -1000;
+            float minZ = 1000;
+            float maxZ = -1000;
 
             for (uint j = 0; j < 8; j++) {
                 float4 vW = matrix_invert(this->m_camera->viewMatrix()) * frustumCorners[j];
-                frustumCornersL[j] = m_shadowViewMatrix * vW;
+                frustumCornersL[j] = shadowViewMatrix * vW;
 
                 minX = min(minX, frustumCornersL[j].x);
                 maxX = max(maxX, frustumCornersL[j].x);
@@ -534,6 +517,22 @@ void Renderer::updateWorldState()
             }
 
             m_shadowProjectionMatrix[i] = matrix_ortho_left_hand(minX, maxX, minY, maxY, minZ, maxZ);
+            printf(">>> x: %f, %f, y: %f, %f, z: %f, %f\n", minX, maxX, minY, maxY, minZ, maxZ);
+        }
+
+        for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
+            frameData->shadow_mvp_matrix[i] = m_shadowProjectionMatrix[i] * shadowModelViewMatrix;
+        }
+
+        // When calculating texture coordinates to sample from shadow map, flip the y/t coordinate and
+        // convert from the [-1, 1] range of clip coordinates to [0, 1] range of
+        // used for texture sampling
+        float4x4 shadowScale = matrix4x4_scale(0.5f, -0.5f, 1.0);
+        float4x4 shadowTranslate = matrix4x4_translation(0.5, 0.5, 0);
+        float4x4 shadowTransform = shadowTranslate * shadowScale;
+
+        for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
+            frameData->shadow_mvp_xform_matrix[i] = shadowTransform * frameData->shadow_mvp_matrix[i];
         }
     }
 }

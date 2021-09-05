@@ -98,10 +98,16 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
     float shadow_depth = 0;
     int shadow_index = -1;
 
+    float cascadeEnd[CASCADED_SHADOW_COUNT + 1];
+    cascadeEnd[0] = 0.1;
+    cascadeEnd[1] = 40;
+    cascadeEnd[2] = 60;
+    cascadeEnd[3] = 150;
+
     for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
         float3 shadow_coord = (frameData.shadow_mvp_xform_matrix[i] * in.model_position).xyz;
 
-        if (shadow_coord.x < 1.0 && shadow_coord.x > 0.0 && shadow_coord.y < 1.0 && shadow_coord.y > 0.0) {
+        if (shadow_coord.x < 1.0 && shadow_coord.x > 0.0 && shadow_coord.y < 1.0 && shadow_coord.y > 0.0 && in.eye_position.z < cascadeEnd[i + 1] && in.eye_position.z > cascadeEnd[i]) {
             shadow_uv = shadow_coord.xy;
             shadow_depth = half(shadow_coord.z);
             shadow_index = i;
@@ -137,4 +143,3 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
 
     return gBuffer;
 }
-
