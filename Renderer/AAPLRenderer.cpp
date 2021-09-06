@@ -516,7 +516,7 @@ void Renderer::updateWorldState()
                 maxZ = max(maxZ, frustumCornersL[j].z);
             }
 
-            m_shadowProjectionMatrix[i] = matrix_ortho_left_hand(minX, maxX, minY, maxY, minZ, maxZ);
+            m_shadowProjectionMatrix[i] = matrix_ortho_left_hand(minX, maxX, minY, maxY, -100, maxZ);
             printf(">>> x: %f, %f, y: %f, %f, z: %f, %f\n", minX, maxX, minY, maxY, minZ, maxZ);
         }
 
