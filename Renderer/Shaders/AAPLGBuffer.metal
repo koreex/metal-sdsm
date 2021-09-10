@@ -65,6 +65,12 @@ vertex ColorInOut gbuffer_vertex(DescriptorDefinedVertex in    [[ stage_in ]],
     return out;
 }
 
+constant half4 CASCADE_RANGE_COLORS[CASCADED_SHADOW_COUNT] = {
+    vector_half4(0.2, 0, 0, 0),
+    vector_half4(0, 0.2, 0, 0),
+    vector_half4(0, 0, 0.2, 0)
+};
+
 fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ stage_in ]],
                                       constant FrameData & frameData    [[ buffer(BufferIndexFrameData) ]],
                                       texture2d<half>          baseColorMap [[ texture(TextureIndexBaseColor) ]],
@@ -99,15 +105,10 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
     int shadow_index = -1;
 
     half4 cascadeRangeColor = vector_half4(0, 0, 0, 0);
-    half4 cascadeRangeColors[CASCADED_SHADOW_COUNT] = {
-        vector_half4(0.2, 0, 0, 0),
-        vector_half4(0, 0.2, 0, 0),
-        vector_half4(0, 0, 0.2, 0)
-    };
 
     for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
         if (in.eye_position.z >= frameData.cascadeEnds[i] && in.eye_position.z < frameData.cascadeEnds[i + 1]) {
-            cascadeRangeColor = cascadeRangeColors[i];
+            cascadeRangeColor = CASCADE_RANGE_COLORS[i];
         }
 
         float3 shadow_coord = (frameData.shadow_mvp_xform_matrix[i] * in.model_position).xyz;
