@@ -466,11 +466,11 @@ void Renderer::updateWorldState()
 
         float4x4 shadowModelViewMatrix = shadowViewMatrix * templeModelMatrix;
 
-        float cascadeEnd[CASCADED_SHADOW_COUNT + 1];
-        cascadeEnd[0] = NearPlane;
-        cascadeEnd[1] = 40;
-        cascadeEnd[2] = 60;
-        cascadeEnd[3] = FarPlane;
+        float cascadeEnds[CASCADED_SHADOW_COUNT + 1];
+        cascadeEnds[0] = NearPlane;
+        cascadeEnds[1] = 40;
+        cascadeEnds[2] = 60;
+        cascadeEnds[3] = FarPlane;
 
         float ar = this->m_camera->aspect();
         float tanHalfHFov = tanf(this->m_camera->fov() / 2);
@@ -479,21 +479,21 @@ void Renderer::updateWorldState()
         printf(">>> new frame\n");
 
         for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
-            float xn = cascadeEnd[i] * tanHalfHFov;
-            float xf = cascadeEnd[i + 1] * tanHalfHFov;
-            float yn = cascadeEnd[i] * tanHalfVFov;
-            float yf = cascadeEnd[i + 1] * tanHalfVFov;
+            float xn = cascadeEnds[i] * tanHalfHFov;
+            float xf = cascadeEnds[i + 1] * tanHalfHFov;
+            float yn = cascadeEnds[i] * tanHalfVFov;
+            float yf = cascadeEnds[i + 1] * tanHalfVFov;
 
             float4 frustumCorners[8] = {
-                vector4(xn, yn, cascadeEnd[i], 1.0f),
-                vector4(-xn, yn, cascadeEnd[i], 1.0f),
-                vector4(xn, -yn, cascadeEnd[i], 1.0f),
-                vector4(-xn, -yn, cascadeEnd[i], 1.0f),
+                vector4(xn, yn, cascadeEnds[i], 1.0f),
+                vector4(-xn, yn, cascadeEnds[i], 1.0f),
+                vector4(xn, -yn, cascadeEnds[i], 1.0f),
+                vector4(-xn, -yn, cascadeEnds[i], 1.0f),
 
-                vector4(xf, yf, cascadeEnd[i + 1], 1.0f),
-                vector4(-xf, yf, cascadeEnd[i + 1], 1.0f),
-                vector4(xf, -yf, cascadeEnd[i + 1], 1.0f),
-                vector4(-xf, -yf, cascadeEnd[i + 1], 1.0f),
+                vector4(xf, yf, cascadeEnds[i + 1], 1.0f),
+                vector4(-xf, yf, cascadeEnds[i + 1], 1.0f),
+                vector4(xf, -yf, cascadeEnds[i + 1], 1.0f),
+                vector4(-xf, -yf, cascadeEnds[i + 1], 1.0f),
             };
 
             float4 frustumCornersL[8];
