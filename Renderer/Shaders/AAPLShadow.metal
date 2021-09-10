@@ -16,7 +16,7 @@ struct ShadowOutput
 vertex ShadowOutput shadow_vertex(const device ShadowVertex *positions [[ buffer(BufferIndexMeshPositions) ]],
                                   constant     FrameData    &frameData [[ buffer(BufferIndexFrameData) ]],
                                   uint                             vid [[ vertex_id ]],
-                                  const device int          *shadowIndex [[ buffer(10) ]])
+                                  const device int          *shadowIndex [[ buffer(BufferIndexCascadeIndex) ]])
 {
     ShadowOutput out;
 

@@ -28,6 +28,7 @@ typedef enum BufferIndex
     BufferIndexFrameData         = 2,
     BufferIndexLightsData        = 3,
     BufferIndexLightsPosition    = 4,
+    BufferIndexCascadeIndex      = 5,
 
 #if SUPPORT_BUFFER_EXAMINATION 
     BufferIndexFlatColor         = 0,

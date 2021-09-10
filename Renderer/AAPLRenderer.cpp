@@ -750,7 +750,7 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
         encoder.setDepthBias( 0.015, 7, 0.02 );
 
         encoder.setVertexBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
-        encoder.setVertexBuffer(m_cascadeIndexBuffers[i], 0, 10);
+        encoder.setVertexBuffer(m_cascadeIndexBuffers[i], 0, BufferIndexCascadeIndex);
 
         drawMeshes( encoder );
 
