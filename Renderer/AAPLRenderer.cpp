@@ -453,6 +453,7 @@ void Renderer::updateWorldState()
     float4 sunWorldDirection = -sunWorldPosition;
 
     frameData->sun_eye_direction = view_matrix * sunWorldDirection;
+    frameData->sun_world_direction = sunWorldDirection;
 
     {
         float4 directionalLightUpVector = {0.0, 1.0, 1.0, 1.0};

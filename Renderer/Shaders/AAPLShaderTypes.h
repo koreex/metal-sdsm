@@ -97,6 +97,7 @@ struct FrameData
     float cascadeEnds[CASCADED_SHADOW_COUNT + 1];
 
     simd::float4 sun_eye_direction;
+    simd::float4 sun_world_direction;
     simd::float4 sun_color;
     float sun_specular_intensity;
 };
