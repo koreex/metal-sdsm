@@ -503,12 +503,14 @@ void Renderer::updateWorldState()
 
             float4 frustumCornersL[8];
 
-            float minX = 1000;
-            float maxX = -1000;
-            float minY = 1000;
-            float maxY = -1000;
-            float minZ = 1000;
-            float maxZ = -1000;
+            float numericLimit = 1.0e10;
+
+            float minX = numericLimit;
+            float maxX = -numericLimit;
+            float minY = numericLimit;
+            float maxY = -numericLimit;
+            float minZ = numericLimit;
+            float maxZ = -numericLimit;
 
             for (uint j = 0; j < 8; j++) {
                 float4 vW = matrix_invert(this->m_camera->viewMatrix()) * frustumCorners[j];
