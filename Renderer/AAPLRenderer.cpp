@@ -732,15 +732,7 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
     for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
         m_shadowRenderPassDescriptor.depthAttachment.slice(i);
 
-        FrameData *frameData = (FrameData *) (m_uniformBuffers[m_frameDataBufferIndex].contents());
-        frameData->shadow_index = i;
-
         MTL::RenderCommandEncoder encoder = commandBuffer.renderCommandEncoderWithDescriptor(m_shadowRenderPassDescriptor);
-
-//        static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
-//        MTL::Buffer cascadeIndexBuffer = m_device.makeBuffer(sizeof(int), storageMode);
-//        int *index = (int*) cascadeIndexBuffer.contents();
-//        *index = i;
 
         encoder.label( "Shadow Map Pass");
 
