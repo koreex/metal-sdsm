@@ -94,6 +94,7 @@ struct FrameData
     simd::float4x4 sky_modelview_matrix;
     simd::float4x4 shadow_mvp_matrix[CASCADED_SHADOW_COUNT];
     simd::float4x4 shadow_mvp_xform_matrix[CASCADED_SHADOW_COUNT];
+    float cascadeEnds[CASCADED_SHADOW_COUNT + 1];
 
     simd::float4 sun_eye_direction;
     simd::float4 sun_color;

@@ -467,16 +467,21 @@ void Renderer::updateWorldState()
         float4x4 shadowModelViewMatrix = shadowViewMatrix * templeModelMatrix;
 
         float cascadeEnds[CASCADED_SHADOW_COUNT + 1];
+
         cascadeEnds[0] = NearPlane;
         cascadeEnds[1] = 40;
         cascadeEnds[2] = 60;
         cascadeEnds[3] = FarPlane;
 
+        FrameData *frameData = (FrameData *) (m_uniformBuffers[m_frameDataBufferIndex].contents());
+
+        for (uint i = 0; i < CASCADED_SHADOW_COUNT + 1; i++) {
+            frameData->cascadeEnds[i] = cascadeEnds[i];
+        }
+
         float ar = this->m_camera->aspect();
         float tanHalfHFov = tanf(this->m_camera->fov() / 2);
         float tanHalfVFov = tanf(this->m_camera->fov() / ar / 2);
-
-        printf(">>> new frame\n");
 
         for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
             float xn = cascadeEnds[i] * tanHalfHFov;
