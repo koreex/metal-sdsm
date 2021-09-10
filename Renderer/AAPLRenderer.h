@@ -236,6 +236,8 @@ private:
 
     float m_lightAngle;
 
+    MTL::Buffer m_cascadeIndexBuffers[CASCADED_SHADOW_COUNT];
+
 
     void populateLights();
 

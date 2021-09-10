@@ -32,7 +32,6 @@ Renderer::Renderer(MTK::View & view)
 , m_bufferExaminationManager(nullptr)
 #endif
 {
-
     this->m_inFlightSemaphore = dispatch_semaphore_create(MaxFramesInFlight);
     this->m_camera = new Camera();
     this->m_camera->setNear(NearPlane);
@@ -290,8 +289,8 @@ void Renderer::loadMetal()
             shadowTextureDesc.textureType(MTL::TextureType2DArray);
             shadowTextureDesc.arrayLength(CASCADED_SHADOW_COUNT);
             shadowTextureDesc.pixelFormat( shadowMapPixelFormat );
-            shadowTextureDesc.width( 2048 );
-            shadowTextureDesc.height( 2048 );
+            shadowTextureDesc.width( 512 );
+            shadowTextureDesc.height( 512 );
             shadowTextureDesc.mipmapLevelCount( 1 );
             shadowTextureDesc.resourceOptions( MTL::ResourceStorageModePrivate );
             shadowTextureDesc.usage( MTL::TextureUsageRenderTarget | MTL::TextureUsageShaderRead );
@@ -309,15 +308,22 @@ void Renderer::loadMetal()
             m_shadowRenderPassDescriptor.depthAttachment.slice(0);
         }
 
-        // Calculate projection matrix to render shadows
+        // Create buffers for cascade index
         {
 //            m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, 53, -33, 53, -53, 53);
 //            m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, -23, -33, 53, -53, 53);
 //            m_shadowProjectionMatrix[1] = matrix_ortho_left_hand(-23, 13, -33, 53, -53, 53);
 //            m_shadowProjectionMatrix[2] = matrix_ortho_left_hand(13, 53, -33, 53, -53, 53);
 
-
+            for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
+                static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
+                m_cascadeIndexBuffers[i] = m_device.makeBuffer(sizeof(int), storageMode);
+                int *index = (int*) m_cascadeIndexBuffers[i].contents();
+                *index = i;
+            }
         }
+
+
     }
 
     m_commandQueue = m_device.makeCommandQueue();
@@ -738,21 +744,20 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
 
         MTL::RenderCommandEncoder encoder = commandBuffer.renderCommandEncoderWithDescriptor(m_shadowRenderPassDescriptor);
 
-        static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
-        MTL::Buffer cascadeIndexBuffer = m_device.makeBuffer(sizeof(int), storageMode);
-        int *index = (int*) cascadeIndexBuffer.contents();
-        *index = i;
+//        static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
+//        MTL::Buffer cascadeIndexBuffer = m_device.makeBuffer(sizeof(int), storageMode);
+//        int *index = (int*) cascadeIndexBuffer.contents();
+//        *index = i;
 
         encoder.label( "Shadow Map Pass");
 
         encoder.setRenderPipelineState( m_shadowGenPipelineState );
         encoder.setDepthStencilState( m_shadowDepthStencilState );
         encoder.setCullMode( MTL::CullModeBack );
-//        encoder.setDepthBias( 0.015, 7, 0.02 );
         encoder.setDepthBias( 0.015, 7, 0.02 );
 
         encoder.setVertexBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
-        encoder.setVertexBuffer(cascadeIndexBuffer, 0, 10);
+        encoder.setVertexBuffer(m_cascadeIndexBuffers[i], 0, 10);
 
         drawMeshes( encoder );
 
