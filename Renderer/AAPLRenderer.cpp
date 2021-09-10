@@ -310,11 +310,6 @@ void Renderer::loadMetal()
 
         // Create buffers for cascade index
         {
-//            m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, 53, -33, 53, -53, 53);
-//            m_shadowProjectionMatrix[0] = matrix_ortho_left_hand(-53, -23, -33, 53, -53, 53);
-//            m_shadowProjectionMatrix[1] = matrix_ortho_left_hand(-23, 13, -33, 53, -53, 53);
-//            m_shadowProjectionMatrix[2] = matrix_ortho_left_hand(13, 53, -33, 53, -53, 53);
-
             for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
                 static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
                 m_cascadeIndexBuffers[i] = m_device.makeBuffer(sizeof(int), storageMode);
@@ -523,7 +518,6 @@ void Renderer::updateWorldState()
             }
 
             m_shadowProjectionMatrix[i] = matrix_ortho_left_hand(minX, maxX, minY, maxY, -100, maxZ);
-            printf(">>> x: %f, %f, y: %f, %f, z: %f, %f\n", minX, maxX, minY, maxY, minZ, maxZ);
         }
 
         for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
@@ -550,7 +544,6 @@ void Renderer::drawableSizeWillChange(MTL::Size size, MTL::StorageMode GBufferSt
     //   orientation or size has changed
     float aspect = (float)size.width / (float)size.height;
     this->m_camera->setAspect(aspect);
-//    m_projection_matrix = matrix_perspective_left_hand(65.0f * (M_PI / 180.0f), aspect, NearPlane, FarPlane);
 
     MTL::TextureDescriptor GBufferTextureDesc;
 
