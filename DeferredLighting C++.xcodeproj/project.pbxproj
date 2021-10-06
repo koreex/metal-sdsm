@@ -57,6 +57,7 @@
 		40E600FB24F08A8200938BD0 /* AAPLPointLights.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF8E92208061C800CC23CE /* AAPLPointLights.metal */; };
 		40E600FC24F08A8200938BD0 /* AAPLSkybox.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A55F9161F4B9E8F0075C1C2 /* AAPLSkybox.metal */; };
 		E356BC8326B0B87A007B6C9C /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E356BC8226B0B87A007B6C9C /* Camera.cpp */; };
+		E3A9DAF3270D8B580063A1A8 /* CPPMetalComputePipelineState.mm in Sources */ = {isa = PBXBuildFile; fileRef = E3A9DAF1270D8B580063A1A8 /* CPPMetalComputePipelineState.mm */; };
 		E3C8235D26BD814800E1D13E /* Custom.metal in Sources */ = {isa = PBXBuildFile; fileRef = E3C8235C26BD814800E1D13E /* Custom.metal */; };
 		E3C8235E26BD814800E1D13E /* Custom.metal in Sources */ = {isa = PBXBuildFile; fileRef = E3C8235C26BD814800E1D13E /* Custom.metal */; };
 /* End PBXBuildFile section */
@@ -191,6 +192,8 @@
 		C852A8941F61FF5800B6845E /* ModelIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ModelIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/System/Library/Frameworks/ModelIO.framework; sourceTree = DEVELOPER_DIR; };
 		E356BC8126B0B428007B6C9C /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		E356BC8226B0B87A007B6C9C /* Camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		E3A9DAF1270D8B580063A1A8 /* CPPMetalComputePipelineState.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CPPMetalComputePipelineState.mm; sourceTree = "<group>"; };
+		E3A9DAF2270D8B580063A1A8 /* CPPMetalComputePipelineState.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CPPMetalComputePipelineState.hpp; sourceTree = "<group>"; };
 		E3C8235C26BD814800E1D13E /* Custom.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Custom.metal; sourceTree = "<group>"; };
 		FE216ECC249575C100D1D620 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.4.Internal.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
 		FE216ECE249575C500D1D620 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.4.Internal.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -366,6 +369,7 @@
 				4081D48324834C3800A8E02F /* CPPMetalCommandBuffer.mm */,
 				4081D48524834EB200A8E02F /* CPPMetalCommandEncoder.mm */,
 				4081D4802482EEC700A8E02F /* CPPMetalCommandQueue.mm */,
+				E3A9DAF1270D8B580063A1A8 /* CPPMetalComputePipelineState.mm */,
 				40B2CC62248760AA0025FFA7 /* CPPMetalDepthStencil.mm */,
 				4081D4722482E2C800A8E02F /* CPPMetalDevice.mm */,
 				404CD77E24BECBC200720BFD /* CPPMetalDeviceInternals.mm */,
@@ -395,6 +399,7 @@
 				4081D47F2482E95B00A8E02F /* CPPMetalCommandBuffer.hpp */,
 				4081D47D2482E95000A8E02F /* CPPMetalCommandEncoder.hpp */,
 				4081D47E2482E95600A8E02F /* CPPMetalCommandQueue.hpp */,
+				E3A9DAF2270D8B580063A1A8 /* CPPMetalComputePipelineState.hpp */,
 				40B2CC612487609A0025FFA7 /* CPPMetalDepthStencil.hpp */,
 				4081D4682482E2B900A8E02F /* CPPMetalDevice.hpp */,
 				4081D46F2482E2BA00A8E02F /* CPPMetalDrawable.hpp */,
@@ -614,6 +619,7 @@
 				40228CAB2491A10200A2039D /* CPPMetalKitTextureLoader.mm in Sources */,
 				40768BAC2488B7E9002F23FA /* CPPMetalVertexDescriptor.mm in Sources */,
 				4081D4782482E2C800A8E02F /* CPPMetalDevice.mm in Sources */,
+				E3A9DAF3270D8B580063A1A8 /* CPPMetalComputePipelineState.mm in Sources */,
 				40B2CC2B2486C7C90025FFA7 /* CPPMetalBuffer.mm in Sources */,
 				4081D48624834EB200A8E02F /* CPPMetalCommandEncoder.mm in Sources */,
 				4081D5112485E26A00A8E02F /* CPPMetalRenderPass.mm in Sources */,
