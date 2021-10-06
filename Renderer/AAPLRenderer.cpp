@@ -318,6 +318,10 @@ void Renderer::loadMetal()
             }
         }
 
+        #pragma mark Compute pipeline setup
+        {
+            MTL::Function addArraysFunction = shaderLibrary.makeFunction("add_arrays");
+        }
 
     }
 
