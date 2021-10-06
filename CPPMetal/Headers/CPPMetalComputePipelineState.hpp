@@ -59,6 +59,12 @@ public: // Public methods for CPPMetal internal implementation
     CPPMetalInternal::ComputePipelineState objCObj() const;
 };
 
+//=======================================================
+#pragma mark - ComputePipelineState inline implementations
+
+    CPP_METAL_MOVE_CONSTRUCTOR_AND_OPERATOR_OVERLOAD_IMPLEMENTATION(ComputePipelineState);
+
+    CPP_METAL_OBJCOBJ_GETTER_IMPLEMENATATION(ComputePipelineState);
 }
 
 #endif /* CPPMetalComputePipelineState_hpp */

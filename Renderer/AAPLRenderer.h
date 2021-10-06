@@ -238,6 +238,11 @@ private:
 
     MTL::Buffer m_cascadeIndexBuffers[CASCADED_SHADOW_COUNT];
 
+    // Compute configuration
+    MTL::ComputePipelineState m_reduceComputePipelineState;
+    MTL::Buffer m_computeBufferA;
+    MTL::Buffer m_computeBufferB;
+    MTL::Buffer m_computeBufferResult;
 
     void populateLights();
 
