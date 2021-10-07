@@ -27,6 +27,8 @@ class Texture;
 class TextureDescriptor;
 class Buffer;
 class Library;
+class ComputePipelineState;
+class ComputePipelineDescriptor;
 class RenderPipelineState;
 class RenderPipelineDescriptor;
 class DepthStencilState;
@@ -55,6 +57,7 @@ typedef enum GPUFamily {
     GPUFamilyMacCatalyst2 = 4002,
 } GPUFamily;
 
+class Function;
 
 class Device
 {
@@ -88,6 +91,12 @@ public:
                                                               CFErrorRef *error = nullptr);
     RenderPipelineState makeRenderPipelineState(const RenderPipelineDescriptor & descriptor,
                                                 CFErrorRef *error = nullptr);
+
+    ComputePipelineState *newComputePipelineWithFunction(const Function &function,
+                                                         CFErrorRef *error = nullptr);
+
+    ComputePipelineState makeComputePipelineState(const Function & function,
+                                                  CFErrorRef *error = nullptr);
 
     DepthStencilState *newDepthStencilStateWithDescriptor(const DepthStencilDescriptor& descriptor);
     DepthStencilState makeDepthStencilState(const DepthStencilDescriptor& descriptor);

@@ -246,6 +246,47 @@ RenderPipelineState Device::makeRenderPipelineState(const RenderPipelineDescript
     return RenderPipelineState(objCObj, *this);
 }
 
+ComputePipelineState *Device::newComputePipelineWithFunction(const Function & function,
+                                                         CFErrorRef *error)
+{
+    CPP_METAL_VALIDATE_WRAPPED_NIL();
+
+    NSError *nserror;
+    const id<MTLComputePipelineState> objCObj = [m_objCObj newComputePipelineStateWithFunction:function.objCObj()
+                                                                                         error:&nserror];
+    if(!objCObj)
+    {
+        if(error)
+        {
+            *error = (__bridge CFErrorRef)nserror;
+        }
+        return nullptr;
+    }
+
+    ComputePipelineState *pipeline = construct<ComputePipelineState>(allocator(), objCObj, *this);
+
+    return pipeline;
+}
+
+ComputePipelineState Device::makeComputePipelineState(const Function & function,
+                                              CFErrorRef *error)
+{
+    CPP_METAL_VALIDATE_WRAPPED_NIL();
+
+    NSError *nserror;
+    const id<MTLComputePipelineState> objCObj = [m_objCObj newComputePipelineStateWithFunction:function.objCObj()
+                                                                                         error:&nserror];
+    if(!objCObj)
+    {
+        if(error)
+        {
+            *error = (__bridge CFErrorRef)nserror;
+        }
+    }
+
+    return ComputePipelineState(objCObj, *this);
+}
+
 DepthStencilState *Device::newDepthStencilStateWithDescriptor(const DepthStencilDescriptor & descriptor)
 {
     CPP_METAL_VALIDATE_WRAPPED_NIL();
