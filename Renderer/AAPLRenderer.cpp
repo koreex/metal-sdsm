@@ -323,11 +323,22 @@ void Renderer::loadMetal()
             MTL::Function addArrayFunction = shaderLibrary.makeFunction("add_arrays");
             m_reduceComputePipelineState = m_device.makeComputePipelineState(addArrayFunction);
 
+            int arrayLength = 100;
+
             static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
 
-            m_computeBufferA = m_device.makeBuffer(sizeof(float), storageMode);
-            m_computeBufferB = m_device.makeBuffer(sizeof(float), storageMode);
-            m_computeBufferResult = m_device.makeBuffer(sizeof(float), storageMode);
+            m_computeBufferA = m_device.makeBuffer(sizeof(float) * arrayLength, storageMode);
+            m_computeBufferB = m_device.makeBuffer(sizeof(float) * arrayLength, storageMode);
+            m_computeBufferResult = m_device.makeBuffer(sizeof(float) * arrayLength, storageMode);
+
+            for (unsigned long i = 0; i < arrayLength; i++)
+            {
+                float *dataPtrA = (float*) m_computeBufferA.contents();
+                float *dataPtrB = (float*) m_computeBufferB.contents();
+
+                dataPtrA[i] = i;
+                dataPtrB[i] = i * 2;
+            }
         }
 
     }
