@@ -320,7 +320,14 @@ void Renderer::loadMetal()
 
         #pragma mark Compute pipeline setup
         {
-            MTL::Function addArraysFunction = shaderLibrary.makeFunction("add_arrays");
+            MTL::Function addArrayFunction = shaderLibrary.makeFunction("add_arrays");
+            m_reduceComputePipelineState = m_device.makeComputePipelineState(addArrayFunction);
+
+            static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
+
+            m_computeBufferA = m_device.makeBuffer(sizeof(float), storageMode);
+            m_computeBufferB = m_device.makeBuffer(sizeof(float), storageMode);
+            m_computeBufferResult = m_device.makeBuffer(sizeof(float), storageMode);
         }
 
     }
