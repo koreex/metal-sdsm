@@ -6,7 +6,7 @@
 //  Copyright © 2021 Apple. All rights reserved.
 //
 
-#include "CPPMetalComputePipelineState.hpp"
+#include "CPPMetalComputePipeline.hpp"
 #include "CPPMetalLibrary.hpp"
 #include "CPPMetalDevice.hpp"
 #include "CPPMetalInternalMacros.h"

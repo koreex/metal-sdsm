@@ -18,6 +18,7 @@ using namespace CPPMetalInternal;
 DeviceInternals::DeviceInternals(Allocator *allocator)
 : m_allocator(allocator)
 , m_renderCommandEncoderCache(*allocator)
+, m_computeCommandEncoderCache(*allocator)
 {
 
 }

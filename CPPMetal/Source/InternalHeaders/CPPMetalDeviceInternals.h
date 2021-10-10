@@ -12,6 +12,7 @@ Header for internal class encapsulating dispatch tables and the allocator
 #include "CPPMetal.hpp"
 #include "CPPMetalAllocator.hpp"
 #include "CPPMetalRenderCommandEncoder_DispatchTable.hpp"
+#include "CPPMetalComputeCommandEncoder_DispatchTable.hpp"
 #include "CPPMetalDispatchTableCache.h"
 
 
@@ -31,12 +32,14 @@ public:
     Allocator & allocator();
 
     RenderCommandEncoderDispatchTable* getRenderCommandEncoderTable(id<MTLRenderCommandEncoder> objCObj);
+    ComputeCommandEncoderDispatchTable* getComputeCommandEncoderTable(id<MTLComputeCommandEncoder> objCObj);
 
 private:
 
     Allocator *m_allocator;
 
     CPPMetalInternal::DispatchTableCache<RenderCommandEncoderDispatchTable> m_renderCommandEncoderCache;
+    CPPMetalInternal::DispatchTableCache<ComputeCommandEncoderDispatchTable> m_computeCommandEncoderCache;
 
 };
 
@@ -51,6 +54,10 @@ inline RenderCommandEncoderDispatchTable* DeviceInternals::getRenderCommandEncod
     return m_renderCommandEncoderCache.getTable(objCObj);
 }
 
+inline ComputeCommandEncoderDispatchTable* DeviceInternals::getComputeCommandEncoderTable(id<MTLComputeCommandEncoder> objCObj)
+{
+    return m_computeCommandEncoderCache.getTable(objCObj);
+}
 
 } // namespace CPPMetalInternal
 
