@@ -39,4 +39,9 @@ bool ComputePipelineState::operator==(const ComputePipelineState & rhs) const
     return [m_objCObj isEqual:rhs.objCObj()];
 }
 
+unsigned long ComputePipelineState::maxTotalThreadsPerThreadgroup()
+{
+    return m_objCObj.maxTotalThreadsPerThreadgroup;
+}
+
 CPP_METAL_DEVICE_GETTER_IMPLEMENTATION(ComputePipelineState);

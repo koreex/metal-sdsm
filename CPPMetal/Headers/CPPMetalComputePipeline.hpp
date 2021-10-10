@@ -46,6 +46,8 @@ public:
 
     Device device() const;
 
+    unsigned long maxTotalThreadsPerThreadgroup();
+
 private:
 
     CPPMetalInternal::ComputePipelineState m_objCObj;

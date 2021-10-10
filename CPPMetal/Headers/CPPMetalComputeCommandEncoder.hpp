@@ -39,6 +39,9 @@ public:
     void setComputePipelineState(const ComputePipelineState & pipelineState);
 
     void setBuffer(const Buffer &buffer, UInteger offset, UInteger index);
+
+    void dispatchThreads(MTL::Size, MTL::Size);
+
 private:
 
     CPPMetalInternal::ComputeCommandEncoderDispatchTable *m_dispatch;

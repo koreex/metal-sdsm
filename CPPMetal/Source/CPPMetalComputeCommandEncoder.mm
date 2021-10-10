@@ -51,3 +51,10 @@ void ComputeCommandEncoder::setComputePipelineState(const ComputePipelineState &
 {
     [((id<MTLComputeCommandEncoder>)m_objCObj) setComputePipelineState:pipelineState.objCObj()];
 }
+
+void ComputeCommandEncoder::dispatchThreads(MTL::Size gridSize, MTL::Size threadgroupSize)
+{
+    [((id<MTLComputeCommandEncoder>)m_objCObj)
+        dispatchThreads: MTLSizeMake(gridSize.width, gridSize.height, gridSize.depth)
+        threadsPerThreadgroup: MTLSizeMake(threadgroupSize.width, threadgroupSize.height, threadgroupSize.depth)];
+}

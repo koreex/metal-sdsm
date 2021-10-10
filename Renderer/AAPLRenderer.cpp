@@ -790,6 +790,19 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
         computeEncoder.setBuffer(m_computeBufferB, 0, 1);
         computeEncoder.setBuffer(m_computeBufferResult, 0, 2);
 
+        int arrayLength = 100;
+
+        MTL::Size gridSize = MTL::SizeMake(arrayLength, 1, 1);
+        unsigned long threadGroupSize = m_reduceComputePipelineState.maxTotalThreadsPerThreadgroup();
+
+        if (threadGroupSize > arrayLength)
+        {
+            threadGroupSize = arrayLength;
+        }
+        MTL::Size threadgroupSize = MTL::SizeMake(threadGroupSize, 1, 1);
+
+        computeEncoder.dispatchThreads(gridSize, threadgroupSize);
+
         computeEncoder.endEncoding();
     }
 }
