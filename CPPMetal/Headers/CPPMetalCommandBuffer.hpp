@@ -21,6 +21,7 @@ namespace MTL
 class Device;
 class RenderPassDescriptor;
 class RenderCommandEncoder;
+class ComputeCommandEncoder;
 class Drawable;
 
 struct CommandBufferHandler
@@ -54,6 +55,7 @@ public:
     Device device() const;
 
     RenderCommandEncoder renderCommandEncoderWithDescriptor(const RenderPassDescriptor & descriptor) const;
+    ComputeCommandEncoder computeCommandEncoder() const;
 
     void commit();
 

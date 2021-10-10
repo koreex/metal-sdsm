@@ -7,6 +7,7 @@ Implementation of C++ Metal command buffer class wrapper
 
 #include "CPPMetalCommandBuffer.hpp"
 #include "CPPMetalRenderCommandEncoder.hpp"
+#include "CPPMetalComputeCommandEncoder.hpp"
 #include "CPPMetalInternalMacros.h"
 #include "CPPMetalRenderPass.hpp"
 #include "CPPMetalDevice.hpp"
@@ -47,6 +48,14 @@ RenderCommandEncoder CommandBuffer::renderCommandEncoderWithDescriptor(const Ren
 
     return RenderCommandEncoder(objCObj, *m_device);
 }
+
+ComputeCommandEncoder CommandBuffer::computeCommandEncoder() const
+{
+    const id<MTLComputeCommandEncoder> objCObj = [m_objCObj computeCommandEncoder];
+
+    return ComputeCommandEncoder(objCObj, *m_device);
+}
+
 
 void CommandBuffer::commit()
 {

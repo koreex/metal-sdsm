@@ -778,6 +778,8 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
 
         encoder.endEncoding();
     }
+
+    // Test compute pipeline
 }
 
 /// Draw to the three textures which compose the GBuffer

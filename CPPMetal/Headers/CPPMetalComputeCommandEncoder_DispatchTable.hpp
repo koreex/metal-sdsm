@@ -6,8 +6,8 @@
 //  Copyright © 2021 Apple. All rights reserved.
 //
 
-#ifndef CPPMetalComputeCommandEncoder_DispatchTable_h
-#define CPPMetalComputeCommandEncoder_DispatchTable_h
+#ifndef CPPMetalComputeCommandEncoder_DispatchTable_hpp
+#define CPPMetalComputeCommandEncoder_DispatchTable_hpp
 
 #include "CPPMetalBuffer.hpp"
 #include "CPPMetalComputePipeline.hpp"
@@ -20,7 +20,7 @@
 namespace CPPMetalInternal
 {
 
-static const SEL setBufferSel         = sel_registerName("setVertexBuffer:offset:atIndex:");
+static const SEL setBufferSel         = sel_registerName("setBuffer:offset:atIndex:");
 
 typedef void (*setBufferType)         (id, SEL, CPPMetalInternal::Buffer buffer, MTL::UInteger offset, MTL::UInteger index);
 
@@ -33,4 +33,4 @@ struct ComputeCommandEncoderDispatchTable
 
 } // namespace CPPMetalInternal
 
-#endif /* CPPMetalComputeCommandEncoder_DispatchTable_h */
+#endif /* CPPMetalComputeCommandEncoder_DispatchTable_hpp */

@@ -11,6 +11,7 @@ Header for C++ Metal wrapper
 #include "CPPMetalBuffer.hpp"
 #include "CPPMetalCommandBuffer.hpp"
 #include "CPPMetalCommandQueue.hpp"
+#include "CPPMetalComputeCommandEncoder.hpp"
 #include "CPPMetalComputePipeline.hpp"
 #include "CPPMetalDevice.hpp"
 #include "CPPMetalDepthStencil.hpp"
