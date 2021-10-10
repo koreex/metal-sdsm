@@ -780,6 +780,18 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
     }
 
     // Test compute pipeline
+    {
+        MTL::ComputeCommandEncoder computeEncoder = commandBuffer.computeCommandEncoder();
+
+        computeEncoder.label( "Compute pass" );
+
+        computeEncoder.setComputePipelineState(m_reduceComputePipelineState);
+        computeEncoder.setBuffer(m_computeBufferA, 0, 0);
+        computeEncoder.setBuffer(m_computeBufferB, 0, 1);
+        computeEncoder.setBuffer(m_computeBufferResult, 0, 2);
+
+        computeEncoder.endEncoding();
+    }
 }
 
 /// Draw to the three textures which compose the GBuffer
