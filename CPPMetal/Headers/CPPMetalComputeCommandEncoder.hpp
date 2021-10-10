@@ -48,6 +48,14 @@ public: // Public methods for CPPMetal internal implementation
     ComputeCommandEncoder(const CPPMetalInternal::ComputeCommandEncoder objCObj, Device & device);
 };
 
+//===============================================================
+#pragma mark - ComputeCommandEncoder inline method implementations
+
+inline void ComputeCommandEncoder::setBuffer(const Buffer &buffer, UInteger offset, UInteger index)
+{
+    m_dispatch->setBuffer(m_objCObj, CPPMetalInternal::setBufferSel, buffer.objCObj(), offset, index);
+}
+
 }
 
 #endif /* CPPMetalComputeCommandEncoder_h */

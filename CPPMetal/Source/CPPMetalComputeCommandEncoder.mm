@@ -46,3 +46,8 @@ bool ComputeCommandEncoder::operator==(const ComputeCommandEncoder & rhs) const
 {
     return [((id<MTLComputeCommandEncoder>)m_objCObj) isEqual:rhs.m_objCObj];
 }
+
+void ComputeCommandEncoder::setComputePipelineState(const ComputePipelineState & pipelineState)
+{
+    [((id<MTLComputeCommandEncoder>)m_objCObj) setComputePipelineState:pipelineState.objCObj()];
+}
