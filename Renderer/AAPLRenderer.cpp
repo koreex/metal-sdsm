@@ -335,9 +335,11 @@ void Renderer::loadMetal()
             {
                 float *dataPtrA = (float*) m_computeBufferA.contents();
                 float *dataPtrB = (float*) m_computeBufferB.contents();
+                float *dataPtrResult = (float*) m_computeBufferResult.contents();
 
                 dataPtrA[i] = i;
                 dataPtrB[i] = i * 2;
+                dataPtrResult[i] = 0;
             }
         }
 
@@ -804,6 +806,10 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
         computeEncoder.dispatchThreads(gridSize, threadgroupSize);
 
         computeEncoder.endEncoding();
+
+        float *dataPtrResult = (float*) m_computeBufferResult.contents();
+        int index = 50;
+        printf(">>> added array index: %d, value: %f\n", index, dataPtrResult[index]);
     }
 }
 
