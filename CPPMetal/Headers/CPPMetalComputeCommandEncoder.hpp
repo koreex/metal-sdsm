@@ -40,6 +40,8 @@ public:
 
     void setBuffer(const Buffer &buffer, UInteger offset, UInteger index);
 
+    void setTexture(const Texture &texture, UInteger index);
+
     void dispatchThreads(MTL::Size, MTL::Size);
 
 private:
@@ -57,6 +59,11 @@ public: // Public methods for CPPMetal internal implementation
 inline void ComputeCommandEncoder::setBuffer(const Buffer &buffer, UInteger offset, UInteger index)
 {
     m_dispatch->setBuffer(m_objCObj, CPPMetalInternal::setBufferSel, buffer.objCObj(), offset, index);
+}
+
+inline void ComputeCommandEncoder::setTexture(const Texture &texture, UInteger index)
+{
+    m_dispatch->setTexture(m_objCObj, CPPMetalInternal::setTextureSel, texture.objCObj(), index);
 }
 
 }

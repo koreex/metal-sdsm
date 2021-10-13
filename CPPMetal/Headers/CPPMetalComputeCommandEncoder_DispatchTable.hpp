@@ -20,13 +20,16 @@
 namespace CPPMetalInternal
 {
 
-static const SEL setBufferSel         = sel_registerName("setBuffer:offset:atIndex:");
+static const SEL setBufferSel          = sel_registerName("setBuffer:offset:atIndex:");
+static const SEL setTextureSel = sel_registerName("setTexture:atIndex:");
 
 typedef void (*setBufferType)         (id, SEL, CPPMetalInternal::Buffer buffer, MTL::UInteger offset, MTL::UInteger index);
+typedef void (*setTextureType)(id, SEL, CPPMetalInternal::Texture texture, MTL::UInteger index);
 
 struct ComputeCommandEncoderDispatchTable
 {
     CPP_METAL_DECLARE_FUNCTION_POINTER( setBuffer );
+    CPP_METAL_DECLARE_FUNCTION_POINTER( setTexture );
 
     ComputeCommandEncoderDispatchTable(CPPMetalInternal::ObjCObj *objCObj);
 };

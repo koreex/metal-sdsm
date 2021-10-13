@@ -17,5 +17,6 @@ using namespace CPPMetalInternal;
 ComputeCommandEncoderDispatchTable::ComputeCommandEncoderDispatchTable(NSObject *objCObj)
 {
     CPP_METAL_SET_IMPLEMENTATION( setBuffer );
+    CPP_METAL_SET_IMPLEMENTATION( setTexture );
 }
 
