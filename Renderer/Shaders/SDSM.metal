@@ -12,9 +12,7 @@ using namespace metal;
 #include "AAPLShaderTypes.h"
 #include "AAPLShaderCommon.h"
 
-kernel void add_arrays(device const float* inA,
-                       device const float* inB,
-                       device float* result,
+kernel void add_arrays(device float* result,
                        texture2d<half, access::read> inTexture [[texture(0)]],
                        uint2 gid [[thread_position_in_grid]])
 {

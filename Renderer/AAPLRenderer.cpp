@@ -327,18 +327,11 @@ void Renderer::loadMetal()
 
             static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
 
-            m_computeBufferA = m_device.makeBuffer(sizeof(float) * arrayLength, storageMode);
-            m_computeBufferB = m_device.makeBuffer(sizeof(float) * arrayLength, storageMode);
             m_computeBufferResult = m_device.makeBuffer(sizeof(float) * arrayLength, storageMode);
 
             for (unsigned long i = 0; i < arrayLength; i++)
             {
-                float *dataPtrA = (float*) m_computeBufferA.contents();
-                float *dataPtrB = (float*) m_computeBufferB.contents();
                 float *dataPtrResult = (float*) m_computeBufferResult.contents();
-
-                dataPtrA[i] = i;
-                dataPtrB[i] = i * 2;
                 dataPtrResult[i] = 0;
             }
         }
@@ -788,7 +781,7 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
         computeEncoder.label( "Compute pass" );
 
         computeEncoder.setComputePipelineState(m_reduceComputePipelineState);
-        computeEncoder.setBuffer(m_computeBufferResult, 0, 2);
+        computeEncoder.setBuffer(m_computeBufferResult, 0, 0);
         computeEncoder.setTexture(m_depth_GBuffer, 0);
 
         MTL::Size gridSize = m_view.drawableSize();
