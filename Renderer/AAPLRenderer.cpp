@@ -606,7 +606,7 @@ void Renderer::drawableSizeWillChange(MTL::Size size, MTL::StorageMode GBufferSt
     m_depth_GBuffer = m_device.makeTexture( GBufferTextureDesc );
 
     m_albedo_specular_GBuffer.label( "Albedo + Shadow GBuffer" );
-    m_normal_shadow_GBuffer.label( "Normal + Specular GBuffer" );
+    m_normal_shadow_GBuffer.label( "Normal + Spetetcular GBuffer" );
     m_depth_GBuffer.label( "Depth GBuffer" );
 }
 
@@ -788,28 +788,23 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
         computeEncoder.label( "Compute pass" );
 
         computeEncoder.setComputePipelineState(m_reduceComputePipelineState);
-        computeEncoder.setBuffer(m_computeBufferA, 0, 0);
-        computeEncoder.setBuffer(m_computeBufferB, 0, 1);
         computeEncoder.setBuffer(m_computeBufferResult, 0, 2);
+        computeEncoder.setTexture(m_depth_GBuffer, 0);
 
-        int arrayLength = 100;
+        MTL::Size gridSize = m_view.drawableSize();
+        gridSize.depth = 1;
 
-        MTL::Size gridSize = MTL::SizeMake(arrayLength, 1, 1);
-        unsigned long threadGroupSize = m_reduceComputePipelineState.maxTotalThreadsPerThreadgroup();
+        unsigned long maxThreads = m_reduceComputePipelineState.maxTotalThreadsPerThreadgroup();
 
-        if (threadGroupSize > arrayLength)
-        {
-            threadGroupSize = arrayLength;
-        }
-        MTL::Size threadgroupSize = MTL::SizeMake(threadGroupSize, 1, 1);
+        MTL::Size threadgroupSize = MTL::SizeMake(sqrtl(maxThreads), sqrtl(maxThreads), 1);
 
         computeEncoder.dispatchThreads(gridSize, threadgroupSize);
 
         computeEncoder.endEncoding();
 
         float *dataPtrResult = (float*) m_computeBufferResult.contents();
-        int index = 50;
-        printf(">>> added array index: %d, value: %f\n", index, dataPtrResult[index]);
+
+        printf(">>> result: %f\n", dataPtrResult[0]);
     }
 }
 
