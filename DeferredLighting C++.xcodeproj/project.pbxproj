@@ -60,8 +60,8 @@
 		E3841BEA271049C80020F179 /* CPPMetalComputeCommandEncoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = E3841BE9271049C80020F179 /* CPPMetalComputeCommandEncoder.mm */; };
 		E3841BED2710AE560020F179 /* CPPMetalComputeCommandEncoder_DispatchTable.mm in Sources */ = {isa = PBXBuildFile; fileRef = E3841BEC2710AE560020F179 /* CPPMetalComputeCommandEncoder_DispatchTable.mm */; };
 		E3A9DAF3270D8B580063A1A8 /* CPPMetalComputePipeline.mm in Sources */ = {isa = PBXBuildFile; fileRef = E3A9DAF1270D8B580063A1A8 /* CPPMetalComputePipeline.mm */; };
-		E3C8235D26BD814800E1D13E /* Custom.metal in Sources */ = {isa = PBXBuildFile; fileRef = E3C8235C26BD814800E1D13E /* Custom.metal */; };
-		E3C8235E26BD814800E1D13E /* Custom.metal in Sources */ = {isa = PBXBuildFile; fileRef = E3C8235C26BD814800E1D13E /* Custom.metal */; };
+		E3C8235D26BD814800E1D13E /* SDSM.metal in Sources */ = {isa = PBXBuildFile; fileRef = E3C8235C26BD814800E1D13E /* SDSM.metal */; };
+		E3C8235E26BD814800E1D13E /* SDSM.metal in Sources */ = {isa = PBXBuildFile; fileRef = E3C8235C26BD814800E1D13E /* SDSM.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -200,7 +200,7 @@
 		E3841BEE2710AE7A0020F179 /* CPPMetalComputeCommandEncoder_DispatchTable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CPPMetalComputeCommandEncoder_DispatchTable.hpp; sourceTree = "<group>"; };
 		E3A9DAF1270D8B580063A1A8 /* CPPMetalComputePipeline.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CPPMetalComputePipeline.mm; sourceTree = "<group>"; };
 		E3A9DAF2270D8B580063A1A8 /* CPPMetalComputePipeline.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CPPMetalComputePipeline.hpp; sourceTree = "<group>"; };
-		E3C8235C26BD814800E1D13E /* Custom.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Custom.metal; sourceTree = "<group>"; };
+		E3C8235C26BD814800E1D13E /* SDSM.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = SDSM.metal; sourceTree = "<group>"; };
 		FE216ECC249575C100D1D620 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.4.Internal.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
 		FE216ECE249575C500D1D620 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.4.Internal.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -248,7 +248,7 @@
 				3A7070EA1FFC7E6900E0B316 /* AAPLFairy.metal */,
 				3A55F9161F4B9E8F0075C1C2 /* AAPLSkybox.metal */,
 				3A0875E1207C1B7D003601CF /* AAPLBufferExamination.metal */,
-				E3C8235C26BD814800E1D13E /* Custom.metal */,
+				E3C8235C26BD814800E1D13E /* SDSM.metal */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -657,7 +657,7 @@
 				40E600FC24F08A8200938BD0 /* AAPLSkybox.metal in Sources */,
 				40E600F624F08A8200938BD0 /* AAPLShadow.metal in Sources */,
 				40E600FB24F08A8200938BD0 /* AAPLPointLights.metal in Sources */,
-				E3C8235E26BD814800E1D13E /* Custom.metal in Sources */,
+				E3C8235E26BD814800E1D13E /* SDSM.metal in Sources */,
 				40E600F924F08A8200938BD0 /* AAPLFairy.metal in Sources */,
 				40E600FA24F08A8200938BD0 /* AAPLGBuffer.metal in Sources */,
 				40E600F824F08A8200938BD0 /* AAPLDirectionalLight.metal in Sources */,
@@ -672,7 +672,7 @@
 				40E600F524F08A8200938BD0 /* AAPLSkybox.metal in Sources */,
 				40E600EF24F08A8200938BD0 /* AAPLShadow.metal in Sources */,
 				40E600F424F08A8200938BD0 /* AAPLPointLights.metal in Sources */,
-				E3C8235D26BD814800E1D13E /* Custom.metal in Sources */,
+				E3C8235D26BD814800E1D13E /* SDSM.metal in Sources */,
 				40E600F224F08A8200938BD0 /* AAPLFairy.metal in Sources */,
 				40E600F324F08A8200938BD0 /* AAPLGBuffer.metal in Sources */,
 				40E600F124F08A8200938BD0 /* AAPLDirectionalLight.metal in Sources */,
