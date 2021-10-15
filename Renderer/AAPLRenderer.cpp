@@ -327,11 +327,11 @@ void Renderer::loadMetal()
 
             static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
 
-            m_computeBufferResult = m_device.makeBuffer(sizeof(float) * arrayLength, storageMode);
+            m_computeBufferResult = m_device.makeBuffer(sizeof(int) * arrayLength, storageMode);
 
             for (unsigned long i = 0; i < arrayLength; i++)
             {
-                float *dataPtrResult = (float*) m_computeBufferResult.contents();
+                int *dataPtrResult = (int*) m_computeBufferResult.contents();
                 dataPtrResult[i] = 0;
             }
         }
@@ -795,9 +795,9 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
 
         computeEncoder.endEncoding();
 
-        float *dataPtrResult = (float*) m_computeBufferResult.contents();
+        int *dataPtrResult = (int*) m_computeBufferResult.contents();
 
-        printf(">>> result: %f\n", dataPtrResult[0]);
+        printf(">>> result: %d\n", dataPtrResult[0]);
     }
 }
 
