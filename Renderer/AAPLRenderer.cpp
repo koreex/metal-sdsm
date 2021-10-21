@@ -327,7 +327,7 @@ void Renderer::loadMetal()
 
             static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
 
-            m_computeBufferResult = m_device.makeBuffer(sizeof(int) * arrayLength, storageMode);
+            m_computeBufferResult = m_device.makeBuffer(sizeof(float) * arrayLength, storageMode);
 
             for (unsigned long i = 0; i < arrayLength; i++)
             {
@@ -778,6 +778,13 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
     {
         MTL::ComputeCommandEncoder computeEncoder = commandBuffer.computeCommandEncoder();
 
+        int *dataPtrResult = (int*) m_computeBufferResult.contents();
+
+        printf(">>> before init: max depth: %d, min depth: %d\n", dataPtrResult[0], dataPtrResult[1]);
+
+        dataPtrResult[0] = NearPlane * 1000;
+        dataPtrResult[1] = FarPlane * 1000;
+
         computeEncoder.label( "Compute pass" );
 
         computeEncoder.setComputePipelineState(m_reduceComputePipelineState);
@@ -795,9 +802,7 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
 
         computeEncoder.endEncoding();
 
-        int *dataPtrResult = (int*) m_computeBufferResult.contents();
-
-        printf(">>> result: %d\n", dataPtrResult[0]);
+        printf(">>> max depth: %d, min depth: %d\n", dataPtrResult[0], dataPtrResult[1]);
     }
 }
 
