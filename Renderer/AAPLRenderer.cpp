@@ -329,11 +329,9 @@ void Renderer::loadMetal()
             m_computeBufferResult = m_device.makeBuffer(sizeof(int) * 3, storageMode);
 
             int *dataPtrResult = (int*) m_computeBufferResult.contents();
-
-            for (unsigned long i = 0; i < 3; i++)
-            {
-                dataPtrResult[i] = 0;
-            }
+            dataPtrResult[0] = FarPlane;
+            dataPtrResult[1] = NearPlane;
+            dataPtrResult[2] = 0;
         }
 
     }
@@ -485,11 +483,17 @@ void Renderer::updateWorldState()
         float4x4 shadowModelViewMatrix = shadowViewMatrix * templeModelMatrix;
 
         float cascadeEnds[CASCADED_SHADOW_COUNT + 1];
+        int *dataPtrResult = (int*) m_computeBufferResult.contents();
 
-        cascadeEnds[0] = NearPlane;
-        cascadeEnds[1] = 40;
-        cascadeEnds[2] = 60;
-        cascadeEnds[3] = FarPlane;
+        for (uint i = 0; i < CASCADED_SHADOW_COUNT + 1; i++) {
+            cascadeEnds[i] = pow((float)dataPtrResult[0] / (float)dataPtrResult[1], (float)i / (float)CASCADED_SHADOW_COUNT) *
+                (float)dataPtrResult[1] / 1000.0;
+        }
+
+//        cascadeEnds[0] = NearPlane;
+//        cascadeEnds[1] = 40;
+//        cascadeEnds[2] = 60;
+//        cascadeEnds[3] = FarPlane;
 
         FrameData *frameData = (FrameData *) (m_uniformBuffers[m_frameDataBufferIndex].contents());
 
