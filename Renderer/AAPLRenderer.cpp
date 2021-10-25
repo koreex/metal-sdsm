@@ -320,18 +320,18 @@ void Renderer::loadMetal()
 
         #pragma mark Compute pipeline setup
         {
-            MTL::Function addArrayFunction = shaderLibrary.makeFunction("add_arrays");
-            m_reduceComputePipelineState = m_device.makeComputePipelineState(addArrayFunction);
+            MTL::Function addArrayFunction = shaderLibrary.makeFunction("reduce_min_max_depth");
 
-            int arrayLength = 100;
+            m_reduceComputePipelineState = m_device.makeComputePipelineState(addArrayFunction);
 
             static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
 
-            m_computeBufferResult = m_device.makeBuffer(sizeof(float) * arrayLength, storageMode);
+            m_computeBufferResult = m_device.makeBuffer(sizeof(int) * 3, storageMode);
 
-            for (unsigned long i = 0; i < arrayLength; i++)
+            int *dataPtrResult = (int*) m_computeBufferResult.contents();
+
+            for (unsigned long i = 0; i < 3; i++)
             {
-                int *dataPtrResult = (int*) m_computeBufferResult.contents();
                 dataPtrResult[i] = 0;
             }
         }
@@ -780,10 +780,11 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
 
         int *dataPtrResult = (int*) m_computeBufferResult.contents();
 
-        printf(">>> before init: max depth: %d, min depth: %d\n", dataPtrResult[0], dataPtrResult[1]);
+//        printf(">>> before init: max depth: %d, min depth: %d\n", dataPtrResult[0], dataPtrResult[1]);
 
         dataPtrResult[0] = NearPlane * 1000;
         dataPtrResult[1] = FarPlane * 1000;
+        dataPtrResult[2] = 0;
 
         computeEncoder.label( "Compute pass" );
 
@@ -802,7 +803,6 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
 
         computeEncoder.endEncoding();
 
-        printf(">>> max depth: %d, min depth: %d\n", dataPtrResult[0], dataPtrResult[1]);
     }
 }
 

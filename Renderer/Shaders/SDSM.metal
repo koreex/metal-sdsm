@@ -13,11 +13,12 @@ using namespace metal;
 #include "AAPLShaderTypes.h"
 #include "AAPLShaderCommon.h"
 
-kernel void add_arrays(device atomic_int * result [[buffer(0)]],
+kernel void reduce_min_max_depth(device atomic_int * result [[buffer(0)]],
                        texture2d<float> depthBuffer [[texture(0)]],
                        uint2 gid [[thread_position_in_grid]])
 {
     int depthInt = (int)(depthBuffer.read(gid).x * 1000);
+
     int maxDepth = atomic_load_explicit(result, memory_order_relaxed);
     int minDepth = atomic_load_explicit(&result[1], memory_order_relaxed);
 
@@ -25,7 +26,9 @@ kernel void add_arrays(device atomic_int * result [[buffer(0)]],
         atomic_exchange_explicit(result, depthInt, memory_order_relaxed);
     }
 
-    if (depthInt < minDepth) {
+    if (depthInt > 0 && depthInt < minDepth) {
         atomic_exchange_explicit(&result[1], depthInt, memory_order_relaxed);
     }
+
+    atomic_fetch_add_explicit(&result[2], 1, memory_order_relaxed);
 }

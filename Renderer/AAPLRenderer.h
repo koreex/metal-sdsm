@@ -240,7 +240,6 @@ private:
 
     // Compute configuration
     MTL::ComputePipelineState m_reduceComputePipelineState;
-    MTL::Buffer m_computeBufferResult;
 
     void populateLights();
 
@@ -248,6 +247,7 @@ private:
 
 protected:
 
+    MTL::Buffer m_computeBufferResult;
     BufferExaminationManager *m_bufferExaminationManager;
 
 #endif // END SUPPORT_BUFFER_EXAMINATION
