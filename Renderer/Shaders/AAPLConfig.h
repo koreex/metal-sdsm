@@ -38,3 +38,6 @@ Header defining preprocessor conditional values that control the configuration o
 #define SUPPORT_BUFFER_EXAMINATION 1
 
 #define CASCADED_SHADOW_COUNT      3
+
+// To deal with float numbers in atomic operation
+#define LARGE_INTEGER              1e6

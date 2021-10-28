@@ -487,7 +487,7 @@ void Renderer::updateWorldState()
 
         for (uint i = 0; i < CASCADED_SHADOW_COUNT + 1; i++) {
             cascadeEnds[i] = pow((float)dataPtrResult[0] / (float)dataPtrResult[1], (float)i / (float)CASCADED_SHADOW_COUNT) *
-                (float)dataPtrResult[1] / 1000.0;
+                (float)dataPtrResult[1] / (float)LARGE_INTEGER;
         }
 
 //        cascadeEnds[0] = NearPlane;
@@ -786,8 +786,8 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
 
 //        printf(">>> before init: max depth: %d, min depth: %d\n", dataPtrResult[0], dataPtrResult[1]);
 
-        dataPtrResult[0] = NearPlane * 1000;
-        dataPtrResult[1] = FarPlane * 1000;
+        dataPtrResult[0] = NearPlane * LARGE_INTEGER;
+        dataPtrResult[1] = FarPlane * LARGE_INTEGER;
         dataPtrResult[2] = 0;
 
         computeEncoder.label( "Compute pass" );

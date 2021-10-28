@@ -17,7 +17,7 @@ kernel void reduce_min_max_depth(device atomic_int * result [[buffer(BufferIndex
                        texture2d<float> depthBuffer [[texture(TextureIndexDepth)]],
                        uint2 gid [[thread_position_in_grid]])
 {
-    uint depthInt = (uint)(depthBuffer.read(gid).x * 1000);
+    uint depthInt = (uint)(depthBuffer.read(gid).x * LARGE_INTEGER);
 
     atomic_fetch_max_explicit(result, as_type<int>(depthInt), memory_order_relaxed);
 
