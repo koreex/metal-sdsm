@@ -470,6 +470,8 @@ void Renderer::updateWorldState()
     frameData->sun_eye_direction = view_matrix * sunWorldDirection;
     frameData->sun_world_direction = sunWorldDirection;
 
+    // Calculate cascade projection matrices
+
     {
         float4 directionalLightUpVector = {0.0, 1.0, 1.0, 1.0};
 
