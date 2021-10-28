@@ -779,37 +779,6 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
 
         encoder.endEncoding();
     }
-
-    // Test compute pipeline
-    {
-        MTL::ComputeCommandEncoder computeEncoder = commandBuffer.computeCommandEncoder();
-
-        int *dataPtrResult = (int*) m_minMaxDepthBuffer.contents();
-
-//        printf(">>> before init: max depth: %d, min depth: %d\n", dataPtrResult[0], dataPtrResult[1]);
-
-        dataPtrResult[0] = FarPlane * LARGE_INTEGER;
-        dataPtrResult[1] = NearPlane * LARGE_INTEGER;
-        dataPtrResult[2] = 0;
-
-        computeEncoder.label( "Compute pass" );
-
-        computeEncoder.setComputePipelineState(m_reduceComputePipelineState);
-        computeEncoder.setBuffer(m_minMaxDepthBuffer, 0, BufferIndexMinMaxDepth);
-        computeEncoder.setTexture(m_depth_GBuffer, TextureIndexDepth);
-
-        MTL::Size gridSize = m_view.drawableSize();
-        gridSize.depth = 1;
-
-        unsigned long maxThreads = m_reduceComputePipelineState.maxTotalThreadsPerThreadgroup();
-
-        MTL::Size threadgroupSize = MTL::SizeMake(sqrtl(maxThreads), sqrtl(maxThreads), 1);
-
-        computeEncoder.dispatchThreads(gridSize, threadgroupSize);
-
-        computeEncoder.endEncoding();
-
-    }
 }
 
 /// Draw to the three textures which compose the GBuffer
@@ -826,6 +795,34 @@ void Renderer::drawGBuffer(MTL::RenderCommandEncoder & renderEncoder)
 
     drawMeshes( renderEncoder );
     renderEncoder.popDebugGroup();
+}
+
+void Renderer::reduceMinMaxDepth(MTL::CommandBuffer &commandBuffer)
+{
+    MTL::ComputeCommandEncoder computeEncoder = commandBuffer.computeCommandEncoder();
+
+    int *dataPtrResult = (int*) m_minMaxDepthBuffer.contents();
+
+    dataPtrResult[0] = FarPlane * LARGE_INTEGER;
+    dataPtrResult[1] = NearPlane * LARGE_INTEGER;
+    dataPtrResult[2] = 0;
+
+    computeEncoder.label( "Compute min and max depth pass" );
+
+    computeEncoder.setComputePipelineState(m_reduceComputePipelineState);
+    computeEncoder.setBuffer(m_minMaxDepthBuffer, 0, BufferIndexMinMaxDepth);
+    computeEncoder.setTexture(m_depth_GBuffer, TextureIndexDepth);
+
+    MTL::Size gridSize = m_view.drawableSize();
+    gridSize.depth = 1;
+
+    unsigned long maxThreads = m_reduceComputePipelineState.maxTotalThreadsPerThreadgroup();
+
+    MTL::Size threadgroupSize = MTL::SizeMake(sqrtl(maxThreads), sqrtl(maxThreads), 1);
+
+    computeEncoder.dispatchThreads(gridSize, threadgroupSize);
+
+    computeEncoder.endEncoding();
 }
 
 /// Draw the directional ("sun") light in deferred pass.  Use stencil buffer to limit execution

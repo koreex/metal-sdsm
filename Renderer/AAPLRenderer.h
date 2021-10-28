@@ -112,6 +112,8 @@ protected:
 
     void drawableSizeWillChange(MTL::Size size, MTL::StorageMode GBufferStorageMode);
 
+    void reduceMinMaxDepth(MTL::CommandBuffer &commandBuffer);
+
     MTL::Texture *currentDrawableTexture();
 
     MTL::Device m_device;
