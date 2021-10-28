@@ -40,8 +40,9 @@ void Renderer_TraditionalDeferred::loadMetal()
     m_GBufferRenderPassDescriptor.colorAttachments[RenderTargetAlbedo].storeAction( MTL::StoreActionStore );
     m_GBufferRenderPassDescriptor.colorAttachments[RenderTargetNormal].loadAction( MTL::LoadActionDontCare );
     m_GBufferRenderPassDescriptor.colorAttachments[RenderTargetNormal].storeAction( MTL::StoreActionStore );
-    m_GBufferRenderPassDescriptor.colorAttachments[RenderTargetDepth].loadAction( MTL::LoadActionDontCare );
+    m_GBufferRenderPassDescriptor.colorAttachments[RenderTargetDepth].loadAction( MTL::LoadActionClear );
     m_GBufferRenderPassDescriptor.colorAttachments[RenderTargetDepth].storeAction( MTL::StoreActionStore );
+    m_GBufferRenderPassDescriptor.colorAttachments[RenderTargetDepth].clearColor(MTL::ClearColorMake(0.0, 0.0, 0.0, 0.0));
     m_GBufferRenderPassDescriptor.depthAttachment.clearDepth( 1.0 );
     m_GBufferRenderPassDescriptor.depthAttachment.loadAction( MTL::LoadActionClear );
     m_GBufferRenderPassDescriptor.depthAttachment.storeAction( MTL::StoreActionStore );
