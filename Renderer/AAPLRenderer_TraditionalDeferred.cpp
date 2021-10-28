@@ -183,4 +183,4 @@ void Renderer_TraditionalDeferred::validateBufferExaminationMode()
     }
 }
 
-#endif // END SUPPORT_BUFFER_EXAMINATION 
+#endif // END SUPPORT_BUFFER_EXAMINATION
