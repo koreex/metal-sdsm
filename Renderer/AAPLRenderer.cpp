@@ -326,11 +326,11 @@ void Renderer::loadMetal()
 
             static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
 
-            m_computeBufferResult = m_device.makeBuffer(sizeof(int) * 3, storageMode);
+            m_minMaxDepthBuffer = m_device.makeBuffer(sizeof(int) * 3, storageMode);
 
-            int *dataPtrResult = (int*) m_computeBufferResult.contents();
-            dataPtrResult[0] = FarPlane;
-            dataPtrResult[1] = NearPlane;
+            int *dataPtrResult = (int*) m_minMaxDepthBuffer.contents();
+            dataPtrResult[0] = NearPlane * LARGE_INTEGER;
+            dataPtrResult[1] = FarPlane * LARGE_INTEGER;
             dataPtrResult[2] = 0;
         }
 
@@ -485,11 +485,11 @@ void Renderer::updateWorldState()
         float4x4 shadowModelViewMatrix = shadowViewMatrix * templeModelMatrix;
 
         float cascadeEnds[CASCADED_SHADOW_COUNT + 1];
-        int *dataPtrResult = (int*) m_computeBufferResult.contents();
+        int *dataPtrResult = (int*) m_minMaxDepthBuffer.contents();
 
         for (uint i = 0; i < CASCADED_SHADOW_COUNT + 1; i++) {
-            cascadeEnds[i] = pow((float)dataPtrResult[0] / (float)dataPtrResult[1], (float)i / (float)CASCADED_SHADOW_COUNT) *
-                (float)dataPtrResult[1] / (float)LARGE_INTEGER;
+            cascadeEnds[i] = pow((float)dataPtrResult[1] / (float)dataPtrResult[0], (float)i / (float)CASCADED_SHADOW_COUNT) *
+                (float)dataPtrResult[0] / (float)LARGE_INTEGER;
         }
 
 //        cascadeEnds[0] = NearPlane;
@@ -784,18 +784,18 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
     {
         MTL::ComputeCommandEncoder computeEncoder = commandBuffer.computeCommandEncoder();
 
-        int *dataPtrResult = (int*) m_computeBufferResult.contents();
+        int *dataPtrResult = (int*) m_minMaxDepthBuffer.contents();
 
 //        printf(">>> before init: max depth: %d, min depth: %d\n", dataPtrResult[0], dataPtrResult[1]);
 
-        dataPtrResult[0] = NearPlane * LARGE_INTEGER;
-        dataPtrResult[1] = FarPlane * LARGE_INTEGER;
+        dataPtrResult[0] = FarPlane * LARGE_INTEGER;
+        dataPtrResult[1] = NearPlane * LARGE_INTEGER;
         dataPtrResult[2] = 0;
 
         computeEncoder.label( "Compute pass" );
 
         computeEncoder.setComputePipelineState(m_reduceComputePipelineState);
-        computeEncoder.setBuffer(m_computeBufferResult, 0, BufferIndexMinMaxDepth);
+        computeEncoder.setBuffer(m_minMaxDepthBuffer, 0, BufferIndexMinMaxDepth);
         computeEncoder.setTexture(m_depth_GBuffer, TextureIndexDepth);
 
         MTL::Size gridSize = m_view.drawableSize();

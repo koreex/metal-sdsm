@@ -247,7 +247,7 @@ private:
 
 protected:
 
-    MTL::Buffer m_computeBufferResult;
+    MTL::Buffer m_minMaxDepthBuffer;
     BufferExaminationManager *m_bufferExaminationManager;
 
 #endif // END SUPPORT_BUFFER_EXAMINATION
