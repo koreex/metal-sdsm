@@ -118,9 +118,6 @@ void Renderer_TraditionalDeferred::drawInView(MTK::View & view)
         // waiting for a drawable to become avaliable
         commandBuffer.commit();
         commandBuffer.waitUntilCompleted();
-
-        int *dataPtrResult = (int*) m_computeBufferResult.contents();
-        printf(">>> max depth: %d, min depth: %d, thread count: %d\n", dataPtrResult[0], dataPtrResult[1], dataPtrResult[2]);
     }
 
     {
