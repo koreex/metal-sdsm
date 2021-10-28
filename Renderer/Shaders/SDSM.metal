@@ -13,8 +13,8 @@ using namespace metal;
 #include "AAPLShaderTypes.h"
 #include "AAPLShaderCommon.h"
 
-kernel void reduce_min_max_depth(device atomic_int * result [[buffer(0)]],
-                       texture2d<float> depthBuffer [[texture(0)]],
+kernel void reduce_min_max_depth(device atomic_int * result [[buffer(BufferIndexMinMaxDepth)]],
+                       texture2d<float> depthBuffer [[texture(TextureIndexDepth)]],
                        uint2 gid [[thread_position_in_grid]])
 {
     uint depthInt = (uint)(depthBuffer.read(gid).x * 1000);

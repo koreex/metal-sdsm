@@ -793,8 +793,8 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
         computeEncoder.label( "Compute pass" );
 
         computeEncoder.setComputePipelineState(m_reduceComputePipelineState);
-        computeEncoder.setBuffer(m_computeBufferResult, 0, 0);
-        computeEncoder.setTexture(m_depth_GBuffer, 0);
+        computeEncoder.setBuffer(m_computeBufferResult, 0, BufferIndexMinMaxDepth);
+        computeEncoder.setTexture(m_depth_GBuffer, TextureIndexDepth);
 
         MTL::Size gridSize = m_view.drawableSize();
         gridSize.depth = 1;

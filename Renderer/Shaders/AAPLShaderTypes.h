@@ -29,11 +29,11 @@ typedef enum BufferIndex
     BufferIndexLightsData        = 3,
     BufferIndexLightsPosition    = 4,
     BufferIndexCascadeIndex      = 5,
-
 #if SUPPORT_BUFFER_EXAMINATION 
     BufferIndexFlatColor         = 0,
     BufferIndexDepthRange        = 0,
 #endif
+    BufferIndexMinMaxDepth       = 0,
 
 } BufferIndex;
 
@@ -58,7 +58,9 @@ typedef enum TextureIndex
     TextureIndexShadow    = 3,
     TextureIndexAlpha     = 4,
 
-    NumMeshTextures = TextureIndexNormal + 1
+    NumMeshTextures = TextureIndexNormal + 1,
+
+    TextureIndexDepth          = 0
 
 } TextureIndex;
 
