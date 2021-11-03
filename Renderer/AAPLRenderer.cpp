@@ -604,8 +604,8 @@ void Renderer::drawableSizeWillChange(MTL::Size size, MTL::StorageMode GBufferSt
     GBufferTextureDesc.pixelFormat( m_depth_GBufferFormat );
     m_depth_GBuffer = m_device.makeTexture( GBufferTextureDesc );
 
-    m_albedo_specular_GBuffer.label( "Albedo + Shadow GBuffer" );
-    m_normal_shadow_GBuffer.label( "Normal + Spetetcular GBuffer" );
+    m_albedo_specular_GBuffer.label( "Albedo + Spetetcular GBuffer" );
+    m_normal_shadow_GBuffer.label( "Normal + Shadow GBuffer" );
     m_depth_GBuffer.label( "Depth GBuffer" );
 }
 
