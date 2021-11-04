@@ -504,8 +504,8 @@ void Renderer::updateWorldState()
         }
 
         float ar = this->m_camera->aspect();
-        float tanHalfHFov = tanf(this->m_camera->fov() / 2);
-        float tanHalfVFov = tanf(this->m_camera->fov() / ar / 2);
+        float tanHalfHFov = tanf(this->m_camera->fov() / 2) * ar;
+        float tanHalfVFov = tanf(this->m_camera->fov() / 2);
 
         for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
             float xn = cascadeEnds[i] * tanHalfHFov;
