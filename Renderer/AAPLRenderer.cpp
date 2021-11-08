@@ -492,11 +492,6 @@ void Renderer::updateWorldState()
                 (float)dataPtrResult[0] / (float)LARGE_INTEGER;
         }
 
-//        cascadeEnds[0] = NearPlane;
-//        cascadeEnds[1] = 40;
-//        cascadeEnds[2] = 60;
-//        cascadeEnds[3] = FarPlane;
-
         FrameData *frameData = (FrameData *) (m_uniformBuffers[m_frameDataBufferIndex].contents());
 
         for (uint i = 0; i < CASCADED_SHADOW_COUNT + 1; i++) {
@@ -792,6 +787,8 @@ void Renderer::drawGBuffer(MTL::RenderCommandEncoder & renderEncoder)
     renderEncoder.popDebugGroup();
 }
 
+// Reduce min and max depth using compute pipeline
+// It assumes that depth buffer contains depth values in eye space
 void Renderer::reduceMinMaxDepth(MTL::CommandBuffer &commandBuffer)
 {
     MTL::ComputeCommandEncoder computeEncoder = commandBuffer.computeCommandEncoder();
