@@ -111,7 +111,7 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
             cascadeRangeColor = CASCADE_RANGE_COLORS[i];
         }
 
-        float3 shadow_coord = (frameData.shadow_mvp_xform_matrix[i] * in.model_position).xyz;
+        float3 shadow_coord = (frameData.shadow_mvp_xform_matrices[i] * in.model_position).xyz;
 
         if (shadow_coord.x < 1.0 && shadow_coord.x > 0.0 && shadow_coord.y < 1.0 && shadow_coord.y > 0.0 &&
             in.eye_position.z < frameData.cascadeEnds[i + 1] && in.eye_position.z >= frameData.cascadeEnds[i]) {

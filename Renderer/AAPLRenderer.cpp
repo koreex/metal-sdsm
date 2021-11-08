@@ -552,7 +552,7 @@ void Renderer::updateWorldState()
         }
 
         for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
-            frameData->shadow_mvp_matrix[i] = m_shadowProjectionMatrix[i] * shadowModelViewMatrix;
+            frameData->shadow_mvp_matrices[i] = m_shadowProjectionMatrix[i] * shadowModelViewMatrix;
         }
 
         // When calculating texture coordinates to sample from shadow map, flip the y/t coordinate and
@@ -563,7 +563,7 @@ void Renderer::updateWorldState()
         float4x4 shadowTransform = shadowTranslate * shadowScale;
 
         for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
-            frameData->shadow_mvp_xform_matrix[i] = shadowTransform * frameData->shadow_mvp_matrix[i];
+            frameData->shadow_mvp_xform_matrices[i] = shadowTransform * frameData->shadow_mvp_matrices[i];
         }
     }
 }

@@ -21,7 +21,7 @@ vertex ShadowOutput shadow_vertex(const device ShadowVertex *positions [[ buffer
     ShadowOutput out;
 
     // Add vertex pos to fairy position and project to clip-space
-    out.position = frameData.shadow_mvp_matrix[*shadowIndex] * float4(positions[vid].position, 1.0);
+    out.position = frameData.shadow_mvp_matrices[*shadowIndex] * float4(positions[vid].position, 1.0);
 
     return out;
 }
