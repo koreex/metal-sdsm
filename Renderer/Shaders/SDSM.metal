@@ -24,6 +24,4 @@ kernel void reduce_min_max_depth(device atomic_int * result [[buffer(BufferIndex
     if (depthInt > 0) {
         atomic_fetch_min_explicit(result, as_type<int>(depthInt), memory_order_relaxed);
     }
-
-    atomic_fetch_add_explicit(&result[2], 1, memory_order_relaxed);
 }

@@ -326,12 +326,11 @@ void Renderer::loadMetal()
 
             static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
 
-            m_minMaxDepthBuffer = m_device.makeBuffer(sizeof(int) * 3, storageMode);
+            m_minMaxDepthBuffer = m_device.makeBuffer(sizeof(int) * 2, storageMode);
 
             int *dataPtrResult = (int*) m_minMaxDepthBuffer.contents();
             dataPtrResult[0] = NearPlane * LARGE_INTEGER;
             dataPtrResult[1] = FarPlane * LARGE_INTEGER;
-            dataPtrResult[2] = 0;
         }
 
     }
@@ -797,7 +796,6 @@ void Renderer::reduceMinMaxDepth(MTL::CommandBuffer &commandBuffer)
 
     dataPtrResult[0] = FarPlane * LARGE_INTEGER;
     dataPtrResult[1] = NearPlane * LARGE_INTEGER;
-    dataPtrResult[2] = 0;
 
     computeEncoder.label( "Compute min and max depth pass" );
 
