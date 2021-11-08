@@ -15,6 +15,7 @@ Implementation of renderer class which performs Metal setup and per frame render
 #include "AAPLRenderer.h"
 #include "AAPLMesh.h"
 #include "AAPLMathUtilities.h"
+#include "SDSM_Utilities.h"
 
 using namespace simd;
 
@@ -486,10 +487,10 @@ void Renderer::updateWorldState()
         float cascadeEnds[CASCADED_SHADOW_COUNT + 1];
         int *dataPtrResult = (int*) m_minMaxDepthBuffer.contents();
 
-        for (uint i = 0; i < CASCADED_SHADOW_COUNT + 1; i++) {
-            cascadeEnds[i] = pow((float)dataPtrResult[1] / (float)dataPtrResult[0], (float)i / (float)CASCADED_SHADOW_COUNT) *
-                (float)dataPtrResult[0] / (float)LARGE_INTEGER;
-        }
+        logPartitioning((float)dataPtrResult[0] / (float)LARGE_INTEGER,
+                        (float)dataPtrResult[1] / (float)LARGE_INTEGER,
+                        CASCADED_SHADOW_COUNT,
+                        cascadeEnds);
 
         FrameData *frameData = (FrameData *) (m_uniformBuffers[m_frameDataBufferIndex].contents());
 

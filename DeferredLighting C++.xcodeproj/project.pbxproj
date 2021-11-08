@@ -192,6 +192,7 @@
 		6735EAA4F9511C5AF57FF30A /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		98719FA8CFF8A2D51706AB48 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		C852A8941F61FF5800B6845E /* ModelIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ModelIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/System/Library/Frameworks/ModelIO.framework; sourceTree = DEVELOPER_DIR; };
+		E30689E127397DD800AE9D0C /* SDSM_Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDSM_Utilities.h; sourceTree = "<group>"; };
 		E356BC8126B0B428007B6C9C /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		E356BC8226B0B87A007B6C9C /* Camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		E3841BE9271049C80020F179 /* CPPMetalComputeCommandEncoder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CPPMetalComputeCommandEncoder.mm; sourceTree = "<group>"; };
@@ -304,6 +305,7 @@
 				3C818B971E4A717200F28CDE /* AAPLMesh.mm */,
 				40DBE7E424B2EC4900F141B0 /* AAPLBufferExaminationManager.h */,
 				40DBE7E024B2EC3300F141B0 /* AAPLBufferExaminationManager.cpp */,
+				E30689E127397DD800AE9D0C /* SDSM_Utilities.h */,
 				3A59C3E920768BBE00125502 /* Shaders */,
 			);
 			path = Renderer;
