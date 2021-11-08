@@ -548,21 +548,16 @@ void Renderer::updateWorldState()
                 maxZ = max(maxZ, frustumCornersL[j].z);
             }
 
-            m_shadowProjectionMatrix[i] = matrix_ortho_left_hand(minX, maxX, minY, maxY, -100, maxZ);
-        }
+            frameData->shadow_mvp_matrices[i] = matrix_ortho_left_hand(minX, maxX, minY, maxY, -100, maxZ) *
+                shadowModelViewMatrix;
 
-        for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
-            frameData->shadow_mvp_matrices[i] = m_shadowProjectionMatrix[i] * shadowModelViewMatrix;
-        }
+            // When calculating texture coordinates to sample from shadow map, flip the y/t coordinate and
+            // convert from the [-1, 1] range of clip coordinates to [0, 1] range of
+            // used for texture sampling
+            float4x4 shadowScale = matrix4x4_scale(0.5f, -0.5f, 1.0);
+            float4x4 shadowTranslate = matrix4x4_translation(0.5, 0.5, 0);
+            float4x4 shadowTransform = shadowTranslate * shadowScale;
 
-        // When calculating texture coordinates to sample from shadow map, flip the y/t coordinate and
-        // convert from the [-1, 1] range of clip coordinates to [0, 1] range of
-        // used for texture sampling
-        float4x4 shadowScale = matrix4x4_scale(0.5f, -0.5f, 1.0);
-        float4x4 shadowTranslate = matrix4x4_translation(0.5, 0.5, 0);
-        float4x4 shadowTransform = shadowTranslate * shadowScale;
-
-        for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
             frameData->shadow_mvp_xform_matrices[i] = shadowTransform * frameData->shadow_mvp_matrices[i];
         }
     }

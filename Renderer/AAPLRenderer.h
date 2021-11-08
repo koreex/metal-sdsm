@@ -234,8 +234,6 @@ private:
 
     Camera *m_camera;
 
-    float4x4 m_shadowViewMatrix;
-
     float m_lightAngle;
 
     MTL::Buffer m_cascadeIndexBuffers[CASCADED_SHADOW_COUNT];
