@@ -473,17 +473,6 @@ void Renderer::updateWorldState()
     // Calculate cascade projection matrices
 
     {
-        float4 directionalLightUpVector = {0.0, 1.0, 1.0, 1.0};
-
-        directionalLightUpVector = skyModelMatrix * directionalLightUpVector;
-        directionalLightUpVector.xyz = normalize(directionalLightUpVector.xyz);
-
-        float4x4 shadowViewMatrix = matrix_look_at_left_hand(sunWorldDirection.xyz / 10,
-                                                                    (float3){0,0,0},
-                                                                    directionalLightUpVector.xyz);
-
-        float4x4 shadowModelViewMatrix = shadowViewMatrix * templeModelMatrix;
-
         float cascadeEnds[CASCADED_SHADOW_COUNT + 1];
         int *dataPtrResult = (int*) m_minMaxDepthBuffer.contents();
 
@@ -498,53 +487,23 @@ void Renderer::updateWorldState()
             frameData->cascadeEnds[i] = cascadeEnds[i];
         }
 
-        float ar = this->m_camera->aspect();
-        float tanHalfHFov = tanf(this->m_camera->fov() / 2) * ar;
-        float tanHalfVFov = tanf(this->m_camera->fov() / 2);
+        float4 directionalLightUpVector = {0.0, 1.0, 1.0, 1.0};
+
+        directionalLightUpVector.xyz = normalize(directionalLightUpVector.xyz);
+
+        float4x4 shadowViewMatrix = matrix_look_at_left_hand(sunWorldDirection.xyz / 10,
+                                                                    (float3){0,0,0},
+                                                                    directionalLightUpVector.xyz);
+
+        float4x4 shadowModelViewMatrix = shadowViewMatrix * templeModelMatrix;
 
         for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
-            float xn = cascadeEnds[i] * tanHalfHFov;
-            float xf = cascadeEnds[i + 1] * tanHalfHFov;
-            float yn = cascadeEnds[i] * tanHalfVFov;
-            float yf = cascadeEnds[i + 1] * tanHalfVFov;
 
-            float4 frustumCorners[8] = {
-                vector4(xn, yn, cascadeEnds[i], 1.0f),
-                vector4(-xn, yn, cascadeEnds[i], 1.0f),
-                vector4(xn, -yn, cascadeEnds[i], 1.0f),
-                vector4(-xn, -yn, cascadeEnds[i], 1.0f),
+            float4x4 shadowProjectionMatrix = cascadedShadowProjectionMatrix(
+                 this->camera()->viewMatrix(), this->camera()->aspect(), this->camera()->fov(),
+                 shadowViewMatrix, cascadeEnds, i);
 
-                vector4(xf, yf, cascadeEnds[i + 1], 1.0f),
-                vector4(-xf, yf, cascadeEnds[i + 1], 1.0f),
-                vector4(xf, -yf, cascadeEnds[i + 1], 1.0f),
-                vector4(-xf, -yf, cascadeEnds[i + 1], 1.0f),
-            };
-
-            float4 frustumCornersL[8];
-
-            float numericLimit = 1.0e10;
-
-            float minX = numericLimit;
-            float maxX = -numericLimit;
-            float minY = numericLimit;
-            float maxY = -numericLimit;
-            float minZ = numericLimit;
-            float maxZ = -numericLimit;
-
-            for (uint j = 0; j < 8; j++) {
-                float4 vW = matrix_invert(this->m_camera->viewMatrix()) * frustumCorners[j];
-                frustumCornersL[j] = shadowViewMatrix * vW;
-
-                minX = min(minX, frustumCornersL[j].x);
-                maxX = max(maxX, frustumCornersL[j].x);
-                minY = min(minY, frustumCornersL[j].y);
-                maxY = max(maxY, frustumCornersL[j].y);
-                minZ = min(minZ, frustumCornersL[j].z);
-                maxZ = max(maxZ, frustumCornersL[j].z);
-            }
-
-            frameData->shadow_mvp_matrices[i] = matrix_ortho_left_hand(minX, maxX, minY, maxY, -100, maxZ) *
-                shadowModelViewMatrix;
+            frameData->shadow_mvp_matrices[i] = shadowProjectionMatrix * shadowModelViewMatrix;
 
             // When calculating texture coordinates to sample from shadow map, flip the y/t coordinate and
             // convert from the [-1, 1] range of clip coordinates to [0, 1] range of
