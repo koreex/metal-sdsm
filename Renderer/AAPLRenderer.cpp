@@ -489,6 +489,8 @@ void Renderer::updateWorldState()
 
         float4 directionalLightUpVector = {0.0, 1.0, 1.0, 1.0};
 
+        directionalLightUpVector = skyModelMatrix * directionalLightUpVector;
+
         directionalLightUpVector.xyz = normalize(directionalLightUpVector.xyz);
 
         float4x4 shadowViewMatrix = matrix_look_at_left_hand(sunWorldDirection.xyz / 10,
