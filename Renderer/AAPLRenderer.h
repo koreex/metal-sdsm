@@ -80,7 +80,8 @@ public:
 
     Camera* camera();
 
-    void changeLightAngleBy(float delta);
+    void changeLightThetaBy(float delta);
+    void changeLightPhiBy(float delta);
 
 #endif
 
@@ -234,7 +235,8 @@ private:
 
     Camera *m_camera;
 
-    float m_lightAngle;
+    float m_lightPhi;
+    float m_lightTheta;
 
     MTL::Buffer m_cascadeIndexBuffers[CASCADED_SHADOW_COUNT];
 

@@ -280,12 +280,17 @@ Implementation of the cross-platform view controller
                 break;
 #endif // SUPPORT_BUFFER_EXAMINATION
             case 'a':
-                _renderer->changeLightAngleBy(0.03);
+                _renderer->changeLightPhiBy(0.03);
                 break;
             case 'd':
-                _renderer->changeLightAngleBy(-0.03);
+                _renderer->changeLightPhiBy(-0.03);
                 break;
-
+            case 'w':
+                _renderer->changeLightThetaBy(0.03);
+                break;
+            case 's':
+                _renderer->changeLightThetaBy(-0.03);
+                break;
         }
 
     }

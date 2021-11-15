@@ -37,7 +37,8 @@ Renderer::Renderer(MTK::View & view)
     this->m_camera = new Camera();
     this->m_camera->setNear(NearPlane);
     this->m_camera->setFar(FarPlane);
-    this->m_lightAngle = 0.0f;
+    this->m_lightPhi = 0.0f;
+    this->m_lightTheta = 2.0f;
 }
 
 
@@ -452,8 +453,8 @@ void Renderer::updateWorldState()
 
 //    float skyRotation = m_frameNumber * 0.005f - (M_PI_4*3);
 
-    float3 skyRotationAxis = {0, 1, 0};
-    float4x4 skyModelMatrix = matrix4x4_rotation(m_lightAngle, skyRotationAxis);
+    float3 yAxis = {0, 1, 0}, zAxis = {0, 0, 1};
+    float4x4 skyModelMatrix = matrix4x4_rotation(m_lightPhi, yAxis) * matrix4x4_rotation(m_lightTheta, zAxis);
     frameData->sky_modelview_matrix = skyModelMatrix;
 
     // Update directional light color
@@ -462,7 +463,7 @@ void Renderer::updateWorldState()
     frameData->sun_specular_intensity = 1;
 
     // Update sun direction in view space
-    float4 sunModelPosition = {-0.25, -0.5, 1.0, 0.0};
+    float4 sunModelPosition = {0.0, 1.0, 0.0, 0.0};
 
     float4 sunWorldPosition = skyModelMatrix * sunModelPosition;
 
@@ -836,7 +837,12 @@ Camera* Renderer::camera()
     return m_camera;
 }
 
-void Renderer::changeLightAngleBy(float delta)
+void Renderer::changeLightPhiBy(float delta)
 {
-    m_lightAngle += delta;
+    m_lightPhi += delta;
+}
+
+void Renderer::changeLightThetaBy(float delta)
+{
+    m_lightTheta += delta;
 }
