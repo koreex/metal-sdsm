@@ -149,4 +149,3 @@ deferred_directional_lighting_fragment_traditional(
     return deferred_directional_lighting_fragment_common(in, frameData, depth, normal_shadow, albedo_specular);
 //    return albedo_specular;
 }
-
