@@ -147,5 +147,6 @@ deferred_directional_lighting_fragment_traditional(
     half4 albedo_specular = albedo_specular_GBuffer.read(position.xy);
 
     return deferred_directional_lighting_fragment_common(in, frameData, depth, normal_shadow, albedo_specular);
+//    return albedo_specular;
 }
 

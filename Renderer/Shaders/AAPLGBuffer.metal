@@ -139,7 +139,13 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
     }
 
     // Store shadow with albedo in unused fourth channel
-    gBuffer.albedo_specular = half4(base_color_sample.xyz, specular_contrib) + cascadeRangeColor;
+//    gBuffer.albedo_specular = half4(base_color_sample.xyz, specular_contrib) + cascadeRangeColor;
+
+    float aliasing_error = 1.0 / (in.eye_position.z * tan(frameData.fov / 2.0f))*
+        (frameData.cascadeEnds[shadow_index + 1] - frameData.cascadeEnds[shadow_index]) *
+        frameData.screenWidth / (float)SHADOW_MAP_RES / 2.0f * 0.5f;
+
+    gBuffer.albedo_specular = half4(aliasing_error, 1.0f - aliasing_error, 0.0f, 1.0f);
 
     // Store the specular contribution with the normal in unused fourth channel.
     gBuffer.normal_shadow = half4(eye_normal.xyz, shadow_sample);

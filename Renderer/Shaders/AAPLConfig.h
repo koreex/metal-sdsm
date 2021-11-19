@@ -41,3 +41,7 @@ Header defining preprocessor conditional values that control the configuration o
 
 // To deal with float numbers in atomic operation
 #define LARGE_INTEGER              1e6
+
+// Shadow map resolution
+
+#define SHADOW_MAP_RES             512

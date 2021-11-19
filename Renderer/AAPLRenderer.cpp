@@ -291,8 +291,8 @@ void Renderer::loadMetal()
             shadowTextureDesc.textureType(MTL::TextureType2DArray);
             shadowTextureDesc.arrayLength(CASCADED_SHADOW_COUNT);
             shadowTextureDesc.pixelFormat( shadowMapPixelFormat );
-            shadowTextureDesc.width( 512 );
-            shadowTextureDesc.height( 512 );
+            shadowTextureDesc.width( SHADOW_MAP_RES );
+            shadowTextureDesc.height( SHADOW_MAP_RES );
             shadowTextureDesc.mipmapLevelCount( 1 );
             shadowTextureDesc.resourceOptions( MTL::ResourceStorageModePrivate );
             shadowTextureDesc.usage( MTL::TextureUsageRenderTarget | MTL::TextureUsageShaderRead );
@@ -519,6 +519,9 @@ void Renderer::updateWorldState()
             frameData->shadow_mvp_xform_matrices[i] = shadowTransform * frameData->shadow_mvp_matrices[i];
         }
     }
+
+    frameData->screenWidth = (float)m_view.drawableSize().width;
+    frameData->fov = m_camera->fov();
 }
 
 /// Called whenever view changes orientation or layout is changed

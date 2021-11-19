@@ -102,6 +102,9 @@ struct FrameData
     simd::float4 sun_world_direction;
     simd::float4 sun_color;
     float sun_specular_intensity;
+
+    float screenWidth;
+    float fov;
 };
 
 // Per-light characteristics
@@ -124,4 +127,3 @@ struct ShadowVertex
 };
 
 #endif /* ShaderTypes_h */
-
