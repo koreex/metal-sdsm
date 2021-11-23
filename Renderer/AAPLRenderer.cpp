@@ -348,6 +348,7 @@ void Renderer::loadScene()
 
     m_meshes = newMeshesFromBundlePath("Meshes/Temple.obj", m_device, m_defaultVertexDescriptor, &error);
 //    m_meshes = newMeshesFromBundlePath("Meshes/Simple.obj", m_device, m_defaultVertexDescriptor, &error);
+//    m_meshes = newMeshesFromBundlePath("Meshes/Hut.obj", m_device, m_defaultVertexDescriptor, &error);
 
     AAPLAssert(m_meshes, error, "Could not create meshes from model file");
 
