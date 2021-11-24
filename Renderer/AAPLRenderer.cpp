@@ -450,7 +450,7 @@ void Renderer::updateWorldState()
     float4x4 templeModelMatrix = templeTranslateMatrix * templeScaleMatrix;
     frameData->temple_model_matrix = templeModelMatrix;
     frameData->temple_modelview_matrix = frameData->view_matrix * templeModelMatrix;
-    frameData->temple_normal_matrix = matrix3x3_upper_left(frameData->temple_model_matrix);
+    frameData->temple_normal_matrix = matrix3x3_upper_left(frameData->temple_modelview_matrix);
 
 //    float skyRotation = m_frameNumber * 0.005f - (M_PI_4*3);
 

@@ -47,7 +47,7 @@ deferred_directional_lighting_fragment_common(QuadInOut            in,
                                               half4                albedo_specular)
 {
 
-    half sun_diffuse_intensity = dot(normal_shadow.xyz, half3(frameData.sun_world_direction.xyz));
+    half sun_diffuse_intensity = dot(normal_shadow.xyz, half3(frameData.sun_eye_direction.xyz));
 
     sun_diffuse_intensity = max(sun_diffuse_intensity, 0.h);
 
