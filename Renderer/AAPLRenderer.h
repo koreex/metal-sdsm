@@ -27,7 +27,7 @@ static const float FarPlane = 150;
 
 enum PARTITIONING_MODE {
     LOG_PARTITIONING = 0,
-    UNIT_PARTITIONING = 1
+    UNIFORM_PARTITIONING = 1
 };
 
 class Renderer

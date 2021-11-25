@@ -862,8 +862,8 @@ void Renderer::changeLightThetaBy(float delta)
 void Renderer::switchPartitioning()
 {
     if (m_partitioningMode == LOG_PARTITIONING) {
-        m_partitioningMode = UNIT_PARTITIONING;
-        printf("Switched to unit partitioning");
+        m_partitioningMode = UNIFORM_PARTITIONING;
+        printf("Switched to uniform partitioning");
     } else {
         m_partitioningMode = LOG_PARTITIONING;
         printf("Switched to log partitioning");
