@@ -487,10 +487,7 @@ void Renderer::updateWorldState()
                             CASCADED_SHADOW_COUNT,
                             cascadeEnds);
         } else {
-            uniformPartitioning(NearPlane,
-                            FarPlane,
-                            CASCADED_SHADOW_COUNT,
-                            cascadeEnds);
+            uniformPartitioning(NearPlane, FarPlane, CASCADED_SHADOW_COUNT, cascadeEnds);
         }
 
         FrameData *frameData = (FrameData *) (m_uniformBuffers[m_frameDataBufferIndex].contents());
