@@ -40,6 +40,7 @@ Renderer::Renderer(MTK::View & view)
     this->m_lightPhi = 0.0f;
     this->m_lightTheta = 2.0f;
     this->m_partitioningMode = LOG_PARTITIONING;
+    this->m_visualizationMode = VISUALIZE_NORMAL;
 }
 
 
@@ -531,6 +532,8 @@ void Renderer::updateWorldState()
 
     frameData->screenWidth = (float)m_view.drawableSize().width;
     frameData->fov = m_camera->fov();
+
+    frameData->visualization_mode = m_visualizationMode;
 }
 
 /// Called whenever view changes orientation or layout is changed
@@ -868,4 +871,9 @@ void Renderer::switchPartitioning()
         m_partitioningMode = LOG_PARTITIONING;
         printf("Switched to log partitioning");
     }
+}
+
+void Renderer::setVisualizationMode(VisualizationMode mode)
+{
+    m_visualizationMode = mode;
 }

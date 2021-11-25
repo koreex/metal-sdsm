@@ -37,11 +37,22 @@ Header defining preprocessor conditional values that control the configuration o
 // implementation.
 #define SUPPORT_BUFFER_EXAMINATION 1
 
-#define CASCADED_SHADOW_COUNT      4
+#define CASCADED_SHADOW_COUNT      3
 
 // To deal with float numbers in atomic operation
 #define LARGE_INTEGER              1e6
 
 // Shadow map resolution
 
-#define SHADOW_MAP_RES             1024
+#define SHADOW_MAP_RES             512
+
+#ifndef VISUALIZATION_MODE
+#define VISUALIZATION_MODE
+
+enum VisualizationMode {
+    VISUALIZE_NORMAL = 0x00,
+    VISUALIZE_CASCADE = 0x01,
+    VISUALIZE_ALIASING_ERROR = 0x02
+};
+
+#endif

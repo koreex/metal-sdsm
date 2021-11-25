@@ -105,6 +105,7 @@ struct FrameData
 
     float screenWidth;
     float fov;
+    VisualizationMode visualization_mode;
 };
 
 // Per-light characteristics

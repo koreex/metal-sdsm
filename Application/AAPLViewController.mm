@@ -241,15 +241,18 @@ Implementation of the cross-platform view controller
             // Enter/exit buffer examination mode with e or return key
             case '\r':
             case '1':
-                _bufferExaminationManager->mode( ExaminationModeAll );
+//                _bufferExaminationManager->mode( ExaminationModeAll );
+                _renderer->setVisualizationMode(VISUALIZE_NORMAL);
                 break;
             case '2':
-                _bufferExaminationManager->mode( ExaminationModeAlbedo );
-                focusView = _albedoGBufferView;
+//                _bufferExaminationManager->mode( ExaminationModeAlbedo );
+//                focusView = _albedoGBufferView;
+                _renderer->setVisualizationMode(VISUALIZE_CASCADE);
                 break;
             case '3':
-                _bufferExaminationManager->mode( ExaminationModeNormals );
-                focusView = _normalsGBufferView;
+//                _bufferExaminationManager->mode( ExaminationModeNormals );
+//                focusView = _normalsGBufferView;
+                _renderer->setVisualizationMode(VISUALIZE_ALIASING_ERROR);
                 break;
             case '4':
                 _bufferExaminationManager->mode( ExaminationModeDepth );

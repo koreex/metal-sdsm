@@ -25,7 +25,7 @@ static const uint32_t NumLights = 256;
 static const float NearPlane = 1;
 static const float FarPlane = 150;
 
-enum PARTITIONING_MODE {
+enum PartitioningMode {
     LOG_PARTITIONING = 0,
     UNIFORM_PARTITIONING = 1
 };
@@ -89,6 +89,7 @@ public:
     void changeLightPhiBy(float delta);
 
     void switchPartitioning();
+    void setVisualizationMode(VisualizationMode mode);
 
 #endif
 
@@ -247,7 +248,8 @@ private:
 
     MTL::Buffer m_cascadeIndexBuffers[CASCADED_SHADOW_COUNT];
 
-    PARTITIONING_MODE m_partitioningMode;
+    PartitioningMode m_partitioningMode;
+    VisualizationMode m_visualizationMode;
 
     // Compute configuration
     MTL::ComputePipelineState m_reduceComputePipelineState;
