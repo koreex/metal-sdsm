@@ -18,6 +18,14 @@ void logPartitioning(float min, float max, int partitionCount, float *result)
     }
 }
 
+void unitPartitioning(float min, float max, int partitionCount, float *result)
+{
+    for (uint i = 0; i < partitionCount + 1; i++) {
+        result[i] = min + (max - min) * (float)i / (float)partitionCount;
+    }
+}
+
+
 float4x4 cascadedShadowProjectionMatrix(float4x4 cameraViewMatrix, float aspectRatio, float fov,
                                 float4x4 shadowViewMatrix,
                                 float *cascadeEnds, int index)

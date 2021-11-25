@@ -25,6 +25,11 @@ static const uint32_t NumLights = 256;
 static const float NearPlane = 1;
 static const float FarPlane = 150;
 
+enum PARTITIONING_MODE {
+    LOG_PARTITIONING = 0,
+    UNIT_PARTITIONING = 1
+};
+
 class Renderer
 {
 public:
@@ -82,6 +87,8 @@ public:
 
     void changeLightThetaBy(float delta);
     void changeLightPhiBy(float delta);
+
+    void switchPartitioning();
 
 #endif
 
@@ -239,6 +246,8 @@ private:
     float m_lightTheta;
 
     MTL::Buffer m_cascadeIndexBuffers[CASCADED_SHADOW_COUNT];
+
+    PARTITIONING_MODE m_partitioningMode;
 
     // Compute configuration
     MTL::ComputePipelineState m_reduceComputePipelineState;

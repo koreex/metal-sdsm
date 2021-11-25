@@ -291,6 +291,9 @@ Implementation of the cross-platform view controller
             case 's':
                 _renderer->changeLightThetaBy(-0.03);
                 break;
+            case 'e':
+                _renderer->switchPartitioning();
+                break;
         }
 
     }

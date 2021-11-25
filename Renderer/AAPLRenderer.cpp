@@ -39,6 +39,7 @@ Renderer::Renderer(MTK::View & view)
     this->m_camera->setFar(FarPlane);
     this->m_lightPhi = 0.0f;
     this->m_lightTheta = 2.0f;
+    this->m_partitioningMode = LOG_PARTITIONING;
 }
 
 
@@ -479,10 +480,17 @@ void Renderer::updateWorldState()
         float cascadeEnds[CASCADED_SHADOW_COUNT + 1];
         int *dataPtrResult = (int*) m_minMaxDepthBuffer.contents();
 
-        logPartitioning((float)dataPtrResult[0] / (float)LARGE_INTEGER,
-                        (float)dataPtrResult[1] / (float)LARGE_INTEGER,
-                        CASCADED_SHADOW_COUNT,
-                        cascadeEnds);
+        if (this->m_partitioningMode == LOG_PARTITIONING) {
+            logPartitioning((float)dataPtrResult[0] / (float)LARGE_INTEGER,
+                            (float)dataPtrResult[1] / (float)LARGE_INTEGER,
+                            CASCADED_SHADOW_COUNT,
+                            cascadeEnds);
+        } else {
+            unitPartitioning((float)dataPtrResult[0] / (float)LARGE_INTEGER,
+                            (float)dataPtrResult[1] / (float)LARGE_INTEGER,
+                            CASCADED_SHADOW_COUNT,
+                            cascadeEnds);
+        }
 
         FrameData *frameData = (FrameData *) (m_uniformBuffers[m_frameDataBufferIndex].contents());
 
@@ -849,4 +857,13 @@ void Renderer::changeLightPhiBy(float delta)
 void Renderer::changeLightThetaBy(float delta)
 {
     m_lightTheta += delta;
+}
+
+void Renderer::switchPartitioning()
+{
+    if (m_partitioningMode == LOG_PARTITIONING) {
+        m_partitioningMode = UNIT_PARTITIONING;
+    } else {
+        m_partitioningMode = LOG_PARTITIONING;
+    }
 }
