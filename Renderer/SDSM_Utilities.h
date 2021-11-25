@@ -18,7 +18,7 @@ void logPartitioning(float min, float max, int partitionCount, float *result)
     }
 }
 
-void unitPartitioning(float min, float max, int partitionCount, float *result)
+void uniformPartitioning(float min, float max, int partitionCount, float *result)
 {
     for (uint i = 0; i < partitionCount + 1; i++) {
         result[i] = min + (max - min) * (float)i / (float)partitionCount;

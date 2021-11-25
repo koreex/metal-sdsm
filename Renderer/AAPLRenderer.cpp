@@ -487,8 +487,8 @@ void Renderer::updateWorldState()
                             CASCADED_SHADOW_COUNT,
                             cascadeEnds);
         } else {
-            unitPartitioning((float)dataPtrResult[0] / (float)LARGE_INTEGER,
-                            (float)dataPtrResult[1] / (float)LARGE_INTEGER,
+            uniformPartitioning(NearPlane,
+                            FarPlane,
                             CASCADED_SHADOW_COUNT,
                             cascadeEnds);
         }
