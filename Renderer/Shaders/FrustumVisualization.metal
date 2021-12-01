@@ -32,5 +32,5 @@ vertex VertexOut frustum_vertex(
 
 fragment float4 frustum_fragment(VertexOut in [[stage_in]])
 {
-    return vector_float4(1.0f, 1.0f, 1.0f, 1.0f);
+    return vector_float4(in.color, 1.0f);
 }

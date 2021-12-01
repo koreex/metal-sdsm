@@ -28,7 +28,8 @@ void uniformPartitioning(float min, float max, int partitionCount, float *result
 
 float4x4 cascadedShadowProjectionMatrix(float4x4 cameraViewMatrix, float aspectRatio, float fov,
                                 float4x4 shadowViewMatrix,
-                                float *cascadeEnds, int index, FrustumVertex *viewFrustumBuffer)
+                                float *cascadeEnds, int index,
+                                FrustumVertex *viewFrustumBuffer, FrustumVertex *lightFrustumBuffer)
 {
     float tanHalfHFov = tanf(fov / 2) * aspectRatio;
     float tanHalfVFov = tanf(fov / 2);
@@ -64,14 +65,6 @@ float4x4 cascadedShadowProjectionMatrix(float4x4 cameraViewMatrix, float aspectR
     for (uint j = 0; j < 8; j++) {
         float4 vW = matrix_invert(cameraViewMatrix) * frustumCorners[j];
 
-        if (j < 4) {
-            viewFrustumBuffer[index * 4 + j] = {{vW.x, vW.y, vW.z}, {1.0f, 1.0f, 1.0f}};
-        }
-
-        if (index == CASCADED_SHADOW_COUNT - 1 && j >= 4) {
-            viewFrustumBuffer[index * 4 + j] = {{vW.x, vW.y, vW.z}, {1.0f, 1.0f, 1.0f}};
-        }
-
         frustumCornersL[j] = shadowViewMatrix * vW;
 
         minX = min(minX, frustumCornersL[j].x);
@@ -80,6 +73,30 @@ float4x4 cascadedShadowProjectionMatrix(float4x4 cameraViewMatrix, float aspectR
         maxY = max(maxY, frustumCornersL[j].y);
         minZ = min(minZ, frustumCornersL[j].z);
         maxZ = max(maxZ, frustumCornersL[j].z);
+
+        if (j < 4) {
+            viewFrustumBuffer[index * 4 + j] = {{vW.x, vW.y, vW.z}, {1.0f, 1.0f, 1.0f}};
+        }
+
+        if (index == CASCADED_SHADOW_COUNT - 1 && j >= 4) {
+            viewFrustumBuffer[index * 4 + j] = {{vW.x, vW.y, vW.z}, {1.0f, 1.0f, 1.0f}};
+        }
+    }
+
+    float4 lightFrustumCornersSV[8];
+
+    lightFrustumCornersSV[0] = {minX, minY, minZ, 1.0f};
+    lightFrustumCornersSV[1] = {maxX, minY, minZ, 1.0f};
+    lightFrustumCornersSV[2] = {maxX, maxY, minZ, 1.0f};
+    lightFrustumCornersSV[3] = {minX, maxY, minZ, 1.0f};
+    lightFrustumCornersSV[4] = {minX, minY, maxZ, 1.0f};
+    lightFrustumCornersSV[5] = {maxX, minY, maxZ, 1.0f};
+    lightFrustumCornersSV[6] = {maxX, maxY, maxZ, 1.0f};
+    lightFrustumCornersSV[7] = {minX, maxY, maxZ, 1.0f};
+
+    for (uint i = 0; i < 8; i++) {
+        float4 corner = matrix_invert(shadowViewMatrix) * lightFrustumCornersSV[i];
+        lightFrustumBuffer[index * 8 + i] = {{corner.x, corner.y, corner.z}, {0.0f, 1.0f, 0.0f}};
     }
 
     return matrix_ortho_left_hand(minX, maxX, minY, maxY, -100, maxZ);

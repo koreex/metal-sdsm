@@ -260,6 +260,8 @@ private:
     bool m_frustrumLock;
     MTL::Buffer m_viewFrustumBuffer;
     MTL::Buffer m_viewFrustumIndexBuffer;
+    MTL::Buffer m_lightFrustumBuffer;
+    MTL::Buffer m_lightFrustumIndexBuffer;
     MTL::RenderPipelineState m_frustumPipelineState;
     MTL::DepthStencilState m_frustumDepthStencilState;
 

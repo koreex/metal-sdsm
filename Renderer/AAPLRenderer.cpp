@@ -362,6 +362,12 @@ void Renderer::loadMetal()
 
         m_viewFrustumIndexBuffer = m_device.makeBuffer(sizeof(int) * 16 * (CASCADED_SHADOW_COUNT + 1));
 
+        m_lightFrustumBuffer = m_device.makeBuffer(sizeof(FrustumVertex) * (8 * CASCADED_SHADOW_COUNT),
+                                                  MTL::ResourceStorageModeShared);
+        m_lightFrustumBuffer.label("light frustum buffer");
+
+        m_lightFrustumIndexBuffer = m_device.makeBuffer(sizeof(int) * 24 * CASCADED_SHADOW_COUNT);
+
         int* indexBufferPtr = (int*)m_viewFrustumIndexBuffer.contents();
 
         for (int i = 0; i < CASCADED_SHADOW_COUNT + 1; i++) {
@@ -374,6 +380,21 @@ void Renderer::loadMetal()
         for (int i = 0; i < 4; i++) {
             indexBufferPtr[8 * (CASCADED_SHADOW_COUNT + 1) + 2 * i] = i;
             indexBufferPtr[8 * (CASCADED_SHADOW_COUNT + 1) + 2 * i + 1] = i + CASCADED_SHADOW_COUNT * 4;
+        }
+
+        int* lightIndexBufferPtr = (int*)m_lightFrustumIndexBuffer.contents();
+
+        for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
+            for (int j = 0; j < 4; j++) {
+                lightIndexBufferPtr[24 * i + j * 6] = j + 8 * i;
+                lightIndexBufferPtr[24 * i + j * 6 + 1] = (j + 1) % 4 + 8 * i;
+
+                lightIndexBufferPtr[24 * i + j * 6 + 2] = j + 4 + 8 * i;
+                lightIndexBufferPtr[24 * i + j * 6 + 3] = (j + 1) % 4 + 4 + 8 * i;
+
+                lightIndexBufferPtr[24 * i + j * 6 + 4] = j + 8 * i;
+                lightIndexBufferPtr[24 * i + j * 6 + 5] = j + 4 + 8 * i;
+            }
         }
 
         MTL::StencilDescriptor stencilStateDesc;
@@ -564,18 +585,24 @@ void Renderer::updateWorldState()
         float4x4 shadowModelViewMatrix = shadowViewMatrix * templeModelMatrix;
 
         FrustumVertex *viewFrustumPtr = (FrustumVertex*) m_viewFrustumBuffer.contents();
+        FrustumVertex *lightFrustumPtr = (FrustumVertex*) m_lightFrustumBuffer.contents();
 
         for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
 
             FrustumVertex viewFrustumVertices[4 * CASCADED_SHADOW_COUNT + 4];
+            FrustumVertex lightFrustumVertices[8 * CASCADED_SHADOW_COUNT];
 
             float4x4 shadowProjectionMatrix = cascadedShadowProjectionMatrix(
                  this->camera()->viewMatrix(), this->camera()->aspect(), this->camera()->fov(),
-                 shadowViewMatrix, cascadeEnds, i, viewFrustumVertices);
+                 shadowViewMatrix, cascadeEnds, i, viewFrustumVertices, lightFrustumVertices);
 
             if (!m_frustrumLock) {
                 for (uint j = 0; j < 4 * CASCADED_SHADOW_COUNT + 4; j++) {
                     viewFrustumPtr[j] = viewFrustumVertices[j];
+                }
+
+                for (uint j = 0; j < 8 * CASCADED_SHADOW_COUNT; j++) {
+                    lightFrustumPtr[j] = lightFrustumVertices[j];
                 }
             }
 
@@ -884,10 +911,14 @@ void Renderer::drawFrustum(MTL::RenderCommandEncoder & renderEncoder)
     renderEncoder.setVertexBuffer(m_uniformBuffers[m_frameDataBufferIndex], 0, 1);
 //    renderEncoder.setTriangleFillMode(MTL::TriangleFillModeLines);
 
-    // Draw full screen quad
-//    renderEncoder.drawPrimitives(MTL::PrimitiveTypeLine, 0, 2 );
-    renderEncoder.drawIndexedPrimitives(MTL::PrimitiveTypeLine, 8 * (CASCADED_SHADOW_COUNT + 1) + 8, MTL::IndexTypeUInt32,
+    renderEncoder.drawIndexedPrimitives(MTL::PrimitiveTypeLine, 8 * (CASCADED_SHADOW_COUNT + 1) + 8,
+                                        MTL::IndexTypeUInt32,
                                         m_viewFrustumIndexBuffer, 0);
+
+    renderEncoder.setVertexBuffer(m_lightFrustumBuffer, 0, 0);
+    renderEncoder.drawIndexedPrimitives(MTL::PrimitiveTypeLine, 24 * CASCADED_SHADOW_COUNT,
+                                        MTL::IndexTypeUInt32,
+                                        m_lightFrustumIndexBuffer, 0);
 }
 
 MTL::Library Renderer::makeShaderLibrary()
