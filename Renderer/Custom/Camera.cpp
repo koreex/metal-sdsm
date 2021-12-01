@@ -109,3 +109,8 @@ float Camera::fov()
 {
     return m_fov;
 }
+
+float3 Camera::position()
+{
+    return m_eye;
+}

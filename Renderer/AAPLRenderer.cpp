@@ -41,6 +41,7 @@ Renderer::Renderer(MTK::View & view)
     this->m_lightTheta = 2.0f;
     this->m_partitioningMode = LOG_PARTITIONING;
     this->m_visualizationMode = VISUALIZE_NORMAL;
+    this->m_frustrumLock = false;
 }
 
 
@@ -72,7 +73,7 @@ void Renderer::loadMetal()
 
 //        m_lightPositions[i] = m_device.makeBuffer(sizeof(float4)*NumLights, storageMode);
 
-        m_uniformBuffers[i].label("LightPositions");
+//        m_uniformBuffers[i].label("LightPositions");
     }
 
     MTL::Library shaderLibrary = makeShaderLibrary();
@@ -339,6 +340,60 @@ void Renderer::loadMetal()
 
     }
 
+    #pragma mark Frustum visualization
+    {
+        MTL::Function frustumVertexFunction = shaderLibrary.makeFunction( "frustum_vertex" );
+        MTL::Function frustumFragmentFunction = shaderLibrary.makeFunction( "frustum_fragment" );
+
+        MTL::RenderPipelineDescriptor renderPipelineDescriptor;
+
+        renderPipelineDescriptor.label( "Frustum visualization" );
+        renderPipelineDescriptor.vertexDescriptor( nullptr );
+        renderPipelineDescriptor.vertexFunction( &frustumVertexFunction );
+        renderPipelineDescriptor.fragmentFunction( &frustumFragmentFunction );
+        renderPipelineDescriptor.colorAttachments[0].pixelFormat( m_view.colorPixelFormat() );
+        renderPipelineDescriptor.depthAttachmentPixelFormat( m_view.depthStencilPixelFormat() );
+        renderPipelineDescriptor.stencilAttachmentPixelFormat( m_view.depthStencilPixelFormat() );
+
+        m_frustumPipelineState = m_device.makeRenderPipelineState(renderPipelineDescriptor, &error);
+
+        m_viewFrustumBuffer = m_device.makeBuffer(sizeof(FrustumVertex) * (4 * CASCADED_SHADOW_COUNT + 4),
+                                                  MTL::ResourceStorageModeShared);
+
+        m_viewFrustumIndexBuffer = m_device.makeBuffer(sizeof(int) * 16 * (CASCADED_SHADOW_COUNT + 1));
+
+        int* indexBufferPtr = (int*)m_viewFrustumIndexBuffer.contents();
+
+        for (int i = 0; i < CASCADED_SHADOW_COUNT + 1; i++) {
+            for (int j = 0; j < 4; j++) {
+                indexBufferPtr[i * 8 + j * 2] = i * 4 + j;
+                indexBufferPtr[i * 8 + j * 2 + 1] = i * 4 + (j + 1) % 4;
+            }
+        }
+
+        for (int i = 0; i < 4; i++) {
+            indexBufferPtr[8 * (CASCADED_SHADOW_COUNT + 1) + 2 * i] = i;
+            indexBufferPtr[8 * (CASCADED_SHADOW_COUNT + 1) + 2 * i + 1] = i + CASCADED_SHADOW_COUNT * 4;
+        }
+
+        MTL::StencilDescriptor stencilStateDesc;
+//        stencilStateDesc.stencilCompareFunction( MTL::CompareFunctionEqual );
+//        stencilStateDesc.stencilFailureOperation( MTL::StencilOperationKeep );
+//        stencilStateDesc.depthFailureOperation( MTL::StencilOperationKeep );
+//        stencilStateDesc.depthStencilPassOperation( MTL::StencilOperationKeep );
+//        stencilStateDesc.readMask( 0xFF );
+//        stencilStateDesc.writeMask( 0x0 );
+
+        MTL::DepthStencilDescriptor depthStencilDesc;
+        depthStencilDesc.label( "Deferred Directional Lighting" );
+        depthStencilDesc.depthWriteEnabled( false );
+        depthStencilDesc.depthCompareFunction( MTL::CompareFunctionAlways );
+        depthStencilDesc.frontFaceStencil = stencilStateDesc;
+        depthStencilDesc.backFaceStencil = stencilStateDesc;
+
+        m_frustumDepthStencilState = m_device.makeDepthStencilState(depthStencilDesc);
+    }
+
     m_commandQueue = m_device.makeCommandQueue();
 }
 
@@ -508,11 +563,21 @@ void Renderer::updateWorldState()
 
         float4x4 shadowModelViewMatrix = shadowViewMatrix * templeModelMatrix;
 
+        FrustumVertex *viewFrustumPtr = (FrustumVertex*) m_viewFrustumBuffer.contents();
+
         for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
+
+            FrustumVertex viewFrustumVertices[4 * CASCADED_SHADOW_COUNT + 4];
 
             float4x4 shadowProjectionMatrix = cascadedShadowProjectionMatrix(
                  this->camera()->viewMatrix(), this->camera()->aspect(), this->camera()->fov(),
-                 shadowViewMatrix, cascadeEnds, i);
+                 shadowViewMatrix, cascadeEnds, i, viewFrustumVertices);
+
+            if (!m_frustrumLock) {
+                for (uint j = 0; j < 4 * CASCADED_SHADOW_COUNT + 4; j++) {
+                    viewFrustumPtr[j] = viewFrustumVertices[j];
+                }
+            }
 
             frameData->shadow_mvp_matrices[i] = shadowProjectionMatrix * shadowModelViewMatrix;
 
@@ -808,6 +873,23 @@ void Renderer::drawDirectionalLightCommon(MTL::RenderCommandEncoder & renderEnco
     renderEncoder.drawPrimitives( MTL::PrimitiveTypeTriangle, 0, 6 );
 }
 
+void Renderer::drawFrustum(MTL::RenderCommandEncoder & renderEncoder)
+{
+    renderEncoder.setCullMode( MTL::CullModeFront );
+//    renderEncoder.setStencilReferenceValue( 128 );
+
+    renderEncoder.setRenderPipelineState( m_frustumPipelineState );
+    renderEncoder.setDepthStencilState( m_frustumDepthStencilState );
+    renderEncoder.setVertexBuffer(m_viewFrustumBuffer, 0, 0);
+    renderEncoder.setVertexBuffer(m_uniformBuffers[m_frameDataBufferIndex], 0, 1);
+//    renderEncoder.setTriangleFillMode(MTL::TriangleFillModeLines);
+
+    // Draw full screen quad
+//    renderEncoder.drawPrimitives(MTL::PrimitiveTypeLine, 0, 2 );
+    renderEncoder.drawIndexedPrimitives(MTL::PrimitiveTypeLine, 8 * (CASCADED_SHADOW_COUNT + 1) + 8, MTL::IndexTypeUInt32,
+                                        m_viewFrustumIndexBuffer, 0);
+}
+
 MTL::Library Renderer::makeShaderLibrary()
 {
     CFErrorRef error = nullptr;
@@ -874,3 +956,9 @@ void Renderer::setVisualizationMode(VisualizationMode mode)
 {
     m_visualizationMode = mode;
 }
+
+void Renderer::switchFrustrumLock()
+{
+    m_frustrumLock = !m_frustrumLock;
+}
+    

@@ -148,6 +148,8 @@ void Renderer_TraditionalDeferred::drawInView(MTK::View & view)
 
             drawDirectionalLight( renderEncoder );
 
+            drawFrustum(renderEncoder);
+
             renderEncoder.endEncoding();
         }
 

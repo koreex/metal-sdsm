@@ -56,6 +56,8 @@
 		40E600FA24F08A8200938BD0 /* AAPLGBuffer.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A55F9181F4B9E8F0075C1C2 /* AAPLGBuffer.metal */; };
 		40E600FB24F08A8200938BD0 /* AAPLPointLights.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF8E92208061C800CC23CE /* AAPLPointLights.metal */; };
 		40E600FC24F08A8200938BD0 /* AAPLSkybox.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3A55F9161F4B9E8F0075C1C2 /* AAPLSkybox.metal */; };
+		E32380072750CEF000163293 /* FrustumVisualization.metal in Sources */ = {isa = PBXBuildFile; fileRef = E32380062750CEF000163293 /* FrustumVisualization.metal */; };
+		E32380082750CEF000163293 /* FrustumVisualization.metal in Sources */ = {isa = PBXBuildFile; fileRef = E32380062750CEF000163293 /* FrustumVisualization.metal */; };
 		E356BC8326B0B87A007B6C9C /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E356BC8226B0B87A007B6C9C /* Camera.cpp */; };
 		E3841BEA271049C80020F179 /* CPPMetalComputeCommandEncoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = E3841BE9271049C80020F179 /* CPPMetalComputeCommandEncoder.mm */; };
 		E3841BED2710AE560020F179 /* CPPMetalComputeCommandEncoder_DispatchTable.mm in Sources */ = {isa = PBXBuildFile; fileRef = E3841BEC2710AE560020F179 /* CPPMetalComputeCommandEncoder_DispatchTable.mm */; };
@@ -193,6 +195,7 @@
 		98719FA8CFF8A2D51706AB48 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		C852A8941F61FF5800B6845E /* ModelIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ModelIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/System/Library/Frameworks/ModelIO.framework; sourceTree = DEVELOPER_DIR; };
 		E30689E127397DD800AE9D0C /* SDSM_Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDSM_Utilities.h; sourceTree = "<group>"; };
+		E32380062750CEF000163293 /* FrustumVisualization.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = FrustumVisualization.metal; sourceTree = "<group>"; };
 		E356BC8126B0B428007B6C9C /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		E356BC8226B0B87A007B6C9C /* Camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		E3841BE9271049C80020F179 /* CPPMetalComputeCommandEncoder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CPPMetalComputeCommandEncoder.mm; sourceTree = "<group>"; };
@@ -250,6 +253,7 @@
 				3A55F9161F4B9E8F0075C1C2 /* AAPLSkybox.metal */,
 				3A0875E1207C1B7D003601CF /* AAPLBufferExamination.metal */,
 				E3C8235C26BD814800E1D13E /* SDSM.metal */,
+				E32380062750CEF000163293 /* FrustumVisualization.metal */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -657,6 +661,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40E600FC24F08A8200938BD0 /* AAPLSkybox.metal in Sources */,
+				E32380082750CEF000163293 /* FrustumVisualization.metal in Sources */,
 				40E600F624F08A8200938BD0 /* AAPLShadow.metal in Sources */,
 				40E600FB24F08A8200938BD0 /* AAPLPointLights.metal in Sources */,
 				E3C8235E26BD814800E1D13E /* SDSM.metal in Sources */,
@@ -672,6 +677,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40E600F524F08A8200938BD0 /* AAPLSkybox.metal in Sources */,
+				E32380072750CEF000163293 /* FrustumVisualization.metal in Sources */,
 				40E600EF24F08A8200938BD0 /* AAPLShadow.metal in Sources */,
 				40E600F424F08A8200938BD0 /* AAPLPointLights.metal in Sources */,
 				E3C8235D26BD814800E1D13E /* SDSM.metal in Sources */,

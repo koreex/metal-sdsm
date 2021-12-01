@@ -127,4 +127,10 @@ struct ShadowVertex
     packed_float3 position;
 };
 
+struct FrustumVertex
+{
+    simd::float3 position;
+    simd::float3 color;
+};
+
 #endif /* ShaderTypes_h */

@@ -31,6 +31,7 @@ public:
     void setFar(float far);
     float aspect();
     float fov();
+    float3 position();
 
 private:
 

@@ -297,6 +297,9 @@ Implementation of the cross-platform view controller
             case 'e':
                 _renderer->switchPartitioning();
                 break;
+            case 'f':
+                _renderer->switchFrustrumLock();
+                break;
         }
 
     }

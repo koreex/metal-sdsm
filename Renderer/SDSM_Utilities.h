@@ -28,7 +28,7 @@ void uniformPartitioning(float min, float max, int partitionCount, float *result
 
 float4x4 cascadedShadowProjectionMatrix(float4x4 cameraViewMatrix, float aspectRatio, float fov,
                                 float4x4 shadowViewMatrix,
-                                float *cascadeEnds, int index)
+                                float *cascadeEnds, int index, FrustumVertex *viewFrustumBuffer)
 {
     float tanHalfHFov = tanf(fov / 2) * aspectRatio;
     float tanHalfVFov = tanf(fov / 2);
@@ -41,13 +41,13 @@ float4x4 cascadedShadowProjectionMatrix(float4x4 cameraViewMatrix, float aspectR
     float4 frustumCorners[8] = {
         vector4(xn, yn, cascadeEnds[index], 1.0f),
         vector4(-xn, yn, cascadeEnds[index], 1.0f),
-        vector4(xn, -yn, cascadeEnds[index], 1.0f),
         vector4(-xn, -yn, cascadeEnds[index], 1.0f),
+        vector4(xn, -yn, cascadeEnds[index], 1.0f),
 
         vector4(xf, yf, cascadeEnds[index + 1], 1.0f),
         vector4(-xf, yf, cascadeEnds[index + 1], 1.0f),
-        vector4(xf, -yf, cascadeEnds[index + 1], 1.0f),
         vector4(-xf, -yf, cascadeEnds[index + 1], 1.0f),
+        vector4(xf, -yf, cascadeEnds[index + 1], 1.0f),
     };
 
     float4 frustumCornersL[8];
@@ -63,6 +63,15 @@ float4x4 cascadedShadowProjectionMatrix(float4x4 cameraViewMatrix, float aspectR
 
     for (uint j = 0; j < 8; j++) {
         float4 vW = matrix_invert(cameraViewMatrix) * frustumCorners[j];
+
+        if (j < 4) {
+            viewFrustumBuffer[index * 4 + j] = {{vW.x, vW.y, vW.z}, {1.0f, 1.0f, 1.0f}};
+        }
+
+        if (index == CASCADED_SHADOW_COUNT - 1 && j >= 4) {
+            viewFrustumBuffer[index * 4 + j] = {{vW.x, vW.y, vW.z}, {1.0f, 1.0f, 1.0f}};
+        }
+
         frustumCornersL[j] = shadowViewMatrix * vW;
 
         minX = min(minX, frustumCornersL[j].x);

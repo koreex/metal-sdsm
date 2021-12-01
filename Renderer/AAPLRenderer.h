@@ -23,7 +23,7 @@ static const uint8_t MaxFramesInFlight = 3;
 static const uint32_t NumLights = 256;
 
 static const float NearPlane = 1;
-static const float FarPlane = 150;
+static const float FarPlane = 750;
 
 enum PartitioningMode {
     LOG_PARTITIONING = 0,
@@ -90,6 +90,8 @@ public:
 
     void switchPartitioning();
     void setVisualizationMode(VisualizationMode mode);
+    void switchFrustrumLock();
+    void drawFrustum(MTL::RenderCommandEncoder & renderEncoder);
 
 #endif
 
@@ -253,6 +255,13 @@ private:
 
     // Compute configuration
     MTL::ComputePipelineState m_reduceComputePipelineState;
+
+    // Visualization of view frustum and light frustra
+    bool m_frustrumLock;
+    MTL::Buffer m_viewFrustumBuffer;
+    MTL::Buffer m_viewFrustumIndexBuffer;
+    MTL::RenderPipelineState m_frustumPipelineState;
+    MTL::DepthStencilState m_frustumDepthStencilState;
 
     void populateLights();
 
