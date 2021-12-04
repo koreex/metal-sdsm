@@ -336,6 +336,8 @@ void Renderer::loadMetal()
             int *dataPtrResult = (int*) m_minMaxDepthBuffer.contents();
             dataPtrResult[0] = NearPlane * LARGE_INTEGER;
             dataPtrResult[1] = FarPlane * LARGE_INTEGER;
+
+            m_lightFrustumBoundingBoxBuffer = m_device.makeBuffer(sizeof(int) * 6 * CASCADED_SHADOW_COUNT);
         }
 
     }
@@ -581,6 +583,7 @@ void Renderer::updateWorldState()
         float4x4 shadowViewMatrix = matrix_look_at_left_hand(sunWorldDirection.xyz / 10,
                                                                     (float3){0,0,0},
                                                                     directionalLightUpVector.xyz);
+        frameData->shadow_view_matrix = shadowViewMatrix;
 
         float4x4 shadowModelViewMatrix = shadowViewMatrix * templeModelMatrix;
 
@@ -594,7 +597,7 @@ void Renderer::updateWorldState()
 
             float4x4 shadowProjectionMatrix = cascadedShadowProjectionMatrix(
                  this->camera()->viewMatrix(), this->camera()->aspect(), this->camera()->fov(),
-                 shadowViewMatrix, cascadeEnds, i, viewFrustumVertices, lightFrustumVertices);
+                 shadowViewMatrix, cascadeEnds, i, viewFrustumVertices, lightFrustumVertices, m_lightFrustumBoundingBoxBuffer);
 
             if (!m_frustrumLock) {
                 for (uint j = 0; j < 4 * CASCADED_SHADOW_COUNT + 4; j++) {
@@ -841,12 +844,26 @@ void Renderer::drawShadow(MTL::CommandBuffer & commandBuffer)
 /// Draw to the three textures which compose the GBuffer
 void Renderer::drawGBuffer(MTL::RenderCommandEncoder & renderEncoder)
 {
+    //init light frustum bounding box buffer
+
+    int *dataPtr = (int*)m_lightFrustumBoundingBoxBuffer.contents();
+
+    for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
+        dataPtr[6 * i + BoundingBoxMinX] = LARGE_INTEGER * 1000;
+        dataPtr[6 * i + BoundingBoxMinY] = LARGE_INTEGER * 1000;
+        dataPtr[6 * i + BoundingBoxMinZ] = LARGE_INTEGER * 1000;
+        dataPtr[6 * i + BoundingBoxMaxX] = -LARGE_INTEGER * 1000;
+        dataPtr[6 * i + BoundingBoxMaxY] = -LARGE_INTEGER * 1000;
+        dataPtr[6 * i + BoundingBoxMaxZ] = -LARGE_INTEGER * 1000;
+    }
+
     renderEncoder.pushDebugGroup( "Draw G-Buffer" );
     renderEncoder.setCullMode( MTL::CullModeBack );
     renderEncoder.setRenderPipelineState( m_GBufferPipelineState );
     renderEncoder.setDepthStencilState( m_GBufferDepthStencilState );
     renderEncoder.setStencilReferenceValue( 128 );
     renderEncoder.setVertexBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
+    renderEncoder.setFragmentBuffer(m_lightFrustumBoundingBoxBuffer, 0, BufferIndexBoundingBox);
     renderEncoder.setFragmentBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
     renderEncoder.setFragmentTexture( m_shadowMap, TextureIndexShadow );
 
@@ -902,8 +919,11 @@ void Renderer::drawDirectionalLightCommon(MTL::RenderCommandEncoder & renderEnco
 
 void Renderer::drawFrustum(MTL::RenderCommandEncoder & renderEncoder)
 {
+    if (!m_frustrumLock) {
+        return;
+    }
+
     renderEncoder.setCullMode( MTL::CullModeFront );
-//    renderEncoder.setStencilReferenceValue( 128 );
 
     renderEncoder.setRenderPipelineState( m_frustumPipelineState );
     renderEncoder.setDepthStencilState( m_frustumDepthStencilState );

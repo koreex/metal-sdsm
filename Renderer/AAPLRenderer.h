@@ -265,6 +265,9 @@ private:
     MTL::RenderPipelineState m_frustumPipelineState;
     MTL::DepthStencilState m_frustumDepthStencilState;
 
+    // tightening light frusta
+    MTL::Buffer m_lightFrustumBoundingBoxBuffer;
+
     void populateLights();
 
 #if SUPPORT_BUFFER_EXAMINATION

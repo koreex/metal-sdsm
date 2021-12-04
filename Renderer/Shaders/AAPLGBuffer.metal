@@ -31,6 +31,7 @@ struct ColorInOut
     float4 position [[position]];
     float2 tex_coord;
     float3 eye_position;
+    float3 shadow_position;
     half3  tangent;
     half3  bitangent;
     half3  normal;
@@ -45,6 +46,8 @@ vertex ColorInOut gbuffer_vertex(DescriptorDefinedVertex in    [[ stage_in ]],
     float4 model_position = float4(in.position, 1.0);
     // Make position a float4 to perform 4x4 matrix math on it
     float4 eye_position = frameData.temple_modelview_matrix * model_position;
+    float4 shadow_position = frameData.shadow_view_matrix * frameData.temple_model_matrix * model_position;
+    out.shadow_position = shadow_position.xyz;
     out.position = frameData.projection_matrix * eye_position;
     out.tex_coord = in.tex_coord;
 
@@ -76,7 +79,8 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
                                       texture2d<half>          baseColorMap [[ texture(TextureIndexBaseColor) ]],
                                       texture2d<half>          normalMap    [[ texture(TextureIndexNormal) ]],
                                       texture2d<half>          specularMap  [[ texture(TextureIndexSpecular) ]],
-                                      depth2d_array<float>           shadowMap    [[ texture(TextureIndexShadow) ]])
+                                      depth2d_array<float>           shadowMap    [[ texture(TextureIndexShadow) ]],
+                                      device atomic_int * lightFrustumBoundingBox [[ buffer(BufferIndexBoundingBox) ]])
 {
     constexpr sampler linearSampler(mip_filter::linear,
                                     mag_filter::linear,
@@ -103,6 +107,7 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
     float2 shadow_uv = vector_float2(0, 0);
     float shadow_depth = 0;
     int shadow_index = -1;
+    int cascade_index = -1;
 
     half4 cascadeRangeColor = vector_half4(0, 0, 0, 0);
 
@@ -110,6 +115,7 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
     for (int i = 0; i < CASCADED_SHADOW_COUNT; i++) {
         if (in.eye_position.z >= frameData.cascadeEnds[i] && in.eye_position.z < frameData.cascadeEnds[i + 1]) {
             cascadeRangeColor = CASCADE_RANGE_COLORS[i];
+            cascade_index = i;
         }
 
         float3 shadow_coord = (frameData.shadow_mvp_xform_matrices[i] * in.model_position).xyz;
@@ -122,6 +128,30 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
             shadow_index = i;
             break;
         }
+    }
+
+    if (cascade_index > -1) {
+
+        atomic_fetch_min_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMinX],
+                                  as_type<int>((int)(in.shadow_position.x * LARGE_INTEGER)),
+                                  memory_order_relaxed);
+        atomic_fetch_min_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMinY],
+                                  as_type<int>((int)(in.shadow_position.y * LARGE_INTEGER)),
+                                  memory_order_relaxed);
+        atomic_fetch_min_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMinZ],
+                                  as_type<int>((int)(in.shadow_position.z * LARGE_INTEGER)),
+                                  memory_order_relaxed);
+
+        atomic_fetch_max_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMaxX],
+                                  as_type<int>((int)(in.shadow_position.x * LARGE_INTEGER)),
+                                  memory_order_relaxed);
+        atomic_fetch_max_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMaxY],
+                                  as_type<int>((int)(in.shadow_position.y * LARGE_INTEGER)),
+                                  memory_order_relaxed);
+        atomic_fetch_max_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMaxZ],
+                                  as_type<int>((int)(in.shadow_position.z * LARGE_INTEGER)),
+                                  memory_order_relaxed);
+
     }
 
     constexpr sampler shadowSampler(coord::normalized,

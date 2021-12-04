@@ -29,7 +29,8 @@ void uniformPartitioning(float min, float max, int partitionCount, float *result
 float4x4 cascadedShadowProjectionMatrix(float4x4 cameraViewMatrix, float aspectRatio, float fov,
                                 float4x4 shadowViewMatrix,
                                 float *cascadeEnds, int index,
-                                FrustumVertex *viewFrustumBuffer, FrustumVertex *lightFrustumBuffer)
+                                FrustumVertex *viewFrustumBuffer, FrustumVertex *lightFrustumBuffer,
+                                MTL::Buffer lightFrustumBoundingBox)
 {
     float tanHalfHFov = tanf(fov / 2) * aspectRatio;
     float tanHalfVFov = tanf(fov / 2);
@@ -82,6 +83,15 @@ float4x4 cascadedShadowProjectionMatrix(float4x4 cameraViewMatrix, float aspectR
             viewFrustumBuffer[index * 4 + j] = {{vW.x, vW.y, vW.z}, {1.0f, 1.0f, 1.0f}};
         }
     }
+
+    int *dataPtr = (int*) lightFrustumBoundingBox.contents();
+
+    minX = (float)dataPtr[6 * index + BoundingBoxMinX] / (float)LARGE_INTEGER;
+    minY = (float)dataPtr[6 * index + BoundingBoxMinY] / (float)LARGE_INTEGER;
+    minZ = (float)dataPtr[6 * index + BoundingBoxMinZ] / (float)LARGE_INTEGER;
+    maxX = (float)dataPtr[6 * index + BoundingBoxMaxX] / (float)LARGE_INTEGER;
+    maxY = (float)dataPtr[6 * index + BoundingBoxMaxY] / (float)LARGE_INTEGER;
+    maxZ = (float)dataPtr[6 * index + BoundingBoxMaxZ] / (float)LARGE_INTEGER;
 
     float4 lightFrustumCornersSV[8];
 

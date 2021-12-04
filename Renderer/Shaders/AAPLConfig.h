@@ -40,7 +40,7 @@ Header defining preprocessor conditional values that control the configuration o
 #define CASCADED_SHADOW_COUNT      3
 
 // To deal with float numbers in atomic operation
-#define LARGE_INTEGER              1e6
+#define LARGE_INTEGER              1e3
 
 // Shadow map resolution
 

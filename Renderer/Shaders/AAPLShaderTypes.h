@@ -34,6 +34,8 @@ typedef enum BufferIndex
     BufferIndexDepthRange        = 0,
 #endif
     BufferIndexMinMaxDepth       = 0,
+    BufferIndexBoundingBox = 1,
+    
 
 } BufferIndex;
 
@@ -72,6 +74,16 @@ typedef enum RenderTargetIndex
     RenderTargetDepth     = 3
 } RenderTargetIndex;
 
+typedef enum BoundingBoxIndex
+{
+    BoundingBoxMinX = 0,
+    BoundingBoxMinY = 1,
+    BoundingBoxMinZ = 2,
+    BoundingBoxMaxX = 3,
+    BoundingBoxMaxY = 4,
+    BoundingBoxMaxZ = 5,
+} BoundingBoxIndex;
+
 // Structures shared between shader and C code to ensure the layout of per frame data
 //    accessed in Metal shaders matches the layout of fra data set in C code
 //    Data constant across all threads, vertices, and fragments
@@ -97,6 +109,7 @@ struct FrameData
     simd::float4x4 shadow_mvp_matrices[CASCADED_SHADOW_COUNT];
     simd::float4x4 shadow_mvp_xform_matrices[CASCADED_SHADOW_COUNT];
     float cascadeEnds[CASCADED_SHADOW_COUNT + 1];
+    simd::float4x4 shadow_view_matrix;
 
     simd::float4 sun_eye_direction;
     simd::float4 sun_world_direction;
