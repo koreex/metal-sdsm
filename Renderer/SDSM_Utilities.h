@@ -25,7 +25,7 @@ void uniformPartitioning(float min, float max, int partitionCount, float *result
     }
 }
 
-
+//
 float4x4 cascadedShadowProjectionMatrix(float4x4 cameraViewMatrix, float aspectRatio, float fov,
                                 float4x4 shadowViewMatrix,
                                 float *cascadeEnds, int index,
@@ -52,28 +52,15 @@ float4x4 cascadedShadowProjectionMatrix(float4x4 cameraViewMatrix, float aspectR
         vector4(xf, -yf, cascadeEnds[index + 1], 1.0f),
     };
 
-    float4 frustumCornersL[8];
-
-    float numericLimit = 1.0e10;
-
-    float minX = numericLimit;
-    float maxX = -numericLimit;
-    float minY = numericLimit;
-    float maxY = -numericLimit;
-    float minZ = numericLimit;
-    float maxZ = -numericLimit;
+    float minX;
+    float maxX;
+    float minY;
+    float maxY;
+    float minZ;
+    float maxZ;
 
     for (uint j = 0; j < 8; j++) {
         float4 vW = matrix_invert(cameraViewMatrix) * frustumCorners[j];
-
-        frustumCornersL[j] = shadowViewMatrix * vW;
-
-        minX = min(minX, frustumCornersL[j].x);
-        maxX = max(maxX, frustumCornersL[j].x);
-        minY = min(minY, frustumCornersL[j].y);
-        maxY = max(maxY, frustumCornersL[j].y);
-        minZ = min(minZ, frustumCornersL[j].z);
-        maxZ = max(maxZ, frustumCornersL[j].z);
 
         if (j < 4) {
             viewFrustumBuffer[index * 4 + j] = {{vW.x, vW.y, vW.z}, {1.0f, 1.0f, 1.0f}};
