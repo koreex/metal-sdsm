@@ -110,6 +110,7 @@ struct FrameData
     simd::float4x4 shadow_mvp_xform_matrices[CASCADED_SHADOW_COUNT];
     float cascadeEnds[CASCADED_SHADOW_COUNT + 1];
     simd::float4x4 shadow_view_matrix;
+    simd::float4x4 unproject_matrix;
 
     simd::float4 sun_eye_direction;
     simd::float4 sun_world_direction;

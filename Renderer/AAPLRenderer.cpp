@@ -325,9 +325,11 @@ void Renderer::loadMetal()
 
         #pragma mark Compute pipeline setup
         {
-            MTL::Function addArrayFunction = shaderLibrary.makeFunction("reduce_min_max_depth");
+            MTL::Function reduceMinMaxDepthFunction = shaderLibrary.makeFunction("reduce_min_max_depth");
+            m_reduceDepthComputePipelineState = m_device.makeComputePipelineState(reduceMinMaxDepthFunction);
 
-            m_reduceComputePipelineState = m_device.makeComputePipelineState(addArrayFunction);
+            MTL::Function reduceLightFrustumFunction = shaderLibrary.makeFunction("reduce_light_frustum");
+            m_reduceLightFrustumComputePipelineState = m_device.makeComputePipelineState(reduceLightFrustumFunction);
 
             static const MTL::ResourceOptions storageMode = MTL::ResourceStorageModeShared;
 
@@ -619,6 +621,12 @@ void Renderer::updateWorldState()
             float4x4 shadowTransform = shadowTranslate * shadowScale;
 
             frameData->shadow_mvp_xform_matrices[i] = shadowTransform * frameData->shadow_mvp_matrices[i];
+            frameData->unproject_matrix =
+                matrix_invert(frameData->projection_matrix * frameData->view_matrix) *
+                matrix4x4_translation(-1.0, -1.0, 0.0) *
+                matrix4x4_scale(2.0 / (float)m_view.drawableSize().width, 2.0 / (float)m_view.drawableSize().height, 1.0 / (FarPlane - NearPlane)) *
+                matrix4x4_translation(0.0, (float)m_view.drawableSize().height, -NearPlane) *
+                matrix4x4_scale(1.0, -1.0, 1.0);
         }
     }
 
@@ -846,17 +854,6 @@ void Renderer::drawGBuffer(MTL::RenderCommandEncoder & renderEncoder)
 {
     //init light frustum bounding box buffer
 
-    int *dataPtr = (int*)m_lightFrustumBoundingBoxBuffer.contents();
-
-    for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
-        dataPtr[6 * i + BoundingBoxMinX] = LARGE_INTEGER * 1000;
-        dataPtr[6 * i + BoundingBoxMinY] = LARGE_INTEGER * 1000;
-        dataPtr[6 * i + BoundingBoxMinZ] = LARGE_INTEGER * 1000;
-        dataPtr[6 * i + BoundingBoxMaxX] = -LARGE_INTEGER * 1000;
-        dataPtr[6 * i + BoundingBoxMaxY] = -LARGE_INTEGER * 1000;
-        dataPtr[6 * i + BoundingBoxMaxZ] = -LARGE_INTEGER * 1000;
-    }
-
     renderEncoder.pushDebugGroup( "Draw G-Buffer" );
     renderEncoder.setCullMode( MTL::CullModeBack );
     renderEncoder.setRenderPipelineState( m_GBufferPipelineState );
@@ -877,27 +874,52 @@ void Renderer::reduceMinMaxDepth(MTL::CommandBuffer &commandBuffer)
 {
     MTL::ComputeCommandEncoder computeEncoder = commandBuffer.computeCommandEncoder();
 
-    int *dataPtrResult = (int*) m_minMaxDepthBuffer.contents();
+    int *minMaxDepthDataPtr = (int*) m_minMaxDepthBuffer.contents();
 
-    dataPtrResult[0] = FarPlane * LARGE_INTEGER;
-    dataPtrResult[1] = NearPlane * LARGE_INTEGER;
+    minMaxDepthDataPtr[0] = FarPlane * LARGE_INTEGER;
+    minMaxDepthDataPtr[1] = NearPlane * LARGE_INTEGER;
 
     computeEncoder.label( "Compute min and max depth pass" );
 
-    computeEncoder.setComputePipelineState(m_reduceComputePipelineState);
+    computeEncoder.setComputePipelineState(m_reduceDepthComputePipelineState);
     computeEncoder.setBuffer(m_minMaxDepthBuffer, 0, BufferIndexMinMaxDepth);
     computeEncoder.setTexture(m_depth_GBuffer, TextureIndexDepth);
 
     MTL::Size gridSize = m_view.drawableSize();
     gridSize.depth = 1;
 
-    unsigned long maxThreads = m_reduceComputePipelineState.maxTotalThreadsPerThreadgroup();
+    unsigned long maxThreads = m_reduceDepthComputePipelineState.maxTotalThreadsPerThreadgroup();
 
     MTL::Size threadgroupSize = MTL::SizeMake(sqrtl(maxThreads), sqrtl(maxThreads), 1);
 
     computeEncoder.dispatchThreads(gridSize, threadgroupSize);
 
     computeEncoder.endEncoding();
+
+    // tighten light frusta
+
+    MTL::ComputeCommandEncoder tighteningComputeEncoder = commandBuffer.computeCommandEncoder();
+
+    int *dataPtr = (int*)m_lightFrustumBoundingBoxBuffer.contents();
+
+    for (uint i = 0; i < CASCADED_SHADOW_COUNT; i++) {
+        dataPtr[6 * i + BoundingBoxMinX] = LARGE_INTEGER * 1000;
+        dataPtr[6 * i + BoundingBoxMinY] = LARGE_INTEGER * 1000;
+        dataPtr[6 * i + BoundingBoxMinZ] = LARGE_INTEGER * 1000;
+        dataPtr[6 * i + BoundingBoxMaxX] = -LARGE_INTEGER * 1000;
+        dataPtr[6 * i + BoundingBoxMaxY] = -LARGE_INTEGER * 1000;
+        dataPtr[6 * i + BoundingBoxMaxZ] = -LARGE_INTEGER * 1000;
+    }
+
+    tighteningComputeEncoder.label( "Compute tight light frusta" );
+
+    tighteningComputeEncoder.setComputePipelineState(m_reduceLightFrustumComputePipelineState);
+    tighteningComputeEncoder.setBuffer(m_lightFrustumBoundingBoxBuffer, 0, BufferIndexBoundingBox);
+    tighteningComputeEncoder.setBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
+    tighteningComputeEncoder.setTexture(m_depth_GBuffer, TextureIndexDepth);
+
+    tighteningComputeEncoder.dispatchThreads(gridSize, threadgroupSize);
+    tighteningComputeEncoder.endEncoding();
 }
 
 /// Draw the directional ("sun") light in deferred pass.  Use stencil buffer to limit execution
@@ -1012,4 +1034,3 @@ void Renderer::switchFrustrumLock()
 {
     m_frustrumLock = !m_frustrumLock;
 }
-    

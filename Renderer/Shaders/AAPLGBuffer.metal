@@ -130,29 +130,29 @@ fragment GBufferData gbuffer_fragment(ColorInOut               in           [[ s
         }
     }
 
-    if (cascade_index > -1) {
-
-        atomic_fetch_min_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMinX],
-                                  as_type<int>((int)(in.shadow_position.x * LARGE_INTEGER)),
-                                  memory_order_relaxed);
-        atomic_fetch_min_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMinY],
-                                  as_type<int>((int)(in.shadow_position.y * LARGE_INTEGER)),
-                                  memory_order_relaxed);
-        atomic_fetch_min_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMinZ],
-                                  as_type<int>((int)(in.shadow_position.z * LARGE_INTEGER)),
-                                  memory_order_relaxed);
-
-        atomic_fetch_max_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMaxX],
-                                  as_type<int>((int)(in.shadow_position.x * LARGE_INTEGER)),
-                                  memory_order_relaxed);
-        atomic_fetch_max_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMaxY],
-                                  as_type<int>((int)(in.shadow_position.y * LARGE_INTEGER)),
-                                  memory_order_relaxed);
-        atomic_fetch_max_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMaxZ],
-                                  as_type<int>((int)(in.shadow_position.z * LARGE_INTEGER)),
-                                  memory_order_relaxed);
-
-    }
+//    if (cascade_index > -1) {
+//
+//        atomic_fetch_min_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMinX],
+//                                  as_type<int>((int)(in.shadow_position.x * LARGE_INTEGER)),
+//                                  memory_order_relaxed);
+//        atomic_fetch_min_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMinY],
+//                                  as_type<int>((int)(in.shadow_position.y * LARGE_INTEGER)),
+//                                  memory_order_relaxed);
+//        atomic_fetch_min_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMinZ],
+//                                  as_type<int>((int)(in.shadow_position.z * LARGE_INTEGER)),
+//                                  memory_order_relaxed);
+//
+//        atomic_fetch_max_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMaxX],
+//                                  as_type<int>((int)(in.shadow_position.x * LARGE_INTEGER)),
+//                                  memory_order_relaxed);
+//        atomic_fetch_max_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMaxY],
+//                                  as_type<int>((int)(in.shadow_position.y * LARGE_INTEGER)),
+//                                  memory_order_relaxed);
+//        atomic_fetch_max_explicit(&lightFrustumBoundingBox[6 * cascade_index + BoundingBoxMaxZ],
+//                                  as_type<int>((int)(in.shadow_position.z * LARGE_INTEGER)),
+//                                  memory_order_relaxed);
+//
+//    }
 
     constexpr sampler shadowSampler(coord::normalized,
                                     filter::linear,

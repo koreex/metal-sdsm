@@ -254,7 +254,8 @@ private:
     VisualizationMode m_visualizationMode;
 
     // Compute configuration
-    MTL::ComputePipelineState m_reduceComputePipelineState;
+    MTL::ComputePipelineState m_reduceDepthComputePipelineState;
+    MTL::ComputePipelineState m_reduceLightFrustumComputePipelineState;
 
     // Visualization of view frustum and light frustra
     bool m_frustrumLock;
