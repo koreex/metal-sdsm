@@ -872,17 +872,7 @@ void Renderer::drawGBuffer(MTL::RenderCommandEncoder & renderEncoder)
 void Renderer::computeLightFrusta(MTL::CommandBuffer &commandBuffer)
 {
     MTL::ComputeCommandEncoder computeEncoder = commandBuffer.computeCommandEncoder();
-
-    int *minMaxDepthDataPtr = (int*) m_minMaxDepthBuffer.contents();
-
-    minMaxDepthDataPtr[0] = FarPlane * LARGE_INTEGER;
-    minMaxDepthDataPtr[1] = NearPlane * LARGE_INTEGER;
-
-    computeEncoder.label( "Compute min and max depth pass" );
-
-    computeEncoder.setComputePipelineState(m_reduceDepthComputePipelineState);
-    computeEncoder.setBuffer(m_minMaxDepthBuffer, 0, BufferIndexMinMaxDepth);
-    computeEncoder.setTexture(m_depth_GBuffer, TextureIndexDepth);
+    computeEncoder.label( "Compute tight light frusta pass" );
 
     MTL::Size gridSize = m_view.drawableSize();
     gridSize.depth = 1;
@@ -891,13 +881,20 @@ void Renderer::computeLightFrusta(MTL::CommandBuffer &commandBuffer)
 
     MTL::Size threadgroupSize = MTL::SizeMake(sqrtl(maxThreads), sqrtl(maxThreads), 1);
 
+    // reduce min and max depth
+
+    int *minMaxDepthDataPtr = (int*) m_minMaxDepthBuffer.contents();
+
+    minMaxDepthDataPtr[0] = FarPlane * LARGE_INTEGER;
+    minMaxDepthDataPtr[1] = NearPlane * LARGE_INTEGER;
+
+    computeEncoder.setComputePipelineState(m_reduceDepthComputePipelineState);
+    computeEncoder.setBuffer(m_minMaxDepthBuffer, 0, BufferIndexMinMaxDepth);
+    computeEncoder.setTexture(m_depth_GBuffer, TextureIndexDepth);
+
     computeEncoder.dispatchThreads(gridSize, threadgroupSize);
 
-    computeEncoder.endEncoding();
-
     // tighten light frusta
-
-    MTL::ComputeCommandEncoder tighteningComputeEncoder = commandBuffer.computeCommandEncoder();
 
     int *dataPtr = (int*)m_lightFrustumBoundingBoxBuffer.contents();
 
@@ -910,15 +907,14 @@ void Renderer::computeLightFrusta(MTL::CommandBuffer &commandBuffer)
         dataPtr[6 * i + BoundingBoxMaxZ] = -LARGE_INTEGER * 1000;
     }
 
-    tighteningComputeEncoder.label( "Compute tight light frusta" );
+    computeEncoder.setComputePipelineState(m_reduceLightFrustumComputePipelineState);
+    computeEncoder.setBuffer(m_lightFrustumBoundingBoxBuffer, 0, BufferIndexBoundingBox);
+    computeEncoder.setBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
+    computeEncoder.setTexture(m_depth_GBuffer, TextureIndexDepth);
 
-    tighteningComputeEncoder.setComputePipelineState(m_reduceLightFrustumComputePipelineState);
-    tighteningComputeEncoder.setBuffer(m_lightFrustumBoundingBoxBuffer, 0, BufferIndexBoundingBox);
-    tighteningComputeEncoder.setBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
-    tighteningComputeEncoder.setTexture(m_depth_GBuffer, TextureIndexDepth);
+    computeEncoder.dispatchThreads(gridSize, threadgroupSize);
 
-    tighteningComputeEncoder.dispatchThreads(gridSize, threadgroupSize);
-    tighteningComputeEncoder.endEncoding();
+    computeEncoder.endEncoding();
 }
 
 /// Draw the directional ("sun") light in deferred pass.  Use stencil buffer to limit execution
