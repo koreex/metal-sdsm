@@ -123,7 +123,7 @@ protected:
 
     void drawableSizeWillChange(MTL::Size size, MTL::StorageMode GBufferStorageMode);
 
-    void reduceMinMaxDepth(MTL::CommandBuffer &commandBuffer);
+    void computeLightFrusta(MTL::CommandBuffer &commandBuffer);
 
     MTL::Texture *currentDrawableTexture();
 

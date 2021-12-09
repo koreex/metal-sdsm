@@ -115,7 +115,7 @@ void Renderer_TraditionalDeferred::drawInView(MTK::View & view)
 
         renderEncoder.endEncoding();
 
-        Renderer::reduceMinMaxDepth( commandBuffer );
+        Renderer::computeLightFrusta( commandBuffer );
 
         // Commit commands so that Metal can begin working on non-drawable dependant work without
         // waiting for a drawable to become avaliable

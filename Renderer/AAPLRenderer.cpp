@@ -869,7 +869,7 @@ void Renderer::drawGBuffer(MTL::RenderCommandEncoder & renderEncoder)
 
 // Reduce min and max depth using compute pipeline
 // It assumes that depth buffer contains depth values in eye space
-void Renderer::reduceMinMaxDepth(MTL::CommandBuffer &commandBuffer)
+void Renderer::computeLightFrusta(MTL::CommandBuffer &commandBuffer)
 {
     MTL::ComputeCommandEncoder computeEncoder = commandBuffer.computeCommandEncoder();
 
