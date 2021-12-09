@@ -624,8 +624,8 @@ void Renderer::updateWorldState()
             frameData->unproject_matrix =
                 matrix_invert(frameData->projection_matrix * frameData->view_matrix) *
                 matrix4x4_translation(-1.0, -1.0, 0.0) *
-                matrix4x4_scale(2.0 / (float)m_view.drawableSize().width, 2.0 / (float)m_view.drawableSize().height, 1.0 / (FarPlane - NearPlane)) *
-                matrix4x4_translation(0.0, (float)m_view.drawableSize().height, -NearPlane) *
+                matrix4x4_scale(2.0 / (float)m_view.drawableSize().width, 2.0 / (float)m_view.drawableSize().height, 1.0) *
+                matrix4x4_translation(0.0, (float)m_view.drawableSize().height, 0.0) *
                 matrix4x4_scale(1.0, -1.0, 1.0);
         }
     }

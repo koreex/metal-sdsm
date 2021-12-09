@@ -36,7 +36,10 @@ kernel void reduce_light_frustum(texture2d<float> depthBuffer [[texture(TextureI
         return;
     }
 
-    float4 positionLS = frameData.unproject_matrix * float4(gid.x, gid.y, depth, 1.0);
+    // convert to nonlinear depth;
+    float4 samplePosition = frameData.projection_matrix * float4(0, 0, depth, 1.0);
+
+    float4 positionLS = frameData.unproject_matrix * float4(gid.x, gid.y, samplePosition.z / samplePosition.w, 1.0);
     positionLS /= positionLS.w;
     positionLS = frameData.shadow_view_matrix * positionLS;
 
