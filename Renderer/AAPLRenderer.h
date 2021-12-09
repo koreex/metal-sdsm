@@ -257,7 +257,7 @@ private:
     MTL::ComputePipelineState m_reduceDepthComputePipelineState;
     MTL::ComputePipelineState m_reduceLightFrustumComputePipelineState;
 
-    // Visualization of view frustum and light frustra
+    // Visualization of view frustum and light frusta
     bool m_frustrumLock;
     MTL::Buffer m_viewFrustumBuffer;
     MTL::Buffer m_viewFrustumIndexBuffer;
