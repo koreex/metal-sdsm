@@ -860,7 +860,6 @@ void Renderer::drawGBuffer(MTL::RenderCommandEncoder & renderEncoder)
     renderEncoder.setDepthStencilState( m_GBufferDepthStencilState );
     renderEncoder.setStencilReferenceValue( 128 );
     renderEncoder.setVertexBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
-    renderEncoder.setFragmentBuffer(m_lightFrustumBoundingBoxBuffer, 0, BufferIndexBoundingBox);
     renderEncoder.setFragmentBuffer( m_uniformBuffers[m_frameDataBufferIndex], 0, BufferIndexFrameData );
     renderEncoder.setFragmentTexture( m_shadowMap, TextureIndexShadow );
 
